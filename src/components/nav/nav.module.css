@@ -1,0 +1,36 @@
+.wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 80px;
+}
+
+.container {
+  width: 100%;
+  max-width: 600px;
+  height: 80px;
+  position: fixed;
+  top: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: auto;
+  z-index: 1;
+}
+
+.buttons {
+  height: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 30px;
+}
+
+.buttons > p:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.scrolled {
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(4px);
+}

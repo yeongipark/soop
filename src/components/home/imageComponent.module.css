@@ -1,0 +1,42 @@
+.line {
+  stroke: #8486ff;
+  stroke-width: 1;
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLine 1.5s forwards;
+}
+
+@keyframes drawLine {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.container {
+  position: relative;
+  margin-bottom: 100px;
+}
+.diagonalLine {
+  position: absolute;
+  left: 22%;
+  top: 55%;
+}
+
+.circle {
+  opacity: 0; /* 처음에 투명 */
+  transition: opacity 0.5s ease-in-out;
+}
+
+.circle.show {
+  opacity: 1;
+  animation: shrinkCircle 1s forwards ease-in-out;
+}
+
+@keyframes shrinkCircle {
+  0% {
+    r: 10; /* 초기 반지름 값 */
+  }
+  100% {
+    r: 5; /* 최종 반지름 값 */
+  }
+}

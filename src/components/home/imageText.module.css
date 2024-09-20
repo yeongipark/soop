@@ -1,0 +1,26 @@
+.imageTextContainer {
+  width: 100%;
+  display: flex;
+}
+
+.imageTextContainer.reverse {
+  flex-direction: row-reverse; /* 이미지와 텍스트 위치를 반대로 */
+}
+
+.imageTextContainer > .image {
+  box-shadow: 10px 10px 4px 0 rgba(0, 0, 0, 0.25);
+  width: 50%;
+}
+
+.imageTextContainer > .text {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.text > p {
+  text-shadow: 10px 10px 4px rgba(0, 0, 0, 0.25);
+}

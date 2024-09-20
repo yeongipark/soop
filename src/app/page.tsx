@@ -1,49 +1,30 @@
+"use client";
+import Logo from "@/components/home/logo";
+import {
+  FirstImageComponent,
+  SecondImageComponent,
+  ThirdImageComponent,
+  FourthImageComponent,
+} from "@/components/home/imageComponent";
+import { useEffect } from "react";
+import "aos/dist/aos.css";
+import AOS from "aos";
+
 export default function Home() {
+  useEffect(() => {
+    AOS.init({
+      duration: 1500,
+      once: true,
+    });
+  }, []);
+
   return (
     <div>
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="336"
-          height="451"
-          fill="none"
-        >
-          <path stroke="#8486FF" d="m335.4.3-335 450" />
-        </svg>{" "}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="336"
-          height="451"
-          fill="none"
-        >
-          <path stroke="#8486FF" d="m335.4.3-335 450" />
-        </svg>{" "}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="336"
-          height="451"
-          fill="none"
-        >
-          <path stroke="#8486FF" d="m335.4.3-335 450" />
-        </svg>{" "}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="336"
-          height="451"
-          fill="none"
-        >
-          <path stroke="#8486FF" d="m335.4.3-335 450" />
-        </svg>{" "}
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="336"
-          height="451"
-          fill="none"
-        >
-          <path stroke="#8486FF" d="m335.4.3-335 450" />
-        </svg>
-      </div>
-      안녕하세요
+      <Logo />
+      <FirstImageComponent />
+      <SecondImageComponent />
+      <ThirdImageComponent />
+      <FourthImageComponent />
     </div>
   );
 }
