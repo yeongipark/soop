@@ -14,7 +14,16 @@
 body {
   margin: 0px;
   padding: 0px;
-  width: 600px;
+  max-width: 600px;
   min-height: 100vh;
   margin: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  padding: 0px;
+  margin: 0px;
 }
