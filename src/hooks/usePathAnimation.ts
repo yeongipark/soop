@@ -8,6 +8,7 @@ export const usePathAnimation = () => {
   const [isCircleVisible, setCircleVisible] = useState(false); // circle이 보일지 여부
   const [isBelow600, setIsBelow600] = useRecoilState(isBelow600State); // 현재 너비가 600px 이하인지 상태 저장
 
+  // isBelow600이 바뀔 때만 실행
   useEffect(() => {
     const handleResize = () => {
       const currentWidth = window.innerWidth;
@@ -19,16 +20,14 @@ export const usePathAnimation = () => {
       }
     };
 
-    // 윈도우 리사이즈 이벤트 추가
     window.addEventListener("resize", handleResize);
 
-    // 초기 실행: 페이지 로드 시 현재 너비에 맞춰 실행
     handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, [isBelow600]); // isBelow600이 바뀔 때만 실행
+  }, [isBelow600]);
 
   useEffect(() => {
     const handlePathAnimation = () => {
@@ -41,7 +40,7 @@ export const usePathAnimation = () => {
         // Path가 다 그려진 후 circle 표시
         setTimeout(() => {
           setCircleVisible(true);
-        }, 1500); // 2초 후 circle 표시
+        }, 1300);
       }
     };
 

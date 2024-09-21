@@ -13,3 +13,21 @@
   text-align: center;
   margin-bottom: 30px;
 }
+
+/* 각 글자를 위한 기본 스타일 */
+.lastText span {
+  display: inline-block;
+  opacity: 0;
+  animation: colorChange 1s forwards;
+}
+
+/* 애니메이션 정의 */
+@keyframes colorChange {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    color: var(--main);
+    opacity: 1;
+  }
+}
