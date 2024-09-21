@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export const useResponsiveWidth = () => {
-  const [isBelow600, setIsBelow600] = useState(window.innerWidth < 600);
+  const [isBelow600, setIsBelow600] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
