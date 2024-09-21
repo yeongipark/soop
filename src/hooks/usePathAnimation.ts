@@ -1,10 +1,12 @@
 import { useRef, useState, useEffect } from "react";
 import style from "@/components/home/imageComponent.module.css";
+import { useRecoilState } from "recoil";
+import { isBelow600State } from "@/recoil/isBelow600Atom";
 
 export const usePathAnimation = () => {
   const lineRef = useRef<SVGPathElement | null>(null); // path 참조
   const [isCircleVisible, setCircleVisible] = useState(false); // circle이 보일지 여부
-  const [isBelow600, setIsBelow600] = useState(false); // 현재 너비가 600px 이하인지 상태 저장
+  const [isBelow600, setIsBelow600] = useRecoilState(isBelow600State); // 현재 너비가 600px 이하인지 상태 저장
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,7 +25,6 @@ export const usePathAnimation = () => {
     // 초기 실행: 페이지 로드 시 현재 너비에 맞춰 실행
     handleResize();
 
-    // 컴포넌트 언마운트 시 리스너 제거
     return () => {
       window.removeEventListener("resize", handleResize);
     };
