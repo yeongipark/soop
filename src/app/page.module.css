@@ -1,0 +1,15 @@
+.lastText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lastText > .reserveButton {
+  display: flex;
+  justify-content: center;
+}
+
+.lastText > p {
+  text-align: center;
+  margin-bottom: 30px;
+}

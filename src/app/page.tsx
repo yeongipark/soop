@@ -9,6 +9,8 @@ import {
 import { useEffect } from "react";
 import "aos/dist/aos.css";
 import AOS from "aos";
+import style from "./page.module.css";
+import { ReserveButton } from "@/components/home/logo";
 
 export default function Home() {
   useEffect(() => {
@@ -25,6 +27,12 @@ export default function Home() {
       <SecondImageComponent />
       <ThirdImageComponent />
       <FourthImageComponent />
+      <div className={style.lastText} data-aos="fade-up">
+        <p>당신의 소중한 순간을 사진으로 영원히 담아드립니다.</p>
+        <div className={style.reserveButton}>
+          <ReserveButton />
+        </div>
+      </div>
     </div>
   );
 }

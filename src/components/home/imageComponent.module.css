@@ -1,8 +1,6 @@
 .line {
   stroke: #8486ff;
   stroke-width: 1;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
   animation: drawLine 1.5s forwards;
 }
 
