@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.container > p {
+  font-size: 0.8rem;
+  color: var(--gray4);
+}
+
+.container a {
+  text-decoration: underline;
+}

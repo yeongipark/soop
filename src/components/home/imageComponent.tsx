@@ -25,13 +25,12 @@ export const FirstImageComponent = () => {
       </div>
       <div className={style.diagonalLine}>
         {isBelow600 || (
-          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="701">
-            <path ref={lineRef} stroke="white" d={"m344.5.4-335 490"} />
+          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="601">
+            <path ref={lineRef} stroke={"white"} d={"m310.5 2.4 -298 468"} />
             <circle
-              cx="10"
-              cy="491.3"
+              cx="13"
+              cy="469.3"
               r="10"
-              fill="#8486FF"
               className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
             />
           </svg>
@@ -66,13 +65,12 @@ export const SecondImageComponent = () => {
             <path
               ref={lineRef}
               stroke="white"
-              d={"M0.410436 10 L328.41 490.714"}
+              d={"M0.410436 10 L310.41 470.714"}
             />
             <circle
-              cx="328.41"
-              cy="491"
+              cx="312.41"
+              cy="473"
               r="10"
-              fill="#8486FF"
               className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
             />
           </svg>
@@ -103,12 +101,11 @@ export const ThirdImageComponent = () => {
       <div className={style.diagonalLine}>
         {isBelow600 || (
           <svg xmlns="http://www.w3.org/2000/svg" width="340" height="701">
-            <path ref={lineRef} stroke="white" d="m344.5.4-335 490" />
+            <path ref={lineRef} stroke="white" d="m310.5 2.4 -298 468" />
             <circle
-              cx="10"
-              cy="491"
+              cx="13"
+              cy="469.3"
               r="10"
-              fill="#8486FF"
               className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
             />
           </svg>
@@ -119,6 +116,9 @@ export const ThirdImageComponent = () => {
 };
 
 export const FourthImageComponent = () => {
+  const { lineRef, isCircleVisible } = usePathAnimation();
+  const { isBelow600 } = useResponsiveWidth();
+
   return (
     <div className={style.container}>
       <div data-aos="fade-up">
@@ -133,6 +133,23 @@ export const FourthImageComponent = () => {
           }
           reverse={true}
         />
+      </div>
+      <div className={style.diagonalLine}>
+        {isBelow600 || (
+          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="300">
+            <path
+              ref={lineRef}
+              stroke="white"
+              d={"M0.410436 10 L150.41 270.714"}
+            />
+            <circle
+              cx="151"
+              cy="271"
+              r="10"
+              className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
+            />
+          </svg>
+        )}
       </div>
     </div>
   );

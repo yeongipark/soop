@@ -1,9 +1,7 @@
 .line {
-  stroke: #8486ff;
+  stroke: var(--main);
   stroke-width: 1;
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: drawLine 1.5s forwards;
+  animation: drawLine 1.3s forwards;
 }
 
 @keyframes drawLine {
@@ -20,6 +18,10 @@
   position: absolute;
   left: 22%;
   top: 55%;
+}
+
+.diagonalLine circle {
+  fill: var(--main);
 }
 
 .circle {

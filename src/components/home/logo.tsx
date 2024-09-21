@@ -14,7 +14,7 @@ export default function Logo() {
     <div className={style.logo}>
       <div className={style.logoBackground}>
         <div>
-          <button>예약하기 {">"}</button>
+          <ReserveButton />
         </div>
       </div>
       <div className={style.arrow} onClick={handleScroll}>
@@ -22,4 +22,9 @@ export default function Logo() {
       </div>
     </div>
   );
+}
+
+// 예약하기 버튼 ( 홈 화면에 사용되는 예약하기 버튼 )
+export function ReserveButton() {
+  return <button className={style.reserveButton}>예약하기 {">"}</button>;
 }
