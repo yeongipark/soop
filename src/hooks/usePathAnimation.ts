@@ -47,8 +47,8 @@ export const usePathAnimation = () => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          lineRef.current?.classList.add(style.line); // 선 애니메이션 트리거
           handlePathAnimation();
+          lineRef.current?.classList.add(style.line); // 선 애니메이션 트리거
         }
       },
       { threshold: 0.5 }

@@ -2,14 +2,14 @@
   position: relative;
   margin-bottom: 100px;
   width: 100%;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 150px);
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
 .logoBackground {
-  background-image: url("../../../public/색있는 로고.png");
+  background-image: url("/색있는로고.png");
   background-size: 250%;
   background-position: center;
   background-repeat: no-repeat;
@@ -22,7 +22,7 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  padding-bottom: 10%;
+  padding-bottom: 7%;
 }
 
 @keyframes bounce {

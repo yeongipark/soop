@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { isBelow600State } from "@/recoil/isBelow600Atom";
 
@@ -20,7 +20,7 @@ export const useResponsiveWidth = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [isBelow600]);
 
   return { isBelow600 };
 };
