@@ -22,8 +22,8 @@ export default function Modal({ children, width = "80%" }: ModalProps) {
   return (
     <dialog
       onClose={() => router.back()}
-      onClick={(e) => {
-        if ((e.target as any).nodeName === "DIALOG") {
+      onClick={(e: React.MouseEvent<HTMLDialogElement>) => {
+        if ((e.target as HTMLDialogElement).nodeName === "DIALOG") {
           router.back();
         }
       }}

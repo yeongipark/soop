@@ -1,4 +1,4 @@
-import { SnsLogin } from "../@modal/(.)login/page";
+import SnsLogin from "@/components/snsLogin";
 
 export default function Page() {
   return <SnsLogin />;
