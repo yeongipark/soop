@@ -4,9 +4,24 @@
   animation: drawLine 1.3s forwards;
 }
 
+.hideLine {
+  stroke: var(--main);
+  stroke-width: 1;
+  animation: hideLine 1.3s forwards;
+}
+
 @keyframes drawLine {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes hideLine {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 556; /* 선이 사라지도록 dashoffset 설정 */
   }
 }
 

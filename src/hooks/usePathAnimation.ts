@@ -5,8 +5,10 @@ import { isBelow600State } from "@/recoil/isBelow600Atom";
 
 export const usePathAnimation = () => {
   const lineRef = useRef<SVGPathElement | null>(null); // path 참조
+  const divRef = useRef<HTMLDivElement | null>(null);
   const [isCircleVisible, setCircleVisible] = useState(false); // circle이 보일지 여부
   const [isBelow600, setIsBelow600] = useRecoilState(isBelow600State); // 현재 너비가 600px 이하인지 상태 저장
+  const lastScrollY = useRef(0); // 이전 스크롤 위치 저장
 
   // isBelow600이 바뀔 때만 실행
   useEffect(() => {
@@ -30,40 +32,61 @@ export const usePathAnimation = () => {
   }, [isBelow600]);
 
   useEffect(() => {
-    const handlePathAnimation = () => {
+    const handlePathAnimation = (scrollDirection: string) => {
       const path = lineRef.current;
       if (path) {
         const length = path.getTotalLength();
         path.style.strokeDasharray = String(length);
-        path.style.strokeDashoffset = String(length);
 
-        // Path가 다 그려진 후 circle 표시
-        setTimeout(() => {
-          setCircleVisible(true);
-        }, 1300);
+        if (scrollDirection === "down") {
+          lineRef.current?.classList.remove(style.hideLine); // 선 애니메이션 트리거
+          lineRef.current?.classList.add(style.line); // 선 애니메이션 트리거
+          // 스크롤이 내려갈 때
+          path.style.strokeDashoffset = String(length);
+
+          setTimeout(() => {
+            setCircleVisible(true);
+          }, 1300);
+        } else {
+          // 스크롤이 올라갈 때
+          lineRef.current?.classList.remove(style.line); // 선 애니메이션 트리거
+          lineRef.current?.classList.add(style.hideLine); // 선 애니메이션 트리거
+
+          path.style.transition = "all 1.3s forwards";
+          path.style.strokeDashoffset = String(length); // 선이 사라짐
+          setCircleVisible(false); // circle 숨기기
+        }
       }
     };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const currentScrollY = window.pageYOffset; // 현재 스크롤 위치
+        const scrollDirection =
+          currentScrollY > lastScrollY.current ? "down" : "up"; // 스크롤 방향 결정
+
         if (entry.isIntersecting) {
-          handlePathAnimation();
-          lineRef.current?.classList.add(style.line); // 선 애니메이션 트리거
+          handlePathAnimation(scrollDirection);
+        } else {
+          handlePathAnimation(scrollDirection);
         }
+
+        // 현재 스크롤 위치 업데이트
+        lastScrollY.current = currentScrollY;
       },
-      { threshold: 0.5 }
+      { threshold: 0.8 }
     );
 
-    if (lineRef.current) {
-      observer.observe(lineRef.current);
+    if (divRef.current) {
+      observer.observe(divRef.current);
     }
 
     return () => {
-      if (lineRef.current) {
-        observer.unobserve(lineRef.current);
+      if (divRef.current) {
+        observer.unobserve(divRef.current);
       }
     };
-  }, [isBelow600]); // isBelow600이 바뀔 때만 애니메이션 실행
+  }, [isBelow600]);
 
-  return { lineRef, isCircleVisible };
+  return { lineRef, isCircleVisible, divRef };
 };

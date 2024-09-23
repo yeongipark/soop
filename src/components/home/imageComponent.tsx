@@ -5,12 +5,12 @@ import style from "./imageComponent.module.css";
 import ImageText from "./imageText";
 import { useResponsiveWidth } from "@/hooks/useReposiveWidth";
 export const FirstImageComponent = () => {
-  const { lineRef, isCircleVisible } = usePathAnimation();
+  const { lineRef, isCircleVisible, divRef } = usePathAnimation();
   const { isBelow600 } = useResponsiveWidth();
 
   return (
     <div className={style.container}>
-      <div data-aos="fade-up">
+      <div data-aos="fade-up" ref={divRef}>
         <ImageText
           src={firstImg}
           alt="첫 번째 사진"
@@ -26,7 +26,11 @@ export const FirstImageComponent = () => {
       <div className={style.diagonalLine}>
         {isBelow600 || (
           <svg xmlns="http://www.w3.org/2000/svg" width="340" height="601">
-            <path ref={lineRef} stroke={"white"} d={"m310.5 2.4 -298 468"} />
+            <path
+              ref={lineRef}
+              d={"m310.5 2.4 -298 468"}
+              strokeDashoffset={String(lineRef.current?.getTotalLength())}
+            />
             <circle
               cx="13"
               cy="469.3"
@@ -41,12 +45,12 @@ export const FirstImageComponent = () => {
 };
 
 export const SecondImageComponent = () => {
-  const { lineRef, isCircleVisible } = usePathAnimation();
+  const { lineRef, isCircleVisible, divRef } = usePathAnimation();
   const { isBelow600 } = useResponsiveWidth();
 
   return (
     <div className={style.container}>
-      <div data-aos="fade-up">
+      <div data-aos="fade-up" ref={divRef}>
         <ImageText
           src={secondImg}
           alt="두 번째 사진"
@@ -61,7 +65,7 @@ export const SecondImageComponent = () => {
       </div>
       <div className={style.diagonalLine}>
         {isBelow600 || (
-          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="701">
+          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="601">
             <path
               ref={lineRef}
               stroke="white"
@@ -81,11 +85,11 @@ export const SecondImageComponent = () => {
 };
 
 export const ThirdImageComponent = () => {
-  const { lineRef, isCircleVisible } = usePathAnimation();
+  const { lineRef, isCircleVisible, divRef } = usePathAnimation();
   const { isBelow600 } = useResponsiveWidth();
   return (
     <div className={style.container}>
-      <div data-aos="fade-up">
+      <div data-aos="fade-up" ref={divRef}>
         <ImageText
           src={firstImg}
           alt="세 번째 사진"
@@ -100,7 +104,7 @@ export const ThirdImageComponent = () => {
       </div>
       <div className={style.diagonalLine}>
         {isBelow600 || (
-          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="701">
+          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="501">
             <path ref={lineRef} stroke="white" d="m310.5 2.4 -298 468" />
             <circle
               cx="13"
@@ -116,9 +120,6 @@ export const ThirdImageComponent = () => {
 };
 
 export const FourthImageComponent = () => {
-  const { lineRef, isCircleVisible } = usePathAnimation();
-  const { isBelow600 } = useResponsiveWidth();
-
   return (
     <div className={style.container}>
       <div data-aos="fade-up">
@@ -133,23 +134,6 @@ export const FourthImageComponent = () => {
           }
           reverse={true}
         />
-      </div>
-      <div className={style.diagonalLine}>
-        {isBelow600 || (
-          <svg xmlns="http://www.w3.org/2000/svg" width="340" height="300">
-            <path
-              ref={lineRef}
-              stroke="white"
-              d={"M0.410436 10 L150.41 270.714"}
-            />
-            <circle
-              cx="151"
-              cy="271"
-              r="10"
-              className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
-            />
-          </svg>
-        )}
       </div>
     </div>
   );

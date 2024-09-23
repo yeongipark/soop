@@ -19,6 +19,7 @@ export default function ImageText({
     >
       <div className={style.image}>
         <Image
+          style={{ borderRadius: "10px" }}
           src={src}
           alt={alt}
           layout="responsive"

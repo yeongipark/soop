@@ -44,7 +44,7 @@ export default function Home() {
   useEffect(() => {
     AOS.init({
       duration: 1500,
-      once: true,
+      once: false,
     });
   }, []);
 
