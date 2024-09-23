@@ -1,5 +1,6 @@
 import Home from "@/components/home/home";
 import { Metadata } from "next";
+import Modal from "@/components/modal";
 
 // 메타 데이터 설정
 export const metadata: Metadata = {
@@ -13,5 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  return <Home />;
+  return (
+    <>
+      <Home />
+    </>
+  );
 }

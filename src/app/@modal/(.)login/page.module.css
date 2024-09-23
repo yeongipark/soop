@@ -1,0 +1,81 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.login:nth-child(1) {
+  display: flex;
+  justify-content: center;
+}
+
+.googleBtn,
+.kakaoBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 240px; /* 버튼 너비는 240px 고정 */
+  padding: 0.75rem 1.5rem; /* 12px 24px을 rem으로 변환 */
+  background-color: #ffffff; /* 기본 배경 흰색 */
+  border: 1px solid #dadce0; /* 구글 버튼 테두리 색상 */
+  border-radius: 0.25rem; /* 4px을 rem으로 변환 */
+  font-size: 1rem; /* 16px */
+  font-weight: 500;
+  font-family: "Roboto", "Noto Sans", Arial, sans-serif; /* 통일된 글꼴 */
+  color: #3c4043; /* 기본 검정색 텍스트 */
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  box-shadow: 0px 0.0625rem 0.125rem rgba(0, 0, 0, 0.1); /* 1px 2px */
+}
+
+/* 구글 버튼 */
+.googleBtn {
+  background-color: #ffffff; /* 구글 배경은 흰색 */
+  border: 1px solid #dadce0; /* 구글 테두리 */
+  color: #3c4043; /* 구글 텍스트 색상 */
+}
+
+.googleBtn img {
+  width: 1.5rem; /* 24px 아이콘 크기 */
+  height: 1.5rem;
+  margin-right: 0.625rem; /* 10px */
+}
+
+.googleBtn:hover {
+  background-color: #f6f6f6;
+  box-shadow: 0px 0.125rem 0.25rem rgba(0, 0, 0, 0.15); /* 2px 4px */
+}
+
+.googleBtn:active {
+  background-color: #e8e8e8;
+  box-shadow: 0px 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+}
+
+/* 카카오 버튼 */
+.kakaoBtn {
+  background-color: #fee500; /* 카카오 노란색 */
+  border: none; /* 테두리 없음 */
+  color: #000000; /* 검정색 텍스트 */
+}
+
+.kakaoBtn span {
+  margin-left: 0.625rem;
+}
+
+.kakaoBtn img {
+  width: 1.5rem; /* 24px 아이콘 크기 */
+  height: 1.5rem;
+  margin-right: 0.625rem; /* 10px */
+}
+
+.kakaoBtn:hover {
+  background-color: #fce000;
+  box-shadow: 0px 0.125rem 0.25rem rgba(0, 0, 0, 0.15);
+}
+
+.kakaoBtn:active {
+  background-color: #ecd500;
+  box-shadow: 0px 0.0625rem 0.125rem rgba(0, 0, 0, 0.1);
+}
