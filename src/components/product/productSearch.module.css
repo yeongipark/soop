@@ -1,0 +1,60 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.iconWrap {
+  cursor: pointer;
+}
+
+.icon {
+  width: 2rem;
+  height: 2rem;
+  color: var(--gray4);
+}
+
+/* input이 나타날 때 확장되는 애니메이션 */
+@keyframes expand {
+  from {
+    width: 0;
+    opacity: 0;
+  }
+  to {
+    width: 40%;
+    opacity: 1;
+  }
+}
+
+/* input이 사라질 때 축소되는 애니메이션 */
+@keyframes collapse {
+  from {
+    width: 40%;
+    opacity: 1;
+  }
+  to {
+    width: 0;
+    opacity: 0;
+  }
+}
+
+.input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--gray4);
+  border-radius: 5px;
+  opacity: 1;
+  width: 0;
+  animation-fill-mode: forwards;
+  outline: var(--gray7);
+}
+
+.inputExpand {
+  animation: expand 0.5s forwards;
+}
+
+.inputCollapse {
+  animation: collapse 0.5s forwards;
+}
