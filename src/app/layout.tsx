@@ -1,6 +1,4 @@
-import Nav from "@/components/nav/nav";
 import "./globals.css";
-import Footer from "@/components/footer/footer";
 import RecoilWrapper from "@/components/recoilWrapper";
 
 export default function RootLayout({
@@ -13,11 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <RecoilWrapper>
-          <Nav />
-          {children}
-          <Footer />
-        </RecoilWrapper>
+        <RecoilWrapper>{children}</RecoilWrapper>
         {modal}
       </body>
     </html>

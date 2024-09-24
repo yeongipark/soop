@@ -32,10 +32,10 @@
   cursor: pointer;
 }
 
-.scrolled {
+/* .scrolled {
   background-color: rgba(255, 255, 255, 0.4);
   backdrop-filter: blur(4px);
-}
+} */
 
 .logo {
   cursor: pointer;
