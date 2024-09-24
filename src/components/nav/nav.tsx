@@ -8,6 +8,14 @@ export default function Nav() {
   return (
     <div className={style.wrap}>
       <div className={`${style.container} ${isScrolled ? style.scrolled : ""}`}>
+        <p className={style.logo}>
+          <Link href={"/"}>
+            SO
+            <br />
+            OP
+          </Link>
+        </p>
+
         <div className={style.buttons}>
           <p>
             <Link href={"/product"}>예약하기</Link>
