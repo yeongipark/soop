@@ -4,9 +4,8 @@
   margin-bottom: 50px;
   cursor: pointer;
 
-  &:hover {
+  &:active {
     border-radius: 30px;
-    padding: 5px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 }
