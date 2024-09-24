@@ -2,6 +2,13 @@
   max-width: 250px;
   width: 50%;
   margin-bottom: 50px;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 30px;
+    padding: 5px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
 }
 
 .img {
