@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IoArrowDownCircleOutline } from "react-icons/io5";
 
 import style from "./logo.module.css";
+import Link from "next/link";
 
 export default function Logo() {
   const [scale, setScale] = useState(1); // 초기 scale 값을 1로 설정
@@ -51,5 +52,9 @@ export default function Logo() {
 
 // 예약하기 버튼 ( 홈 화면에 사용되는 예약하기 버튼 )
 export function ReserveButton() {
-  return <button className={style.reserveButton}>예약하기 {">"}</button>;
+  return (
+    <button className={style.reserveButton}>
+      <Link href={"/product"}>예약하기 {">"}</Link>
+    </button>
+  );
 }

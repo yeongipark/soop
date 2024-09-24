@@ -1,0 +1,31 @@
+.container {
+  max-width: 250px;
+  width: 50%;
+  margin-bottom: 50px;
+  padding: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 30px;
+}
+
+.img {
+  max-width: 250px;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.text {
+  text-align: center;
+}
+
+.text > p:nth-child(1) {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+
+.text > p:nth-child(2) {
+  font-size: 0.9rem;
+  color: var(--gray5);
+  word-break: break-all;
+}
