@@ -1,0 +1,26 @@
+.container {
+  padding: 20px;
+}
+
+.container > p {
+  font-size: 1.2rem;
+  white-space: pre-wrap;
+}
+
+.imgWrap {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 30px;
+}
+
+.imgWrap > div {
+  display: flex;
+  justify-content: center;
+}
+
+.imgWrap img {
+  width: auto;
+  height: auto; /* 비율 유지하면서 높이 자동 조정 */
+}

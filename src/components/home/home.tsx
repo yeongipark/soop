@@ -15,31 +15,32 @@ import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
 export default function Home() {
   // 텍스트 애니메이션 처리 함수
-  const handleTextAnimation = () => {
+  const textAnimation = () => {
     const textElement = document.querySelector(`.${style.lastText} p`);
-    const textContent = "당신의 소중한 순간을 사진으로 영원히 담아드립니다.";
-    textElement!.innerHTML = ""; // 기존 내용을 비워 초기화
-    let index = 0;
+    const text = "당신의 소중한 순간을 사진으로 영원히 담아드립니다.";
 
-    for (const char of textContent) {
+    // 각 텍스트의 인덱스를 추적할 변수
+    let index = 0;
+    for (let char of text) {
+      // span 태그 동적으로 생성
       const span = document.createElement("span");
 
-      // 공백 처리
       if (char === " ") {
         span.innerHTML = "&nbsp;";
       } else {
-        span.textContent = char;
+        span.innerHTML = char;
       }
 
-      span.style.animationDelay = `${index++ * 0.1}s`; // 각 글자마다 지연시간 설정
-      textElement!.appendChild(span);
+      // 애내매이션 딜레이를 적용해 글씨마다 나타는 시간 다르게하기
+      span.style.animationDelay = `${index++ * 0.1}s`;
+
+      // p 태그에 생성한 span 태그 추가하기
+      textElement?.appendChild(span);
     }
   };
 
-  // IntersectionObserver로 감지 후 텍스트 애니메이션 실행
-  const textRef = useIntersectionObserver(handleTextAnimation, {
-    threshold: 0.5, // 50% 이상 화면에 보일 때 실행
-  });
+  // 커스텀 훅에서 ref 가져오기
+  const textRef = useIntersectionObserver(textAnimation);
 
   useEffect(() => {
     AOS.init({
@@ -55,8 +56,8 @@ export default function Home() {
       <SecondImageComponent />
       <ThirdImageComponent />
       <FourthImageComponent />
-      <div className={style.lastText} data-aos="fade-up">
-        <p ref={textRef}></p>
+      <div ref={textRef} className={`${style.lastText}`} data-aos="fade-up">
+        <p></p>
         <div className={style.reserveButton}>
           <ReserveButton />
         </div>

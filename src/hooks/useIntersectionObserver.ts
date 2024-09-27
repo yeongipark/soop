@@ -4,7 +4,7 @@ export const useIntersectionObserver = (
   callback: () => void,
   options = { threshold: 0.5 }
 ) => {
-  const elementRef = useRef(null);
+  const elementRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry], observer) => {

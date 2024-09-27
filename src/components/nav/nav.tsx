@@ -2,19 +2,33 @@
 import { useNavScroll } from "@/hooks/useNavScroll";
 import style from "./nav.module.css";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Nav() {
   const { isScrolled } = useNavScroll();
+  const pathName = usePathname();
   return (
     <div className={style.wrap}>
-      <div className={`${style.container} ${isScrolled ? style.scrolled : ""}`}>
-        <p className={style.logo}>
-          <Link href={"/"}>
-            SO
-            <br />
-            OP
-          </Link>
-        </p>
+      <div
+        className={`${style.container} ${isScrolled ? style.scrolled : ""}`}
+        style={
+          pathName !== "/"
+            ? {
+                display: "flex",
+                justifyContent: "space-between",
+              }
+            : undefined
+        }
+      >
+        {pathName !== "/" && (
+          <p className={style.logo}>
+            <Link href={"/"}>
+              SO
+              <br />
+              OP
+            </Link>
+          </p>
+        )}
 
         <div className={style.buttons}>
           <p>

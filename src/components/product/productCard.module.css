@@ -14,7 +14,7 @@
   max-width: 250px;
   width: 100%;
   margin-bottom: 20px;
-  border-radius: 30px;
+  border-radius: 15px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   overflow: hidden;
 }
@@ -23,12 +23,12 @@
   text-align: center;
 }
 
-.text > p:nth-child(1) {
+.text p:nth-child(1) {
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
 
-.text > p:nth-child(2) {
+.text p:nth-child(2) {
   font-size: 0.9rem;
   color: var(--gray5);
   word-break: break-all;
