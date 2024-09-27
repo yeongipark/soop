@@ -1,6 +1,6 @@
-import style from "./page.module.css";
 import ProductTop from "@/components/product/productTop";
 import ProductFooter from "@/components/product/productFooter";
+import Review from "@/components/review/review";
 
 export default function Page() {
   return (
@@ -28,6 +28,7 @@ export default function Page() {
       saepe laboriosam praesentium, unde porro ipsam aperiam maxime qui alias
       amet vel? Distinctio assumenda cum corrupti ea non quisquam saepe,
       reprehenderit quasi? Similique, hic.
+      <Review />
     </div>
   );
 }

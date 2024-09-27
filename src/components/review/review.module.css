@@ -1,0 +1,41 @@
+.container {
+  margin-top: 20px;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--gray5);
+  padding: 20px;
+  margin-bottom: 65px;
+}
+
+.title {
+  padding: 10px;
+  padding-bottom: 20px;
+  font-size: 1.5rem;
+  color: var(--gray5);
+  letter-spacing: 0.1rem;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+}
+
+.button > button {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+
+  /* 39px */
+  height: 2.4375rem;
+
+  /* 165px */
+  width: 10.3125rem;
+}
+
+.button > button:hover {
+  background-color: var(--gray3);
+}
+
+.button > button:active {
+  background-color: var(--gray4);
+}

@@ -1,0 +1,24 @@
+.button {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.button span:nth-child(1) {
+  margin-right: 5px;
+}
+
+.button span:nth-child(2) {
+  cursor: pointer;
+}
+
+.button span:nth-child(2):hover {
+  text-decoration: underline;
+}
+
+.button span:nth-child(2):active {
+  color: var(--gray5);
+}
+
+.clicked {
+  font-weight: 900;
+}
