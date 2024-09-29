@@ -12,9 +12,14 @@ export default function ReviewButton() {
   };
 
   return (
-    <div className={style.button} onClick={handleLike}>
-      <span>{likeCount}</span>
-      <span className={`${liked ? style.clicked : ""}`}>👍 도움 돼요</span>
+    <div className={style.container}>
+      <span
+        className={`${style.likeBtn} ${liked ? style.clicked : ""}`}
+        onClick={handleLike}
+      >
+        <span className={`${liked ? style.btnAnimation : ""}`}>👍</span>도움돼요{" "}
+        <span>{likeCount}</span>
+      </span>
     </div>
   );
 }
