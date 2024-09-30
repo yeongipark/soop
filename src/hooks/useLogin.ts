@@ -25,7 +25,7 @@ const useLogin = (provider: string, code: string) => {
 
         // 어세스 토큰 받아오기 (리프레시 토큰은 쿠키에 담김)
         const accessToken = res.headers.get("access-token");
-
+        console.log(accessToken);
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken);
           // 성공적으로 로그인 처리 후 홈화면으로 리디렉션

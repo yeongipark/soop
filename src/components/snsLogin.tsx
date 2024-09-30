@@ -1,15 +1,15 @@
 import style from "@/app/@modal/(.)login/page.module.css";
 import Image from "next/image";
-import { KAKAO_AUTH_URL } from "@/util/OAuth";
+import { KAKAO_AUTH_URL, GOOGLE_AUTH_URL } from "@/util/OAuth";
 
 export default function SnsLogin() {
   return (
     <div className={style.login}>
       <div>
-        <button className={style.googleBtn}>
+        <a href={GOOGLE_AUTH_URL} className={style.googleBtn}>
           <Image src="/구글로고.png" alt="구글 로고" width={24} height={24} />
           <span>구글로 로그인</span>
-        </button>
+        </a>
       </div>
       <div>
         <a href={KAKAO_AUTH_URL} className={style.kakaoBtn}>
