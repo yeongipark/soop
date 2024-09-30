@@ -1,5 +1,6 @@
 import style from "@/app/@modal/(.)login/page.module.css";
 import Image from "next/image";
+import { KAKAO_AUTH_URL } from "@/util/OAuth";
 
 export default function SnsLogin() {
   return (
@@ -11,7 +12,7 @@ export default function SnsLogin() {
         </button>
       </div>
       <div>
-        <button className={style.kakaoBtn}>
+        <a href={KAKAO_AUTH_URL} className={style.kakaoBtn}>
           <svg
             width="24px" /* 구글 아이콘과 동일한 크기로 설정 */
             height="24px"
@@ -25,7 +26,7 @@ export default function SnsLogin() {
             ></path>
           </svg>
           <span>카카오로 로그인</span>
-        </button>
+        </a>
       </div>
     </div>
   );
