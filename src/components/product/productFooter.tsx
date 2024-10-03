@@ -5,6 +5,7 @@ import style from "./productFooter.module.css";
 
 import { CiHeart } from "react-icons/ci";
 import { IoMdHeart } from "react-icons/io";
+import Link from "next/link";
 
 export default function ProductFooter() {
   const [like, setLike] = useState(false);
@@ -23,7 +24,9 @@ export default function ProductFooter() {
         )}
       </div>
       <div className={style.buttonWrap}>
-        <button className={style.button}>예약하러 가기</button>
+        <button className={style.button}>
+          <Link href={"/reserve"}>예약하러 가기</Link>
+        </button>
       </div>
     </div>
   );
