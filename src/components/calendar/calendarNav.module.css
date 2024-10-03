@@ -1,0 +1,10 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  color: var(--main);
+}
+
+.button {
+  cursor: pointer;
+}
