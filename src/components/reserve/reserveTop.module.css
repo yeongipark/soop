@@ -1,0 +1,36 @@
+.top {
+  background-color: #f0f0f0;
+  width: 100%;
+  display: flex;
+  padding: 10px 50px 10px 50px;
+  height: 200px;
+
+  gap: 30px;
+}
+
+.imageWrap {
+  background-image: url("/프로필사진.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 180px;
+}
+
+.textWrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+/* 상품 제목 */
+.textWrap p:first-child {
+  font-size: 1.8rem;
+}
+
+/* 상품 가격 */
+.textWrap P:last-child {
+  font-size: 1.1rem;
+}
