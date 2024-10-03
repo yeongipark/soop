@@ -5,6 +5,7 @@ import {
   endOfWeek,
   format,
   getDay,
+  isToday,
   startOfMonth,
   startOfWeek,
   subMonths,
@@ -50,7 +51,12 @@ export const useCalendar = () => {
     dayIndexOfWeek: getDay(day),
   }));
 
+  const today = (date: string) => {
+    return isToday(new Date(date));
+  };
+
   return {
+    today,
     currentDate: {
       year: currentYear,
       month: currentMonth,
