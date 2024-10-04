@@ -1,10 +1,12 @@
 import {
+  addDays,
   addMonths,
   eachDayOfInterval,
   endOfMonth,
   endOfWeek,
   format,
   getDay,
+  isAfter,
   isBefore,
   isToday,
   startOfMonth,
@@ -64,15 +66,23 @@ export const useCalendar = () => {
     setSelectedDate(format(new Date(date), "yyyy-MM-dd"));
   };
 
+  // 오늘인지 표현
   const today = (date: string) => {
     return isToday(new Date(date));
   };
 
+  // 오늘보다 이전 날은 선택하지 못하도록 설정
   const before = (date: string) => {
     return isBefore(new Date(date), new Date());
   };
 
+  // 최대 예약 가능한 날짜보다 오버 됐는지 확인하는 함수
+  const isOverMax = (date: string) => {
+    return isAfter(new Date(date), addDays(new Date(), 14));
+  };
+
   return {
+    isOverMax,
     before,
     today,
     currentDate: {

@@ -1,7 +1,7 @@
-.container p {
+.container > p {
   margin-top: 35px;
   margin-bottom: 26px;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .buttonWrap {
@@ -16,7 +16,7 @@
 }
 
 .container button {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   border-radius: 10px;
   border: none;
   width: 100%;
@@ -24,8 +24,46 @@
 }
 
 .container button:hover {
-  background-color: var(--gray3);
+  background-color: var(--hoverMain);
 }
 .container button:active {
-  background-color: var(--gray5);
+  background-color: var(--activeMain);
+}
+
+/* 다음 단계 버튼 */
+.nextBtn {
+  margin-top: 50px;
+  padding: 5px 30px 5px 30px;
+}
+
+/* 시간 나타내는 스타일 (10:00, 11:00 ... ) */
+.clockText {
+  margin: 0px;
+}
+
+/* 예약 가능 버튼 스타일 */
+.possibleBtn {
+  background-color: var(--main);
+  color: white;
+}
+
+/* 예약마감 버튼을 클릭안되게 */
+.impossibleBtn {
+  border-radius: 10px;
+  background-color: #eeeeee;
+  pointer-events: none !important;
+}
+
+/* 예약 가능 텍스트 */
+.possible {
+  font-size: 0.8rem;
+}
+/* 예약 마감 텍스트 */
+.impossible {
+  font-size: 0.8rem;
+}
+
+/* 선택된 시간 스타일링 */
+.selected {
+  background-color: var(--activeMain);
 }

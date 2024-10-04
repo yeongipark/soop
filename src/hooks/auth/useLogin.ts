@@ -7,21 +7,18 @@ import { isLoginState } from "@/recoil/isLoginAtom";
 const useLogin = (provider: string, code: string) => {
   const router = useRouter();
   const [_, setIsLogin] = useRecoilState(isLoginState);
-
+  // ${process.env.NEXT_PUBLIC_SERVER_URL}
   useEffect(() => {
     const login = async () => {
       try {
-        const res = await fetch(
-          `http://${process.env.NEXT_PUBLIC_SERVER_URL}/login/${provider}`,
-          {
-            method: "POST",
-            body: JSON.stringify({ code }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-          }
-        );
+        const res = await fetch(`https://api.re-bin.kr/login/${provider}`, {
+          method: "POST",
+          body: JSON.stringify({ code }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
 
         if (!res.ok) {
           throw new Error(res.statusText);

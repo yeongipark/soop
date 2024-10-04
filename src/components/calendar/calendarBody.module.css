@@ -63,7 +63,7 @@
 
 /* 선택된 날짜 스타일 */
 .selected {
-  background-color: var(--gray3);
+  background-color: rgb(240, 240, 240);
 }
 
 /* 달력 내비게이션 스타일 */
