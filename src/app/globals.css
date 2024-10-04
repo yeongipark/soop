@@ -8,6 +8,8 @@
   --gray7: #495057;
   --gray8: #343a40;
   --main: #8486ff;
+  --hoverMain: #7275d0;
+  --activeMain: #6c6ea6;
 }
 
 @font-face {

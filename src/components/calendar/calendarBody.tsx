@@ -2,14 +2,18 @@
 
 import { useCalendar } from "@/hooks/useCalendar";
 import style from "./calendarBody.module.css";
-import { useEffect } from "react";
 
 export default function CalendarBody() {
-  const { daysInMonth, today, before, currentDate, dispatch, selectedDate } =
-    useCalendar();
-  useEffect(() => {
-    console.log(daysInMonth);
-  }, [daysInMonth]);
+  const {
+    daysInMonth,
+    today,
+    before,
+    currentDate,
+    dispatch,
+    selectedDate,
+    isOverMax,
+  } = useCalendar();
+
   const weeks = ["일", "월", "화", "수", "목", "금", "토"];
   return (
     <div>
@@ -46,6 +50,7 @@ export default function CalendarBody() {
                   }
                   today={today(day.date)}
                   before={before(day.date)}
+                  isOver={isOverMax(day.date)}
                   displayNone={currentDate.month !== day.month}
                   onClick={() => selectedDate.selectDate(day.date)}
                   isSelected={selectedDate.date === day.date}
@@ -74,6 +79,7 @@ function Day({
   displayNone,
   onClick,
   isSelected,
+  isOver,
 }: {
   day: string;
   isWeekend: boolean;
@@ -82,11 +88,12 @@ function Day({
   displayNone: boolean;
   onClick: () => void;
   isSelected: boolean;
+  isOver: boolean;
 }) {
   return (
     <div
       className={`${style.day} ${isWeekend && style.weekend} ${
-        !today && before && style.disabled
+        !today && (before || isOver) && style.disabled
       } ${displayNone && style.none} ${isSelected && style.selected}`}
       onClick={onClick}
     >

@@ -7,16 +7,13 @@ export default function useLogout() {
   // 비동기 로그아웃 처리 함수
   const handleLogout = async () => {
     try {
-      const res = await fetch(
-        `http://${process.env.NEXT_PUBLIC_SERVER_URL}/logout`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/logout`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        credentials: "include",
+      });
 
       if (!res.ok) {
         console.error(res);
