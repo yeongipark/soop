@@ -54,8 +54,12 @@
   justify-content: flex-end;
 }
 
-.button {
+.buttonWrap a {
   width: 80%;
+}
+
+.button {
+  width: 100%;
   max-width: 400px;
   height: 2.5rem; /* 40px / 16 = 2.5rem */
   font-size: 1rem;

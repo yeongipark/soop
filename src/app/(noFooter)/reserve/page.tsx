@@ -7,7 +7,6 @@ export default function Page() {
   return (
     <div>
       <ReserveTop />
-
       <div className={style.container}>
         <p>🗓️ 날짜와 시간을 선택해주세요</p>
         <Calendar />

@@ -7,6 +7,7 @@ import useLogout from "@/hooks/auth/useLogout";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
+import { getToken } from "@/util/cookie";
 
 export default function Nav() {
   const { isScrolled } = useNavScroll();
@@ -14,7 +15,7 @@ export default function Nav() {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
+    if (getToken()) {
       setIsLogin(true);
     } else {
       setIsLogin(false);

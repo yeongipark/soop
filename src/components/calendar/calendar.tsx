@@ -1,5 +1,3 @@
-"use client";
-
 import style from "./calendar.module.css";
 import CalendarBody from "./calendarBody";
 
