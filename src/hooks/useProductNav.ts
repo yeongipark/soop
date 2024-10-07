@@ -20,6 +20,7 @@ export default function useProductNav() {
     const firstNavHeight = heightArray[0];
     if (firstNavHeight !== undefined) {
       window.scrollTo({
+        // top 내비게이션 높이 만큼 빼주기
         top: firstNavHeight - 80,
         behavior: "smooth",
       });
@@ -31,6 +32,7 @@ export default function useProductNav() {
     const secondNavHeight = heightArray[1];
     if (secondNavHeight !== undefined) {
       window.scrollTo({
+        // top 내비게이션 높이 만큼 빼주기
         top: secondNavHeight - 80,
         behavior: "smooth",
       });
