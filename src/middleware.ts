@@ -12,7 +12,6 @@ export function middleware(req: NextRequest) {
 
   //   로그인한 상태에서 로그인 화면에 접속시 홈화면으로 리다이렉트
   if (req.nextUrl.pathname.startsWith("/login")) {
-    console.log("login");
     if (token) {
       return NextResponse.redirect(new URL("/", req.url));
     }

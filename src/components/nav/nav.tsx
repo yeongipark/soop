@@ -4,16 +4,26 @@ import style from "./nav.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import useLogout from "@/hooks/auth/useLogout";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
+import { useEffect } from "react";
+import { getToken } from "@/util/cookie";
 
 export default function Nav() {
   const { isScrolled } = useNavScroll();
   const pathName = usePathname();
-  const isLogin = useRecoilValue(isLoginState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   // 로그아웃 눌렀을 때 실행할 함수
   const logout = useLogout();
+
+  useEffect(() => {
+    if (getToken()) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
 
   return (
     <div className={style.wrap}>
@@ -46,7 +56,7 @@ export default function Nav() {
           {isLogin && <p>마이페이지</p>}
           <p>
             {isLogin ? (
-              <p onClick={logout}>로그아웃</p>
+              <span onClick={logout}>로그아웃</span>
             ) : (
               <Link href={"/login"}>로그인</Link>
             )}
