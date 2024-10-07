@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
+import { setToken } from "@/util/cookie";
 
 // 로그인 로직
 const useLogin = (provider: string, code: string) => {
@@ -27,15 +28,15 @@ const useLogin = (provider: string, code: string) => {
         // 어세스 토큰 받아오기 (리프레시 토큰은 쿠키에 담김)
         const accessToken = res.headers.get("access-token");
         if (accessToken) {
-          localStorage.setItem("accessToken", accessToken);
+          setToken(accessToken);
           setIsLogin(true);
-          // 성공적으로 로그인 처리 후 홈화면으로 리디렉션
+          // 성공적으로 로그인 처리 후 홈 화면으로 리다이렉트
           router.push("/");
         } else {
           throw new Error("Access token is missing.");
         }
       } catch (error) {
-        console.error("Login failed:", error);
+        console.log("Login failed:", error);
       }
     };
 
