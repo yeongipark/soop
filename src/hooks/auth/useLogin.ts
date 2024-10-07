@@ -30,8 +30,8 @@ const useLogin = (provider: string, code: string) => {
         if (accessToken) {
           setToken(accessToken);
           setIsLogin(true);
-          // 성공적으로 로그인 처리 후 2번 이전 화면으로 리디렉션
-          window.history.go(-2);
+          // 성공적으로 로그인 처리 후 홈 화면으로 리다이렉트
+          router.push("/");
         } else {
           throw new Error("Access token is missing.");
         }

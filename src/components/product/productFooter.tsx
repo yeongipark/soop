@@ -1,6 +1,10 @@
 "use client";
 
-import { useState, MouseEvent as ReactMouseEvent } from "react";
+import {
+  useState,
+  MouseEvent as ReactMouseEvent,
+  MouseEventHandler,
+} from "react";
 import style from "./productFooter.module.css";
 
 import { CiHeart } from "react-icons/ci";
@@ -19,14 +23,10 @@ export default function ProductFooter() {
     setLike(!like);
   };
 
-  const handleButtonClick = (
-    e: ReactMouseEvent<HTMLAnchorElement, MouseEvent>
-  ) => {
+  const handleButtonClick = (e: ReactMouseEvent<HTMLButtonElement>) => {
     let token = getToken();
-    if (!token) {
-      e.preventDefault();
-      router.replace("/login");
-    }
+    if (token) router.replace("/reserve");
+    if (!token) router.replace("/login");
   };
 
   return (
@@ -39,9 +39,9 @@ export default function ProductFooter() {
         )}
       </div>
       <div className={style.buttonWrap}>
-        <Link href={"/reserve"} onClick={handleButtonClick}>
-          <button className={style.button}>예약하러 가기</button>
-        </Link>
+        <button className={style.button} onClick={handleButtonClick}>
+          예약하러 가기
+        </button>
       </div>
     </div>
   );

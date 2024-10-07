@@ -1,6 +1,7 @@
+import { getToken } from "@/util/cookie";
 import { atom } from "recoil";
 
 export const isLoginState = atom({
   key: "isLoing",
-  default: false,
+  default: getToken() ? true : false,
 });

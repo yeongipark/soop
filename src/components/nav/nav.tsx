@@ -4,23 +4,13 @@ import style from "./nav.module.css";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import useLogout from "@/hooks/auth/useLogout";
-import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
-import { getToken } from "@/util/cookie";
 
 export default function Nav() {
   const { isScrolled } = useNavScroll();
   const pathName = usePathname();
-  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
-
-  useEffect(() => {
-    if (getToken()) {
-      setIsLogin(true);
-    } else {
-      setIsLogin(false);
-    }
-  }, []);
+  const isLogin = useRecoilValue(isLoginState);
 
   // 로그아웃 눌렀을 때 실행할 함수
   const logout = useLogout();
