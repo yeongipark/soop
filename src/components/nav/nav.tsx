@@ -26,7 +26,7 @@ export default function Nav() {
   }, []);
 
   return (
-    <div className={style.wrap}>
+    <nav className={style.wrap}>
       <div
         className={`${style.container} ${isScrolled ? style.scrolled : ""}`}
         style={
@@ -63,6 +63,6 @@ export default function Nav() {
           </p>
         </div>
       </div>
-    </div>
+    </nav>
   );
 }
