@@ -2,7 +2,7 @@ import style from "./footer.module.css";
 
 export default function Footer() {
   return (
-    <div className={style.container}>
+    <footer className={style.container}>
       <div>
         <p>SOOP</p>
         <p>
@@ -16,6 +16,6 @@ export default function Footer() {
           <a>Instargram </a>| <a>kakao</a>
         </p>
       </div>
-    </div>
+    </footer>
   );
 }
