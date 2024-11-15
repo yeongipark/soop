@@ -47,6 +47,13 @@ a {
   color: inherit;
 }
 
+button {
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  padding: 10px;
+}
+
 @media (max-width: 1400px) {
   html {
     font-size: 18px;

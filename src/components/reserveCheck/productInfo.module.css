@@ -1,0 +1,47 @@
+.productInfoContainer {
+  margin-top: 2.5rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.productWrap {
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.productName {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.reserveTime {
+  font-size: 0.8rem;
+  color: var(--gray8);
+}
+
+.price {
+  margin-top: 2rem;
+}
+
+.price > table {
+  width: 100%;
+}
+
+.price > table > tr {
+  margin-bottom: 1.3rem;
+}
+
+.priceTitle {
+  width: 50%;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.red {
+  color: red;
+}

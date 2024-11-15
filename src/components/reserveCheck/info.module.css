@@ -1,0 +1,40 @@
+.infoContainer {
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--gray3);
+}
+
+.title {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.wrap {
+  display: flex;
+  margin-top: 30px;
+}
+
+.wrap > p {
+  width: 60px;
+}
+
+.nameInput > input {
+  width: 25%;
+}
+.nameInput {
+  flex-grow: 1;
+}
+
+.phoneNumberInput {
+  flex-grow: 1;
+}
+.phoneNumberInput > input {
+  max-width: 100px;
+  width: 20%;
+}
+
+.peopleNumInput {
+  flex-grow: 1;
+}
+.peopleNumInput > input {
+  width: 25%;
+}

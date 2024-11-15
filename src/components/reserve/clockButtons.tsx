@@ -2,13 +2,21 @@
 
 import { useState } from "react";
 import style from "./clockButtons.module.css";
+import { useRouter } from "next/navigation";
+import NextButton from "../nextButton";
 
 export default function ClockButtons() {
+  const router = useRouter();
   const [selectClock, setSelectClock] = useState<string | null>(null);
 
+  // 시간 클릭 핸들러 함수
   const handleOnClockBtn = (clock: string) => {
     setSelectClock(clock);
-    console.log(selectClock);
+  };
+
+  // 다음 단계 버튼 핸들러 함수
+  const handleOnNextBtn = () => {
+    router.push("/reserve/check");
   };
 
   const am = ["10:00", "10:30", "11:00", "11:30"];
@@ -33,7 +41,7 @@ export default function ClockButtons() {
         </div>
       </div>
       <p>오후</p>
-      <div>
+      <div className={style.buttons}>
         <div className={style.buttonWrap}>
           {pm1.map((clock) => (
             <div key={clock}>
@@ -60,13 +68,11 @@ export default function ClockButtons() {
           ))}
         </div>
       </div>
-      <div className={`${style.nextBtn} `}>
-        <button
-          className={`${selectClock ? style.possibleBtn : style.impossibleBtn}`}
-        >
-          다음 단계
-        </button>
-      </div>
+      <NextButton
+        isEnabled={!!selectClock}
+        onClick={handleOnNextBtn}
+        label="다음 단계"
+      />
     </div>
   );
 }
