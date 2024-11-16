@@ -1,0 +1,9 @@
+.title {
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.content_wrap {
+  height: 85vh;
+}
