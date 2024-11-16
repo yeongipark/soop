@@ -7,8 +7,11 @@ import Agree from "@/components/reserveCheck/agree";
 import NextButton from "@/components/nextButton";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const router = useRouter();
+
   // info
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -37,6 +40,11 @@ export default function Page() {
     setInstarAgree(bool);
     setPersonalAgree(bool);
     setUseAgree(bool);
+  };
+
+  //"예약 하기"버튼 클릭시, 예약 완료 화면으로 이동
+  const clickReserveButton = () => {
+    router.replace("/complete");
   };
 
   // 모든 필드가 채워져 있을 때만 버튼 활성화
@@ -82,7 +90,7 @@ export default function Page() {
       />
       <NextButton
         isEnabled={isFormValid as boolean}
-        onClick={() => {}}
+        onClick={clickReserveButton}
         label="예약 하기"
       />
     </article>
