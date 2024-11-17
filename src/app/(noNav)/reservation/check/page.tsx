@@ -5,12 +5,13 @@ import style from "./page.module.css";
 import ReservationCheckNav from "@/components/reservationCheck/reservationCheckNav";
 import Modal from "@/components/modal";
 import DepositModal from "@/components/reservationCheck/depositModal";
+import MenuModal from "@/components/reservationCheck/menuModal";
 import { useState } from "react";
 
 export default function Page() {
   const [depositModal, setDepositModal] = useState(false);
 
-  const [menuModal, setMenuModal] = useState(false);
+  const [menuModal, setMenuModal] = useState(true);
 
   return (
     <div>
@@ -19,9 +20,9 @@ export default function Page() {
           <DepositModal />
         </Modal>
       )}
-      {depositModal && (
+      {menuModal && (
         <Modal type="custom" setModalState={setMenuModal}>
-          <DepositModal />
+          <MenuModal />
         </Modal>
       )}
       <p className={style.title}>촬영 예약내역</p>
