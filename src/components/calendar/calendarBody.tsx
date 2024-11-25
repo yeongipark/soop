@@ -1,18 +1,26 @@
 "use client";
 
-import { useCalendar } from "@/hooks/useCalendar";
 import style from "./calendarBody.module.css";
+import { CalendarBodyProps } from "@/types";
 
-export default function CalendarBody() {
-  const {
-    daysInMonth,
-    today,
-    before,
-    currentDate,
-    dispatch,
-    selectedDate,
-    isOverMax,
-  } = useCalendar();
+export default function CalendarBody({
+  isOverMax,
+  before,
+  today,
+  currentDate,
+  daysInMonth,
+  dispatch,
+  selectedDate,
+}: CalendarBodyProps) {
+  // const {
+  //   daysInMonth,
+  //   today,
+  //   before,
+  //   currentDate,
+  //   dispatch,
+  //   selectedDate,
+  //   isOverMax,
+  // } = useCalendar({  });
 
   const weeks = ["일", "월", "화", "수", "목", "금", "토"];
   return (
