@@ -8,7 +8,7 @@ interface AlertType {
   children: ReactNode;
   width?: string; // 기본값 설정 가능
   setModalState?: React.Dispatch<React.SetStateAction<boolean>>;
-  type: "info" | "cancel";
+  type: "info" | "cancel" | undefined;
 }
 
 export default function Alert({
@@ -33,7 +33,8 @@ export default function Alert({
   return (
     <dialog className={style.alert} ref={dialogRef} style={{ width }}>
       <div className={style.icon}>
-        {type === "info" ? <FiAlertCircle /> : <FiAlertOctagon color="red" />}
+        {type === "info" && <FiAlertCircle />}
+        {type === "cancel" && <FiAlertOctagon color="red" />}
       </div>
       <p className={style.title}>예약 상태</p>
       <p className={style.subTitle}>

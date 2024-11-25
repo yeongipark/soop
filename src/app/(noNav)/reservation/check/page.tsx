@@ -6,12 +6,12 @@ import ReservationCheckNav from "@/components/reservationCheck/reservationCheckN
 import Modal from "@/components/modal";
 import DepositModal from "@/components/reservationCheck/depositModal";
 import MenuModal from "@/components/reservationCheck/menuModal";
+
 import { useState } from "react";
 
 export default function Page() {
   const [depositModal, setDepositModal] = useState(false);
-
-  const [menuModal, setMenuModal] = useState(true);
+  const [menuModal, setMenuModal] = useState(false);
 
   return (
     <div>
@@ -28,10 +28,12 @@ export default function Page() {
       <p className={style.title}>촬영 예약내역</p>
       <div className={style.content_wrap}>
         <ReservationCheckNav />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card reservationType="CANCELED" />
+        <Card reservationType="CONFIRM_REQUESTED" />
+        <Card reservationType="PAYMENT_CONFIRMED" />
+        <Card reservationType="PENDING_PAYMENT" />
+        <Card reservationType="REVIEW_COMPLETED" />
+        <Card reservationType="SHOOTING_COMPLETED" />
       </div>
     </div>
   );
