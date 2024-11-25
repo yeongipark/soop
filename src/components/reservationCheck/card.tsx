@@ -4,7 +4,9 @@ import style from "./card.module.css";
 export default function Card() {
   return (
     <div className={style.container}>
-      <a className={style.detail}>예약 상세 ></a>
+      <a href="/reservation/detail" className={style.detail}>
+        예약 상세 {">"}
+      </a>
       <p className={style.title}>촬영 완료!</p>
       <p className={style.subTitle}>리뷰 작성 부탁드립니다!</p>
       <div className={style.productWrap}>

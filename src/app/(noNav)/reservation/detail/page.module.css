@@ -1,0 +1,49 @@
+.title {
+  margin-top: 1rem;
+  font-size: 1.3rem;
+}
+
+.infoWrap {
+  padding: 2rem;
+}
+
+.productName {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.productName:hover {
+  text-decoration: underline;
+}
+
+.productName:active {
+  text-decoration: underline;
+}
+
+.date {
+  margin-top: 1rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.infoTitle {
+  margin: 1.5rem 0;
+}
+
+.infoTable {
+  margin-bottom: 1.5rem;
+}
+
+.infoTable button {
+  background-color: black;
+  color: white;
+}
+
+.infoTable td:nth-child(1) {
+  width: 7rem;
+}
+
+.priceTable td:nth-child(1) {
+  width: 100%;
+}
