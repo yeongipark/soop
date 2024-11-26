@@ -5,7 +5,8 @@ import style from "./clockButtons.module.css";
 import { useRouter } from "next/navigation";
 import NextButton from "../nextButton";
 
-export default function ClockButtons() {
+// selectDate로 가능한 시간 서버에서 받아오기
+export default function ClockButtons({ selectDate }: { selectDate: string }) {
   const router = useRouter();
   const [selectClock, setSelectClock] = useState<string | null>(null);
 

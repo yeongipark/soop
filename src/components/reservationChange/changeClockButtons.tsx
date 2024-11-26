@@ -1,18 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./changeClockButtons.module.css";
 import NextButton from "../nextButton";
 import Confirm from "../confirm";
 
 export default function ChangeClockButtons({
+  basicDate,
   basicClock,
+  selectDate,
 }: {
+  basicDate: string;
   basicClock: string;
+  selectDate: string;
 }) {
+  // selectClock의 초기 상태를 조건에 따라 설정
   const [selectClock, setSelectClock] = useState<string | null>(basicClock);
 
   const [confirmState, setConfirmState] = useState(false);
+
+  useEffect(() => {
+    setSelectClock(() => {
+      return basicDate === selectDate ? basicClock : "";
+    });
+  }, [selectDate]);
 
   // 시간 클릭 핸들러 함수
   const handleOnClockBtn = (clock: string) => {
@@ -29,6 +40,12 @@ export default function ChangeClockButtons({
   const am = ["10:00", "10:30", "11:00", "11:30"];
   const pm1 = ["1:00", "1:30", "2:00", "2:30"];
   const pm2 = ["3:00", "3:30", "4:00", "4:30"];
+
+  // NextButton 활성화 조건
+  const isNextButtonEnabled =
+    (basicDate === selectDate && selectClock !== basicClock) ||
+    (basicDate !== selectDate && selectClock !== "");
+
   return (
     <div className={style.container}>
       {confirmState && (
@@ -96,7 +113,7 @@ export default function ChangeClockButtons({
         </div>
       </div>
       <NextButton
-        isEnabled={!!selectClock && selectClock !== basicClock}
+        isEnabled={isNextButtonEnabled}
         onClick={handleOnNextBtn}
         label="변경 하기"
       />

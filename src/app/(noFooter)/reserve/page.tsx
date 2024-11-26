@@ -14,7 +14,7 @@ export default function Page() {
       <div className={style.container}>
         <p>🗓️ 날짜와 시간을 선택해주세요</p>
         <Calendar {...calendarProps} />
-        <ClockButtons />
+        <ClockButtons selectDate={calendarProps.selectedDate.date} />
       </div>
     </div>
   );

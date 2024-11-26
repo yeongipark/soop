@@ -7,8 +7,9 @@ import ChangeClockButtons from "@/components/reservationChange/changeClockButton
 import { useCalendar } from "@/hooks/useCalendar";
 
 export default function Page() {
+  // 서버에서 예약한 날짜 받아오기
   const basicDate = "2024-11-30";
-  //   const basicClock = "1:30";
+  const basicClock = "1:30";
 
   // useCalendar의 모든 반환값
   const calendarProps = useCalendar({ basicDate });
@@ -20,7 +21,11 @@ export default function Page() {
       <div className={style.container}>
         <p>🗓️ 날짜와 시간을 선택해주세요</p>
         <Calendar {...calendarProps} />
-        <ChangeClockButtons basicClock={"1:30"} />
+        <ChangeClockButtons
+          basicDate={basicDate}
+          basicClock={basicClock}
+          selectDate={calendarProps.selectedDate.date}
+        />
       </div>
     </div>
   );
