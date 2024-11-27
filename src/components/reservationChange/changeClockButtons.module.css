@@ -15,7 +15,7 @@
   width: 25%;
 }
 
-.container button {
+.buttonWrap button {
   font-size: 0.9rem;
   border-radius: 10px;
   border: none;

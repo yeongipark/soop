@@ -6,12 +6,33 @@ import { useRouter } from "next/navigation";
 
 interface ModalProps {
   children: ReactNode;
-  width?: string; // width를 props로 받음 (기본값 설정 가능)
+  width?: string; // 기본값 설정 가능
+  type?: "redirect" | "custom";
+  setModalState?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Modal({ children, width = "80%" }: ModalProps) {
+export default function Modal({
+  children,
+  width = "80%",
+  type = "redirect",
+  setModalState,
+}: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
+
+  const handleClose = () => {
+    if (type === "redirect") {
+      router.back();
+    } else if (setModalState) {
+      setModalState(false);
+    }
+  };
+
+  const clickBackground = (e: React.MouseEvent<HTMLDialogElement>) => {
+    if ((e.target as HTMLDialogElement).nodeName === "DIALOG") {
+      handleClose();
+    }
+  };
 
   useEffect(() => {
     if (!dialogRef.current?.open) {
@@ -21,15 +42,11 @@ export default function Modal({ children, width = "80%" }: ModalProps) {
 
   return (
     <dialog
-      onClose={() => router.back()}
-      onClick={(e: React.MouseEvent<HTMLDialogElement>) => {
-        if ((e.target as HTMLDialogElement).nodeName === "DIALOG") {
-          router.back();
-        }
-      }}
+      onClose={handleClose}
+      onClick={clickBackground}
       className={style.modal}
       ref={dialogRef}
-      style={{ width }} // 부모 컴포넌트에서 전달된 width를 적용
+      style={{ width }}
     >
       {children}
     </dialog>

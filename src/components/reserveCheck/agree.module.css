@@ -1,0 +1,63 @@
+.container {
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.instar_title {
+  padding: 5px;
+}
+
+.checkbox {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox label {
+  margin-left: 0.5rem;
+}
+
+.condition {
+  margin-top: 2rem;
+}
+
+.content {
+  font-size: 0.8rem;
+  width: 100%;
+  height: 100px;
+  padding: 10px 30px 10px 30px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  white-space: pre-line;
+  word-wrap: break-word;
+  overflow: auto;
+  margin-top: 0.5rem;
+}
+
+/* 스크롤바 전체의 크기 */
+.content::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+/* 스크롤바 트랙 (배경) */
+.content::-webkit-scrollbar-track {
+  background: inherit;
+  border-radius: 10px;
+}
+
+/* 스크롤바 핸들 (슬라이더) */
+.content::-webkit-scrollbar-thumb {
+  background: #888; /* 핸들의 배경 색 */
+  border-radius: 10px; /* 핸들의 둥근 모서리 */
+  border: 2px solid inherit;
+}
+
+/* 스크롤바 핸들에 마우스를 올렸을 때 */
+.content::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 핸들 색을 어두운 색으로 변경 */
+}
+
+.all {
+  margin-top: 2rem;
+}

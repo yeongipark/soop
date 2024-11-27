@@ -1,0 +1,21 @@
+.requestContainer {
+  padding-bottom: 2.5rem;
+  margin-top: 2.5rem;
+  border-bottom: 1px solid var(--gray3);
+}
+.requestContainer > p {
+  margin-top: 2rem;
+}
+
+.textareaWrap {
+  text-align: center;
+}
+.textareaWrap > textarea {
+  width: 80%;
+  padding: 10px;
+  height: 158px;
+  border: 1px solid var(--gray3);
+  outline: none;
+  resize: none;
+  border-radius: 10px;
+}

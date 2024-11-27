@@ -1,30 +1,73 @@
 "use client";
 
-import { useState } from "react";
-import style from "./clockButtons.module.css";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import style from "./changeClockButtons.module.css";
 import NextButton from "../nextButton";
+import Confirm from "../confirm";
 
-// selectDate로 가능한 시간 서버에서 받아오기
-export default function ClockButtons({ selectDate }: { selectDate: string }) {
-  const router = useRouter();
-  const [selectClock, setSelectClock] = useState<string | null>(null);
+export default function ChangeClockButtons({
+  basicDate,
+  basicClock,
+  selectDate,
+}: {
+  basicDate: string;
+  basicClock: string;
+  selectDate: string;
+}) {
+  // selectClock의 초기 상태를 조건에 따라 설정
+  const [selectClock, setSelectClock] = useState<string | null>(basicClock);
+
+  const [confirmState, setConfirmState] = useState(false);
+
+  useEffect(() => {
+    setSelectClock(() => {
+      return basicDate === selectDate ? basicClock : "";
+    });
+  }, [selectDate]);
 
   // 시간 클릭 핸들러 함수
   const handleOnClockBtn = (clock: string) => {
     setSelectClock(clock);
   };
 
-  // 다음 단계 버튼 핸들러 함수
+  // 변경 하기 함수 핸들러
   const handleOnNextBtn = () => {
-    router.push("/reserve/check");
+    if (!confirmState) {
+      setConfirmState(true);
+    }
   };
 
   const am = ["10:00", "10:30", "11:00", "11:30"];
   const pm1 = ["1:00", "1:30", "2:00", "2:30"];
   const pm2 = ["3:00", "3:30", "4:00", "4:30"];
+
+  // NextButton 활성화 조건
+  const isNextButtonEnabled =
+    (basicDate === selectDate && selectClock !== basicClock) ||
+    (basicDate !== selectDate && selectClock !== "");
+
   return (
     <div className={style.container}>
+      {confirmState && (
+        <Confirm
+          setModalState={setConfirmState}
+          title="예약을 변경하시겠습니까?"
+          subTitle={
+            <>
+              변경은 기간 내 한 번만 가능합니다.
+              <br />
+              <br />
+              <br />
+              변경 전 날짜: 2024. 09. 23 13:00
+              <br />
+              <span style={{ color: "red" }}>
+                변경 후 날짜: 2024. 09. 27 13:00
+              </span>
+            </>
+          }
+          ok="변경"
+        />
+      )}
       <p>오전</p>
       <div>
         <div className={style.buttonWrap}>
@@ -70,9 +113,9 @@ export default function ClockButtons({ selectDate }: { selectDate: string }) {
         </div>
       </div>
       <NextButton
-        isEnabled={!!selectClock}
+        isEnabled={isNextButtonEnabled}
         onClick={handleOnNextBtn}
-        label="다음 단계"
+        label="변경 하기"
       />
     </div>
   );

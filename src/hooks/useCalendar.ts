@@ -16,15 +16,21 @@ import {
 import { useEffect, useState } from "react";
 import { DayInMonth } from "@/types";
 
-export const useCalendar = () => {
+export const useCalendar = ({ basicDate }: { basicDate?: string } = {}) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+
   const [currentYear, currentMonth, currentDay] = format(
     currentDate,
     "yyyy-MM-dd"
   ).split("-");
-  const [selectedDate, setSelectedDate] = useState<string>(
-    format(new Date(), "yyyy-MM-dd")
-  );
+
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const parsedDate = basicDate ? new Date(basicDate) : null;
+    if (parsedDate && !isNaN(parsedDate.getTime()))
+      return format(parsedDate, "yyyy-MM-dd");
+    return format(new Date(), "yyyy-MM-dd");
+  });
+
   const [daysInMonth, setDaysInMonth] = useState<DayInMonth[]>([]);
 
   useEffect(() => {

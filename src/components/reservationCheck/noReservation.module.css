@@ -1,0 +1,23 @@
+.container {
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.2rem;
+}
+
+.subTitle {
+  margin-top: 0.7rem;
+  font-size: 0.9rem;
+}
+
+.link {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  text-decoration: underline;
+  color: var(--gray5);
+}
