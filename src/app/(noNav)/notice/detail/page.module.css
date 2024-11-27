@@ -1,0 +1,22 @@
+.info {
+  padding: 1rem;
+  border-bottom: 1px solid var(--gray6);
+}
+
+.title {
+  font-size: 1.2rem;
+}
+
+.date {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+  color: var(--gray6);
+}
+
+.content {
+  padding: 1rem;
+  white-space: pre-wrap; /* 줇바꿈 적용 */
+  height: 75vh;
+  border-bottom: 1px solid var(--gray6);
+  overflow: auto;
+}

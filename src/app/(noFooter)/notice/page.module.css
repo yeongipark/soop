@@ -1,0 +1,13 @@
+.container {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  height: auto;
+}
+
+.title {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
