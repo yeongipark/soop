@@ -7,9 +7,10 @@
   --gray6: #868e96;
   --gray7: #495057;
   --gray8: #343a40;
-  --main: #8486ff;
-  --hoverMain: #7275d0;
-  --activeMain: #6c6ea6;
+  --background: #f7f0de;
+  --main: #6c1015;
+  --hoverMain: #7f0f17;
+  --activeMain: #b10710;
 }
 
 @font-face {
@@ -28,9 +29,10 @@
 body {
   margin: 0px;
   padding: 0px 10px 10px 10px;
-  max-width: 600px;
+  /* max-width: 600px;
   min-height: 100vh;
   margin: auto;
+  background-color: var(--background); */
 }
 
 h1,

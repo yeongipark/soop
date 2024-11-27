@@ -1,4 +1,5 @@
 import Home from "@/components/home/home";
+import style from "./page.module.css";
 import { Metadata } from "next";
 
 // 메타 데이터 설정
@@ -14,8 +15,8 @@ import { Metadata } from "next";
 
 export default function HomePage() {
   return (
-    <>
+    <div>
       <Home />
-    </>
+    </div>
   );
 }

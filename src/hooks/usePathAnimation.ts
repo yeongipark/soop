@@ -10,6 +10,16 @@ export const usePathAnimation = () => {
   const [isBelow600, setIsBelow600] = useRecoilState(isBelow600State); // 현재 너비가 600px 이하인지 상태 저장
   const lastScrollY = useRef(0); // 이전 스크롤 위치 저장
 
+  useEffect(() => {
+    const path = lineRef.current;
+
+    if (path) {
+      const length = path.getTotalLength();
+      path.style.strokeDasharray = `${length}`;
+      path.style.setProperty("--stroke-length", `${length}`); // CSS 변수 업데이트
+    }
+  }, []);
+
   // isBelow600이 바뀔 때만 실행
   useEffect(() => {
     const handleResize = () => {

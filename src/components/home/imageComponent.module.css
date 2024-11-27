@@ -21,10 +21,9 @@
     stroke-dashoffset: 0;
   }
   to {
-    stroke-dashoffset: 556; /* 선이 사라지도록 dashoffset 설정 */
+    stroke-dashoffset: var(--stroke-length); /* 동적으로 변경 가능 */
   }
 }
-
 .container {
   position: relative;
   margin-bottom: 100px;

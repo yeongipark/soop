@@ -16,7 +16,6 @@
   margin: auto;
   z-index: 1;
   padding: 0px 10px;
-  background-color: white;
 }
 
 .buttons {
@@ -38,13 +37,10 @@
 }
 
 .logo {
+  width: 20%;
+  max-width: 100px;
   cursor: pointer;
   height: inherit;
   display: flex;
   align-items: center;
-}
-
-.logo:hover {
-  text-decoration: underline;
-  cursor: pointer;
 }

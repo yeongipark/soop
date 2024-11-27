@@ -16,6 +16,7 @@
 
 .imageTextContainer > .text {
   width: 50%;
+  color: var(--main);
   display: flex;
   justify-content: center;
   align-items: center;

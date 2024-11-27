@@ -69,11 +69,11 @@ export const SecondImageComponent = () => {
             <path
               ref={lineRef}
               stroke="white"
-              d={"M0.410436 10 L310.41 470.714"}
+              d={"M0.410436 10 L305.41 460.714"}
             />
             <circle
-              cx="312.41"
-              cy="473"
+              cx="305.41"
+              cy="460"
               r="10"
               className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
             />
@@ -95,8 +95,10 @@ export const ThirdImageComponent = () => {
           alt="세 번째 사진"
           text={
             <>
-              1인 여성 작가가 함께하는 <br />
-              자연스러운 야외 스냅
+              단순한 사진을 넘어,
+              <br />
+              개성과 감정을 <br />
+              세밀하게 포착하는
             </>
           }
           reverse={false}
@@ -105,10 +107,10 @@ export const ThirdImageComponent = () => {
       <div className={style.diagonalLine}>
         {isBelow600 || (
           <svg xmlns="http://www.w3.org/2000/svg" width="340" height="501">
-            <path ref={lineRef} stroke="white" d="m310.5 2.4 -298 468" />
+            <path ref={lineRef} stroke="white" d="m310.5 10 -300 443" />
             <circle
-              cx="13"
-              cy="469.3"
+              cx="14"
+              cy="449.3"
               r="10"
               className={`${style.circle} ${isCircleVisible ? style.show : ""}`}
             />
@@ -128,8 +130,10 @@ export const FourthImageComponent = () => {
           alt="네 번째 사진"
           text={
             <>
-              각각의 고유한 <br />
-              분위기를 담아요✧･ﾟ:*🦋
+              리빈과 함께 <br />
+              당신만의 <br />
+              특별한 순간을 <br />
+              새롭게 풀어내 보세요.
             </>
           }
           reverse={true}

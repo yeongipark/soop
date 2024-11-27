@@ -8,6 +8,7 @@ import { useRecoilState } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
 import { useEffect } from "react";
 import { getToken } from "@/util/cookie";
+import Image from "next/image";
 
 export default function Nav() {
   const { isScrolled } = useNavScroll();
@@ -35,15 +36,19 @@ export default function Nav() {
                 display: "flex",
                 justifyContent: "space-between",
               }
-            : undefined
+            : { background: "var(--background)" }
         }
       >
         {pathName !== "/" && (
           <p className={style.logo}>
             <Link href={"/"}>
-              SO
-              <br />
-              OP
+              <Image
+                src={"/logo.png"}
+                alt="로고"
+                width={100}
+                height={100}
+                layout="responsive"
+              />
             </Link>
           </p>
         )}

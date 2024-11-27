@@ -21,7 +21,7 @@ export default function Home() {
 
     // 각 텍스트의 인덱스를 추적할 변수
     let index = 0;
-    for (let char of text) {
+    for (const char of text) {
       // span 태그 동적으로 생성
       const span = document.createElement("span");
 
@@ -50,7 +50,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className={style.container}>
       <Logo />
       <FirstImageComponent />
       <SecondImageComponent />
