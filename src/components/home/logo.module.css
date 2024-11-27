@@ -21,7 +21,7 @@
 }
 
 .logoBackground {
-  background-image: url("/색있는로고.jpg");
+  background-image: url("/logo.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 70%;
@@ -70,6 +70,8 @@
   border-radius: 30px;
   cursor: pointer;
   box-shadow: 3px 3px 1px 0 rgba(0, 0, 0, 0.25);
+  background-color: var(--main);
+  color: white;
 }
 
 .button {
