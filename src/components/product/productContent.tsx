@@ -25,6 +25,7 @@ export default function ProductContent() {
             width={100}
             height={100}
             layout="intrinsic"
+            loading="eager"
           />
         </div>
         <div>
@@ -34,6 +35,7 @@ export default function ProductContent() {
             width={100}
             height={100}
             layout="intrinsic"
+            loading="eager"
           />
         </div>
         <div>
@@ -43,6 +45,7 @@ export default function ProductContent() {
             width={100}
             height={100}
             layout="intrinsic"
+            loading="eager"
           />
         </div>
         <div>
@@ -52,6 +55,7 @@ export default function ProductContent() {
             width={100}
             height={100}
             layout="intrinsic"
+            loading="eager"
           />
         </div>
         <div>
@@ -61,6 +65,7 @@ export default function ProductContent() {
             width={100}
             height={100}
             layout="intrinsic"
+            loading="eager"
           />
         </div>
       </div>

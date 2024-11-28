@@ -3,8 +3,20 @@ import style from "./card.module.css";
 
 export default function Card({
   reservationType,
+  handleMenuButtonClick,
+  left,
+  right,
+  imgUrl,
+  imgTitle,
+  date,
 }: {
   reservationType: keyof typeof ReservationStatusType;
+  handleMenuButtonClick: () => void;
+  left: () => void;
+  right: () => void;
+  imgUrl: string;
+  imgTitle: string;
+  date: string;
 }) {
   const texts = ReservationStatusType[reservationType];
 
@@ -19,7 +31,7 @@ export default function Card({
         <div className={style.imageContainer}>
           <Image
             alt="상품 사진"
-            src={"/프로필사진.jpg"}
+            src={imgUrl}
             layout="responsive"
             width={100}
             height={100}
@@ -27,14 +39,14 @@ export default function Card({
           />
         </div>
         <div className={style.info}>
-          <p>개인 프로필</p>
-          <p>2024. 09. 23 촬영</p>
+          <p>{imgTitle}</p>
+          <p>{date}촬영 예정</p>
         </div>
       </div>
       <div className={style.buttonWrap}>
-        <button>{texts.button1}</button>
-        <button>{texts.button2}</button>
-        <button>...</button>
+        <button onClick={left}>{texts.button1}</button>
+        <button onClick={right}>{texts.button2}</button>
+        <button onClick={handleMenuButtonClick}>...</button>
       </div>
     </div>
   );
@@ -44,8 +56,8 @@ const ReservationStatusType = {
   PENDING_PAYMENT: {
     title: "예약금 전송 전이에요.",
     subTitle: "예약금 입금 후 확인 요청을 보내주세요.",
-    button1: "입금 계좌 확인",
-    button2: "예약 변경",
+    button1: "예약 변경",
+    button2: "예약 취소",
   },
   CONFIRM_REQUESTED: {
     title: "아직 입금 확인 중이에요!",

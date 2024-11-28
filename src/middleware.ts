@@ -4,11 +4,11 @@ import type { NextRequest } from "next/server";
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("accessToken");
   // 로그인 안된 상태에서 예약화면에 접근시 로그인 페이지로 리다이렉트
-  // if (req.nextUrl.pathname.startsWith("/reserve")) {
-  //   if (!token) {
-  //     return NextResponse.redirect(new URL("/login", req.url));
-  //   }
-  // }
+  if (req.nextUrl.pathname.startsWith("/reserve")) {
+    if (!token) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+  }
 
   //   로그인한 상태에서 로그인 화면에 접속시 홈화면으로 리다이렉트
   if (req.nextUrl.pathname.startsWith("/login")) {

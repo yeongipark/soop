@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  useState,
-  MouseEvent as ReactMouseEvent,
-  MouseEventHandler,
-} from "react";
+import { useState } from "react";
 import style from "./productFooter.module.css";
 
 import { CiHeart } from "react-icons/ci";
 import { IoMdHeart } from "react-icons/io";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/util/cookie";
 
@@ -23,8 +18,8 @@ export default function ProductFooter() {
     setLike(!like);
   };
 
-  const handleButtonClick = (e: ReactMouseEvent<HTMLButtonElement>) => {
-    let token = getToken();
+  const handleButtonClick = () => {
+    const token = getToken();
     if (token) router.replace("/reserve");
     if (!token) router.replace("/login");
   };

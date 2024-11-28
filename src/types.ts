@@ -1,3 +1,5 @@
+import { ReservationStatusType } from "./constants/reservationStatusType";
+
 export interface KakaoLogin {
   code: string;
 }
@@ -29,3 +31,5 @@ export interface CalendarBodyProps {
     selectDate: (date: string) => void;
   };
 }
+
+export type ReservationStatusTypeKey = keyof typeof ReservationStatusType;
