@@ -5,6 +5,13 @@ import { KAKAO_AUTH_URL, GOOGLE_AUTH_URL } from "@/util/OAuth";
 export default function SnsLogin() {
   return (
     <div className={style.login}>
+      <Image
+        alt="로고"
+        src={"/logo.png"}
+        width={250}
+        height={220}
+        // layout="responsive"
+      />
       <div>
         <a href={GOOGLE_AUTH_URL} className={style.googleBtn}>
           <Image src="/구글로고.png" alt="구글 로고" width={24} height={24} />
