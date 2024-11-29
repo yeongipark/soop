@@ -3,47 +3,46 @@ import { useRouter } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
 import { setToken } from "@/util/cookie";
+import apiClient from "@/util/axios";
 
-// 로그인 로직
 const useLogin = (provider: string, code: string) => {
   const router = useRouter();
   const [_, setIsLogin] = useRecoilState(isLoginState);
-  // ${process.env.NEXT_PUBLIC_SERVER_URL}
+
   useEffect(() => {
     const login = async () => {
       try {
-        const res = await fetch(`https://api.re-bin.kr/login/${provider}`, {
-          method: "POST",
-          body: JSON.stringify({ code }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
+        const res = await apiClient.post(`/api/login/${provider}`, {
+          code, // 데이터는 JSON으로 전달
         });
 
-        if (!res.ok) {
-          throw new Error(res.statusText);
+        // HTTP 상태 코드 확인
+        if (res.status !== 200) {
+          throw new Error(`Login failed with status ${res.statusText}`);
         }
 
-        // 어세스 토큰 받아오기 (리프레시 토큰은 쿠키에 담김)
-        const accessToken = res.headers.get("access-token");
+        // 어세스 토큰 받아오기
+        const accessToken = res.headers["access-token"]; // 헤더 값 읽기
         if (accessToken) {
-          setToken(accessToken);
-          setIsLogin(true);
-          // 성공적으로 로그인 처리 후 홈 화면으로 리다이렉트
+          localStorage.setItem("accessToken", accessToken); // 로컬 스토리지에 저장
+          setToken(accessToken); // 쿠키에 저장
+          setIsLogin(true); // 로그인 상태 업데이트
+
+          // 성공적으로 로그인 후 홈 화면으로 리다이렉트
           router.push("/");
         } else {
           throw new Error("Access token is missing.");
         }
       } catch (error) {
-        console.log("Login failed:", error);
+        console.error("Unexpected Error:", error);
       }
     };
 
+    // `code`가 유효할 때만 로그인 시도
     if (code) {
       login();
     }
-  }, [provider, code, router]);
+  }, [provider, code, router, setIsLogin]);
 };
 
 export default useLogin;
