@@ -17,7 +17,7 @@ const useLogin = (provider: string, code: string) => {
         });
 
         // HTTP 상태 코드 확인
-        if (res.status !== 200) {
+        if (res.status !== 201) {
           throw new Error(`Login failed with status ${res.statusText}`);
         }
 
