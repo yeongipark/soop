@@ -1,22 +1,25 @@
 "use client";
 
 import style from "./pagination.module.css";
-import { useRecoilState } from "recoil";
-import { paginationNumber } from "@/recoil/paginationAtom";
 
-export default function Pagination({ total }: { total: number }) {
-  const maxNumber = Math.floor(total / 10);
-  const [pageNumber, setPageNumber] = useRecoilState(paginationNumber);
-
+export default function Pagination({
+  totalPage,
+  page,
+  setPage,
+}: {
+  totalPage: number;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}) {
   const handlePrevious = () => {
-    if (pageNumber > 1) {
-      setPageNumber((prev) => prev - 1);
+    if (page > 1) {
+      setPage((prev) => prev - 1);
     }
   };
 
   const handleNext = () => {
-    if (maxNumber > pageNumber) {
-      setPageNumber((prev) => prev + 1);
+    if (totalPage > page) {
+      setPage((prev) => prev + 1);
     }
   };
 
@@ -25,7 +28,7 @@ export default function Pagination({ total }: { total: number }) {
       <button className={style.button} onClick={handlePrevious}>
         {"<"}
       </button>
-      <span className={style.pageNumber}>{pageNumber}</span>
+      <span className={style.pageNumber}>{page}</span>
       <button className={style.button} onClick={handleNext}>
         {">"}
       </button>
