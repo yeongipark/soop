@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import "./globals.css";
 import RecoilWrapper from "@/components/recoilWrapper";
+import ReactQueryProvider from "@/util/reactQueryProvider";
 
 export default function RootLayout({
   children,
@@ -25,7 +26,9 @@ export default function RootLayout({
           minHeight: "100vh",
         }}
       >
-        <RecoilWrapper>{children}</RecoilWrapper>
+        <ReactQueryProvider>
+          <RecoilWrapper>{children}</RecoilWrapper>
+        </ReactQueryProvider>
         {modal}
       </body>
     </html>
