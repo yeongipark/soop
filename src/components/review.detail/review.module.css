@@ -1,0 +1,27 @@
+.container {
+  padding: 0.8rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--gray6);
+}
+
+.info {
+  display: flex;
+  gap: 1rem;
+}
+
+.date {
+  font-size: 0.9rem;
+  color: var(--gray6);
+  display: flex;
+  align-items: flex-end;
+}
+
+.productName {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+}
+
+.content {
+  white-space: pre-wrap;
+}

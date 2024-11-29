@@ -1,0 +1,15 @@
+.container {
+  position: relative;
+}
+
+.title {
+  font-size: 1.3rem;
+  text-align: center;
+  margin: 1rem 0 1.5rem 0;
+}
+
+.content {
+  height: 85vh;
+  overflow: auto;
+  border-bottom: 1px solid var(--gray6);
+}
