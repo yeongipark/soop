@@ -27,3 +27,13 @@
 .content p {
   white-space: pre-wrap;
 }
+
+.recommend {
+  display: flex;
+  align-items: flex-end;
+  gap: 2rem;
+}
+
+.recommend > p {
+  font-size: 0.8rem;
+}

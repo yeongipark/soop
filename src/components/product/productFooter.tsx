@@ -8,11 +8,11 @@ import { IoMdHeart } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/util/cookie";
 
-export default function ProductFooter() {
+export default function ProductFooter({ liked }: { liked: boolean }) {
   const router = useRouter();
 
   // 좋아요 눌렀는지 확인하는 state
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(liked);
 
   const handleLikeClick = () => {
     setLike(!like);

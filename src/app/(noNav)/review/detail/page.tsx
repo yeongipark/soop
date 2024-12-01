@@ -9,8 +9,9 @@ import Input from "@/components/review.detail/input";
 export default function Page() {
   const params = useSearchParams();
 
-  const name = params.get("name") as string;
-  const date = params.get("date") as string;
+  const reviewId = params.get("reviewId") as string;
+  const name = params.get("nickname") as string;
+  const date = params.get("shootDate") as string;
   const content = params.get("content") as string;
 
   return (
@@ -18,9 +19,9 @@ export default function Page() {
       <div className={style.content}>
         <p className={style.title}>리뷰 상세보기</p>
         <Review name={name} date={date} content={content} />
-        <Comment />
+        <Comment reviewId={reviewId} />
       </div>
-      <Input />
+      <Input reviewId={reviewId} />
     </div>
   );
 }

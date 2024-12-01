@@ -1,22 +1,18 @@
 import style from "./productCotent.module.css";
 import Image from "next/image";
-export default function ProductContent() {
+export default function ProductContent({
+  content,
+  images,
+}: {
+  content: string;
+  images: Array<{
+    id: number;
+    url: string;
+  }>;
+}) {
   return (
     <div className={style.container}>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-        eveniet ipsum consequuntur quam consectetur repudiandae odio
-        voluptatibus tempora repellat laboriosam, et, dolore at eaque ipsa
-        sapiente vel dignissimos. Exercitationem facere tempore minus,
-        consequatur animi quae repellat inventore sint qui amet dolorum quidem
-        veritatis nihil nesciunt eaque esse dolores dolorem fugit, earum sed hic
-        ab. Saepe molestiae possimus itaque beatae. Optio libero ipsum cumque
-        eaque! Non eos officia possimus enim, voluptatem illum consectetur
-        aspernatur, nam exercitationem quasi recusandae! Reprehenderit
-        laudantium illum, saepe sunt pariatur ut sint officia doloremque soluta
-        iusto? Veritatis voluptatem nulla iusto quam eveniet quibusdam quas
-        itaque consequuntur velit?
-      </p>
+      <p>{content}</p>
       <div className={style.imgWrap}>
         <div>
           <Image

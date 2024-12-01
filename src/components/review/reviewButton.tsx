@@ -2,9 +2,15 @@
 import style from "./reviewButton.module.css";
 import { useState } from "react";
 
-export default function ReviewButton() {
-  const [liked, setLiked] = useState(false);
-  const [likeCount, setLikeCount] = useState(13);
+export default function ReviewButton({
+  helpCnt,
+  isHelped,
+}: {
+  helpCnt: number;
+  isHelped: boolean;
+}) {
+  const [liked, setLiked] = useState(isHelped ?? false);
+  const [likeCount, setLikeCount] = useState(helpCnt ?? 0);
 
   const handleLike = () => {
     setLiked(!liked);
