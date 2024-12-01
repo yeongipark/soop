@@ -1,0 +1,74 @@
+.container {
+  padding: 3rem;
+}
+
+.nicknameWrap {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.icon {
+  font-size: 3rem;
+}
+
+.editBtn {
+  cursor: pointer;
+}
+
+.editBtn:hover {
+  text-decoration: underline;
+}
+
+.editBtn:active {
+  text-decoration: underline;
+}
+
+.infoWrap {
+  margin-top: 2rem;
+}
+
+.infoTitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoTitle > p:nth-child(1) {
+  font-size: 1.1rem;
+}
+
+.infoTitle > p:nth-child(2) {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.infoTitle > p:nth-child(2):hover {
+  text-decoration: underline;
+}
+
+.infoTitle > p:nth-child(2):active {
+  text-decoration: underline;
+}
+
+.table td {
+  font-size: 0.95rem; /* 데이터 셀 텍스트 크기 */
+}
+
+.table td {
+  padding: 1rem 1rem 0.5rem 0; /* 셀 내부 여백 */
+  text-align: left; /* 텍스트 정렬 */
+}
+
+.table tr td:first-child,
+.table tr td:last-child {
+  white-space: nowrap; /* 텍스트가 줄바꿈되지 않도록 설정 */
+}
+
+.table tr td:last-child {
+  text-align: center;
+  padding-right: 0;
+}
+
+.table td:nth-child(2) {
+  width: 100%;
+}

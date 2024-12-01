@@ -68,10 +68,11 @@ export default function Review({ id }: { id: string }) {
     <div className={style.container}>
       {/* 3에 실제 리뷰 갯수 적기 */}
       <p className={style.title}>REVIEW ({total})</p>
+      {data?.reviews?.length === 0 ? "등록된 리뷰가 없습니다." : null}
       {data?.reviews?.map((review) => (
         <ReviewItem key={review.reviewId} {...review} />
       ))}
-      {total >= 4 && (
+      {data?.reviews?.length >= 4 && (
         <div className={style.button}>
           <button>리뷰 더보기</button>
         </div>
