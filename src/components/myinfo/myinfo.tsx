@@ -4,9 +4,24 @@ import { useState } from "react";
 import style from "./myinfo.module.css";
 import { FiAlertCircle } from "react-icons/fi";
 import Alert from "../alert";
+import apiClient from "@/util/axios";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+
+export interface MemberType {
+  name: string;
+  phone: string;
+  email: string;
+  nickname: string;
+}
+
+async function getMemberData(): Promise<MemberType> {
+  const res = await apiClient.get("/api/member");
+  return res.data;
+}
 
 export default function MyInfo() {
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(false);
   const [onAlert, setAlert] = useState(false);
 
   const handleEditModeBtn = () => {
@@ -16,6 +31,14 @@ export default function MyInfo() {
   const handleEmailInfoBtn = () => {
     setAlert(true);
   };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["memberData"],
+    queryFn: getMemberData,
+    refetchOnMount: false,
+  });
+
+  if (isLoading) return "로딩중입니다..";
 
   return (
     <div className={style.container}>
@@ -36,7 +59,10 @@ export default function MyInfo() {
       <div className={style.nicknameWrap}>
         <p className={style.icon}>💁</p>
         <p className={style.nickname}>
-          딸기모찌붕어빵 <span className={style.editBtn}>✍🏻</span>
+          {data?.nickname ?? "닉네임을 설정해주세요"}
+          <Link href={"/myinfo/change/nickname"}>
+            <span className={style.editBtn}> ✍🏻</span>
+          </Link>
         </p>
       </div>
       <div className={style.infoWrap}>
@@ -49,17 +75,29 @@ export default function MyInfo() {
             <tbody>
               <tr>
                 <td>이름</td>
-                <td>오주은</td>
-                <td>{editMode && <span className={style.editBtn}>✍🏻</span>}</td>
+                <td>{data?.name ?? "이름을 설정해주세요"}</td>
+                <td>
+                  {editMode && (
+                    <Link href={"/myinfo/change/name"}>
+                      <span className={style.editBtn}>✍🏻</span>
+                    </Link>
+                  )}
+                </td>
               </tr>
               <tr>
                 <td>휴대폰 번호</td>
-                <td>010-4108-5088</td>
-                <td>{editMode && <span className={style.editBtn}>✍🏻</span>}</td>
+                <td>{data?.phone ?? "전화번호를 설정해주세요!"}</td>
+                <td>
+                  {editMode && (
+                    <Link href={"/myinfo/change/phone"}>
+                      <span className={style.editBtn}>✍🏻</span>
+                    </Link>
+                  )}
+                </td>
               </tr>
               <tr>
                 <td>이메일</td>
-                <td>jueun1025ffffffffff@naver.com</td>
+                <td>{data?.email}</td>
                 <td onClick={handleEmailInfoBtn}>
                   {editMode && <FiAlertCircle className={style.editBtn} />}
                 </td>
