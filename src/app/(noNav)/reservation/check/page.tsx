@@ -122,6 +122,7 @@ export default function Page() {
 
   const writeReview = () => {
     // 리뷰 작성하기
+    router.push("/review/write");
   };
 
   const functions: FunctionsType = {
