@@ -6,7 +6,9 @@
 
 .info {
   display: flex;
-  gap: 1rem;
+
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .date {
@@ -24,4 +26,13 @@
 
 .content {
   white-space: pre-wrap;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.infoWrap {
+  display: flex;
+  gap: 1rem;
 }

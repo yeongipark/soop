@@ -75,7 +75,6 @@ export default function ProductCardList() {
                   id={product.id}
                   name={product.name}
                   thumbnail={product.thumbnail}
-                  price={product.price}
                   summary={product.summary}
                 />
               ))}

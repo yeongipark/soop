@@ -59,7 +59,11 @@ export default function ReviewItem({
         </Link>
       </div>
       <div className={style.recommend}>
-        <ReviewButton helpCnt={helpCnt} isHelped={isHelped} />
+        <ReviewButton
+          reviewId={reviewId}
+          helpCnt={helpCnt}
+          isHelped={isHelped}
+        />
         <p>{commentCnt > 0 ? `댓글(${commentCnt})` : ""}</p>
       </div>
     </div>

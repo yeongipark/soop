@@ -10,17 +10,14 @@ import { useQuery } from "@tanstack/react-query";
 
 interface PageType {
   params: { id: string };
-  searchParams: {
-    id: string;
-    name: string;
-    thumbnail: string;
-    price: string;
-    summary: string;
-  };
 }
 
 interface ProductType {
   id: number;
+  name: string;
+  thumbnail: string;
+  summary: string;
+  price: string;
   description: string;
   images: Array<{
     id: number;
@@ -37,7 +34,7 @@ async function getProductData(productId: string): Promise<ProductType> {
   return res.data;
 }
 
-export default function Page({ params, searchParams }: PageType) {
+export default function Page({ params }: PageType) {
   const { data, isLoading } = useQuery({
     queryKey: ["productDetail", params.id],
     queryFn: () => getProductData(params.id),
@@ -48,7 +45,12 @@ export default function Page({ params, searchParams }: PageType) {
 
   return (
     <div>
-      <ProductTop {...searchParams} />
+      <ProductTop
+        name={data!.name}
+        price={data!.price}
+        summary={data!.summary}
+        thumbnail={data!.thumbnail}
+      />
       <div>
         <ProductNav info={true} />
       </div>

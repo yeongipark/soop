@@ -21,6 +21,11 @@
 }
 
 .imgWrap img {
-  width: auto;
-  height: auto; /* 비율 유지하면서 높이 자동 조정 */
+  max-width: 600px;
+}
+
+.img {
+  max-width: 600px; /* 이미지 최대 크기 제한 */
+  width: 100%; /* 부모 요소의 너비에 맞게 조정 */
+  margin: 0 auto; /* 가운데 정렬 */
 }

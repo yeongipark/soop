@@ -1,3 +1,4 @@
+import Image from "next/image";
 import style from "./productTop.module.css";
 
 interface ProductTopType {
@@ -16,7 +17,9 @@ export default function ProductTop({
 }: ProductTopType) {
   return (
     <div>
-      <div className={style.imgContainer}></div>
+      <div className={style.imgContainer}>
+        <Image alt="상품 사진" fill src={thumbnail} />
+      </div>
       <div className={style.textContainer}>
         <p>{name}</p>
         <p>{summary}</p>

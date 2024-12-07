@@ -1,7 +1,5 @@
-import { format, formatDistanceToNow } from "date-fns";
 import style from "./commentItem.module.css";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { ko } from "date-fns/locale";
 
 export default function CommentItem({
   date,
@@ -26,16 +24,47 @@ export default function CommentItem({
   );
 }
 
-function formatDate(date: string) {
+function formatDate(date: string): string {
   const d = new Date(date);
   const now = Date.now();
-  const diff = (now - d.getTime()) / 1000;
+  const diffInSeconds = Math.floor((now - d.getTime()) / 1000);
 
-  if (diff < 60 * 1) {
+  if (diffInSeconds < 60) {
+    // 1분 미만
     return "방금 전";
   }
-  if (diff < 60 * 60 * 24 * 3) {
-    return formatDistanceToNow(d, { addSuffix: true, locale: ko });
+
+  if (diffInSeconds < 3600) {
+    // 1시간 미만
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes}분 전`;
   }
-  return format(d, "PPP EEE p", { locale: ko });
+
+  if (diffInSeconds < 86400) {
+    // 24시간 미만
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours}시간 전`;
+  }
+
+  if (diffInSeconds < 86400 * 7) {
+    // 7일 미만
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days}일 전`;
+  }
+
+  if (diffInSeconds < 86400 * 30) {
+    // 1개월 미만
+    const weeks = Math.floor(diffInSeconds / (86400 * 7));
+    return `${weeks}주일 전`;
+  }
+
+  if (diffInSeconds < 86400 * 365) {
+    // 1년 미만
+    const months = Math.floor(diffInSeconds / (86400 * 30));
+    return `${months}개월 전`;
+  }
+
+  // 1년 이상
+  const years = Math.floor(diffInSeconds / (86400 * 365));
+  return `${years}년 전`;
 }

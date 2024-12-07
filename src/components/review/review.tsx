@@ -1,7 +1,7 @@
 import apiClient from "@/util/axios";
 import style from "./review.module.css";
 import ReviewItem from "./reviewItem";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface ReviewsType {
   reviews: Array<{
@@ -13,68 +13,59 @@ interface ReviewsType {
     isHelped: boolean;
     commentCnt: number;
   }>;
+  total: number;
   isLastPage: boolean;
 }
 
-// const data = [
-//   {
-//     id: 1,
-//     name: "딸기모찌붕어빵",
-//     date: "2024.09.19",
-//     content:
-//       "모든 과정을 다 친절하고 열정적으로 임해주셔서 감동이었습니다! 덕분에 좋은 사진과 재밌는 경험 가질 수 있었습니다. \n 앞으로도 작가님 번창하셨으면 좋겠습니다!!!",
-//   },
-//   {
-//     id: 2,
-//     name: "딸기모찌붕어빵",
-//     date: "2024.09.19",
-//     content:
-//       "모든 과정을 다 친절하고 열정적으로 임해주셔서 감동이었습니다! 덕분에 좋은 사진과 재밌는 경험 가질 수 있었습니다. \n 앞으로도 작가님 번창하셨으면 좋겠습니다!!!",
-//   },
-//   {
-//     id: 3,
-//     name: "딸기모찌붕어빵",
-//     date: "2024.09.19",
-//     content:
-//       "모든 과정을 다 친절하고 열정적으로 임해주셔서 감동이었습니다! 덕분에 좋은 사진과 재밌는 경험 가질 수 있었습니다. \n 앞으로도 작가님 번창하셨으면 좋겠습니다!!!",
-//   },
-//   {
-//     id: 4,
-//     name: "딸기모찌붕어빵",
-//     date: "2024.09.19",
-//     content:
-//       "모든 과정을 다 친절하고 열정적으로 임해주셔서 감동이었습니다! 덕분에 좋은 사진과 재밌는 경험 가질 수 있었습니다. \n 앞으로도 작가님 번창하셨으면 좋겠습니다!!!",
-//   },
-// ];
-
-async function getReviews(productId: string): Promise<ReviewsType> {
-  const res = await apiClient.get(`/api/products/${productId}/reviews`);
+async function getReviews(
+  productId: string,
+  pageParm: number
+): Promise<ReviewsType> {
+  let res;
+  if (pageParm === 0)
+    res = await apiClient.get(`/api/products/${productId}/reviews`);
+  else
+    res = await apiClient.get(
+      `/api/products/${productId}/reviews?page=${pageParm}`
+    );
   return res.data;
 }
 
 export default function Review({ id }: { id: string }) {
-  // 총 리뷰 갯수 나중에 서버와 통신으로 리뷰 총 개수 설정하기
-
-  const { data, isLoading } = useQuery({
-    queryKey: ["reviews", id],
-    queryFn: () => getReviews(id),
-    refetchOnMount: true,
-  });
+  const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["reviews", id],
+      queryFn: ({ pageParam = 0 }) => getReviews(id, pageParam),
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, page) =>
+        lastPage && lastPage.reviews.length === 5 ? page.length : undefined,
+      refetchOnWindowFocus: true,
+      refetchOnMount: true,
+      retry: 0,
+    });
 
   if (isLoading) return "로딩중...";
 
-  const total = 5;
+  // 모든 리뷰를 하나로 합치기
+  const allReviews = data?.pages.reduce(
+    (acc, page) => [...acc, ...page.reviews],
+    []
+  );
+
   return (
     <div className={style.container}>
-      {/* 3에 실제 리뷰 갯수 적기 */}
-      <p className={style.title}>REVIEW ({total})</p>
-      {data?.reviews?.length === 0 ? "등록된 리뷰가 없습니다." : null}
-      {data?.reviews?.map((review) => (
+      <p className={style.title}>REVIEW ({data?.pages[0].total})</p>
+      {data?.pages[0].total === 0 && "등록된 리뷰가 없습니다."}
+      {allReviews?.map((review) => (
         <ReviewItem key={review.reviewId} {...review} />
       ))}
-      {data?.reviews?.length >= 4 && (
+
+      {/* "리뷰 더보기" 버튼 */}
+      {hasNextPage && (
         <div className={style.button}>
-          <button>리뷰 더보기</button>
+          <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+            {isFetchingNextPage ? "로딩 중..." : "리뷰 더보기"}
+          </button>
         </div>
       )}
     </div>

@@ -7,7 +7,7 @@ interface ConfirmType {
   width?: string; // 기본값 설정 가능
   setModalState?: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  subTitle: React.ReactNode;
+  subTitle?: React.ReactNode;
   cancel?: string;
   ok?: string;
 }

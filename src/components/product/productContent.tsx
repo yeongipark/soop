@@ -14,56 +14,18 @@ export default function ProductContent({
     <div className={style.container}>
       <p>{content}</p>
       <div className={style.imgWrap}>
-        <div>
-          <Image
-            src={"/프로필사진.jpg"}
-            alt="사진"
-            width={100}
-            height={100}
-            layout="intrinsic"
-            loading="eager"
-          />
-        </div>
-        <div>
-          <Image
-            src={"/프로필사진.jpg"}
-            alt="사진"
-            width={100}
-            height={100}
-            layout="intrinsic"
-            loading="eager"
-          />
-        </div>
-        <div>
-          <Image
-            src={"/프로필사진.jpg"}
-            alt="사진"
-            width={100}
-            height={100}
-            layout="intrinsic"
-            loading="eager"
-          />
-        </div>
-        <div>
-          <Image
-            src={"/사진1.png"}
-            alt="사진"
-            width={100}
-            height={100}
-            layout="intrinsic"
-            loading="eager"
-          />
-        </div>
-        <div>
-          <Image
-            src={"/다운로드.jpg"}
-            alt="사진"
-            width={100}
-            height={100}
-            layout="intrinsic"
-            loading="eager"
-          />
-        </div>
+        {images.map((img) => (
+          <div className={style.img} key={img.id}>
+            <Image
+              src={img.url}
+              alt="상품 정보 사진"
+              layout="responsive"
+              width={16} // 이미지의 가로 비율
+              height={9} // 이미지의 세로 비율
+              loading="eager"
+            />
+          </div>
+        ))}
       </div>
     </div>
   );

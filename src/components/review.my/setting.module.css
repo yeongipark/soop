@@ -1,0 +1,22 @@
+.container button {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--main);
+  color: white;
+}
+
+.container button:hover {
+  background-color: var(--hoverMain);
+}
+
+.container button:active {
+  background-color: var(--activeMain);
+}
+
+.container p {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
