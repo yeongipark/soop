@@ -1,15 +1,12 @@
-"use client";
-
-import { useState } from "react";
 import style from "./reservationCheckNav.module.css";
 
-export default function ReservationCheckNav() {
-  const [activeMenu, setActiveMenu] = useState("촬영전");
-
-  const handleMenuClick = (menu: string) => {
-    setActiveMenu(menu);
-  };
-
+export default function ReservationCheckNav({
+  activeMenu,
+  handleMenuClick,
+}: {
+  activeMenu: string;
+  handleMenuClick: (menu: string) => void;
+}) {
   return (
     <div className={style.container}>
       <div

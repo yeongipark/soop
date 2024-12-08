@@ -5,11 +5,21 @@ import Request from "@/components/reserveCheck/request";
 import ProductInfo from "@/components/reserveCheck/productInfo";
 import Agree from "@/components/reserveCheck/agree";
 import NextButton from "@/components/nextButton";
+import { useRecoilState } from "recoil";
+import { reservationState } from "@/recoil/reservationAtom";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import apiClient from "@/util/axios";
+import { useMutation } from "@tanstack/react-query";
+
+// 예약 데이터를 서버로 전송하는 함수
+async function postReservation(data: any) {
+  await apiClient.post("/api/reservations", data);
+}
 
 export default function Page() {
+  const [reservationData] = useRecoilState(reservationState);
   const router = useRouter();
 
   // info
@@ -42,9 +52,35 @@ export default function Page() {
     setUseAgree(bool);
   };
 
-  //"예약 하기"버튼 클릭시, 예약 완료 화면으로 이동
+  // react-query의 useMutation 훅을 사용하여 서버와 통신
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data) => postReservation(data),
+    onSuccess: () => {
+      // 예약 성공 시 완료 페이지로 이동
+      router.replace("/complete");
+    },
+    onError: (error) => {
+      console.error("예약 실패:", error);
+      alert("예약 처리 중 문제가 발생했습니다. 다시 시도해주세요.");
+    },
+  });
+
+  // "예약 하기" 버튼 클릭 시 실행되는 함수
   const clickReserveButton = () => {
-    router.replace("/complete");
+    if (isPending) return;
+    const data = {
+      phone: `${firstTel}${secondTel}${lastTel}`,
+      name,
+      email,
+      notes: request,
+      agreeToInstaUpload: instarAgree,
+      agreeToPrivacyPolicy: personalAgree && useAgree,
+      productId: reservationData.productId,
+      timeSlotId: reservationData.timeSlotId,
+      peopleCnt: +person,
+    };
+
+    mutate(data); // 예약 데이터를 서버로 전송
   };
 
   // 모든 필드가 채워져 있을 때만 버튼 활성화
@@ -91,7 +127,7 @@ export default function Page() {
       <NextButton
         isEnabled={isFormValid as boolean}
         onClick={clickReserveButton}
-        label="예약 하기"
+        label={isPending ? "예약 중..." : "예약 하기"}
       />
     </article>
   );

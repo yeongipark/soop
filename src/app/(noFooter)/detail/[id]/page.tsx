@@ -1,5 +1,8 @@
 "use client";
 
+import { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
+import { reservationState } from "@/recoil/reservationAtom";
 import ProductTop from "@/components/product/productTop";
 import ProductFooter from "@/components/product/productFooter";
 import Review from "@/components/review/review";
@@ -40,6 +43,21 @@ export default function Page({ params }: PageType) {
     queryFn: () => getProductData(params.id),
     refetchOnMount: false,
   });
+
+  // Atom 상태 업데이트용 Setter 가져오기
+  const setReservationState = useSetRecoilState(reservationState);
+
+  // 서버 데이터 Atom에 저장
+  useEffect(() => {
+    if (data) {
+      setReservationState((prev) => ({
+        ...prev,
+        price: parseInt(data.price), // 서버에서 가져온 price를 Atom에 저장
+        additionalFee: data.additionalFee,
+        productId: data.id,
+      }));
+    }
+  }, [data, setReservationState]);
 
   if (isLoading) return "로딩중...";
 

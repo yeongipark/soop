@@ -11,6 +11,8 @@ import { useState } from "react";
 import Confirm from "@/components/confirm";
 import { ReservationStatusTypeKey } from "@/types";
 import Alert from "@/components/alert";
+import apiClient from "@/util/axios";
+import { useQuery } from "@tanstack/react-query";
 
 // 공통 함수 시그니처 타입 정의
 type ActionFunction = () => void;
@@ -23,56 +25,19 @@ type FunctionsType = {
   };
 };
 
-const data: {
+interface DataType {
   id: number;
-  type: ReservationStatusTypeKey;
-  imgUrl: string;
-  imgTitle: string;
-  date: string;
-}[] = [
-  {
-    id: 1,
-    type: "CANCELED",
-    imgUrl: "/프로필사진.jpg",
-    imgTitle: "개인 프로필",
-    date: "2024. 09. 23 ",
-  },
-  {
-    id: 2,
-    type: "CONFIRM_REQUESTED",
-    imgUrl: "/프로필사진.jpg",
-    imgTitle: "개인 프로필",
-    date: "2024. 12. 23 ",
-  },
-  {
-    id: 3,
-    type: "PAYMENT_CONFIRMED",
-    imgUrl: "/프로필사진.jpg",
-    imgTitle: "개인 프로필",
-    date: "2024. 09. 23 ",
-  },
-  {
-    id: 4,
-    type: "PENDING_PAYMENT",
-    imgUrl: "/프로필사진.jpg",
-    imgTitle: "개인 프로필",
-    date: "2024. 09. 23 ",
-  },
-  {
-    id: 5,
-    type: "REVIEW_COMPLETED",
-    imgUrl: "/프로필사진.jpg",
-    imgTitle: "개인 프로필",
-    date: "2024. 09. 23 ",
-  },
-  {
-    id: 6,
-    type: "SHOOTING_COMPLETED",
-    imgUrl: "/프로필사진.jpg",
-    imgTitle: "개인 프로필",
-    date: "2024. 09. 23 ",
-  },
-];
+  productName: string;
+  productImage: string;
+  shootDate: string;
+  statusType: ReservationStatusTypeKey;
+}
+
+// API 호출 함수
+async function fetchReservations(status: string): Promise<DataType[]> {
+  const res = await apiClient.get(`/api/reservations?status=${status}`);
+  return res.data;
+}
 
 export default function Page() {
   // 모달 관련 state
@@ -90,6 +55,9 @@ export default function Page() {
 
   // 모달에 넘길 데이터 관련 state
   const [date, setDate] = useState("");
+
+  // 내비게이션에 넘길 state
+  const [activeMenu, setActiveMenu] = useState("촬영전");
 
   const router = useRouter();
 
@@ -125,6 +93,22 @@ export default function Page() {
     router.push("/review/write");
   };
 
+  const statusMap: Record<string, string> = {
+    촬영전: "BEFORE",
+    촬영후: "AFTER",
+    취소됨: "CANCELED",
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["reservations", statusMap[activeMenu]],
+    queryFn: () => fetchReservations(statusMap[activeMenu]),
+    keepPreviousData: true, // 상태 변경 시 이전 데이터를 유지
+  });
+
+  const handleMenuClick = (menu: string) => {
+    setActiveMenu(menu);
+  };
+
   const functions: FunctionsType = {
     CANCELED: {
       left: retryReservation,
@@ -152,8 +136,32 @@ export default function Page() {
     },
   };
 
+  if (isLoading) return "로딩중...";
+
   return (
     <div>
+      <p className={style.title}>촬영 예약내역</p>
+      <div className={style.content_wrap}>
+        <ReservationCheckNav
+          activeMenu={activeMenu}
+          handleMenuClick={handleMenuClick}
+        />
+        {data.map((cardData) => (
+          <Card
+            key={cardData.id}
+            reservationType={cardData.statusType}
+            handleMenuButtonClick={() =>
+              handleMenuButtonClick(cardData.shootDate)
+            }
+            left={functions[cardData.statusType].left}
+            right={functions[cardData.statusType].right}
+            imgUrl={cardData.productImage}
+            imgTitle={cardData.productName}
+            date={cardData.shootDate}
+          />
+        ))}
+      </div>
+
       {cancelModal && (
         <Confirm
           title="예약을 취소하시겠습니까?"
@@ -260,23 +268,6 @@ export default function Page() {
           setModalState={setCanceled}
         />
       )}
-
-      <p className={style.title}>촬영 예약내역</p>
-      <div className={style.content_wrap}>
-        <ReservationCheckNav />
-        {data.map((cardData) => (
-          <Card
-            key={cardData.id}
-            reservationType={cardData.type}
-            handleMenuButtonClick={() => handleMenuButtonClick(cardData.date)}
-            left={functions[cardData.type].left}
-            right={functions[cardData.type].right}
-            imgUrl={cardData.imgUrl}
-            imgTitle={cardData.imgTitle}
-            date={cardData.date}
-          />
-        ))}
-      </div>
     </div>
   );
 }
