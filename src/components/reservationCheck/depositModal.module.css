@@ -53,3 +53,11 @@
 .btn:active {
   background-color: var(--activeMain);
 }
+
+.disabledBtn {
+  margin: auto;
+  margin-top: 1.5rem;
+  border-radius: 20px;
+  width: 50%;
+  background-color: var(--gray);
+}

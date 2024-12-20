@@ -13,11 +13,11 @@ import { ReservationStatusTypeKey } from "@/types";
 import Alert from "@/components/alert";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
+import { reservationIdState } from "@/recoil/reservationIdAtom";
 
-// 공통 함수 시그니처 타입 정의
-type ActionFunction = () => void;
+type ActionFunction = (id: number) => void;
 
-// 각 상태에서 호출 가능한 함수 정의
 type FunctionsType = {
   [key in ReservationStatusTypeKey]: {
     left: ActionFunction;
@@ -33,10 +33,24 @@ interface DataType {
   statusType: ReservationStatusTypeKey;
 }
 
-// API 호출 함수
-async function fetchReservations(status: string): Promise<DataType[]> {
-  const res = await apiClient.get(`/api/reservations?status=${status}`);
-  return res.data;
+interface ReservationDetail {
+  id: number;
+  code: string;
+  shootDate: string;
+  time: {
+    hour: string;
+    minute: string;
+    second: string;
+    nano: string;
+  };
+  name: string;
+  phone: string;
+  status: ReservationStatusTypeKey;
+  peopleCnt: number;
+  isAgreeUpload: boolean;
+  notes: string;
+  price: number;
+  canChange: boolean;
 }
 
 export default function Page() {
@@ -59,36 +73,50 @@ export default function Page() {
   // 내비게이션에 넘길 state
   const [activeMenu, setActiveMenu] = useState("촬영전");
 
+  // 예약 번호 저장할 state
+  const setReservationId = useSetRecoilState(reservationIdState);
+
+  const setId = (id: number) => {
+    setReservationId(id);
+  };
+
   const router = useRouter();
 
-  const handleMenuButtonClick = (date: string) => {
+  const handleMenuButtonClick = (date: string, id: number) => {
+    setId(id);
     setDate(date);
     setMenuModal(true);
   };
 
-  const retryReservation = () => {
+  const retryReservation = (id: number) => {
+    setId(id);
     router.push("/product");
   };
 
-  const inquiry = () => {
+  const inquiry = (id: number) => {
+    setId(id);
     //문의하기
   };
 
-  const checkAccount = () => {
+  const checkAccount = (id: number) => {
+    setId(id);
     // 입금 계좌번호 확인하기
     setDepositModal(true);
   };
 
-  const changeReservationDate = () => {
+  const changeReservationDate = (id: number) => {
+    setId(id);
     // 현재 예약날짜랑 시간 같이 보내기
     router.push("/reservation/change");
   };
 
-  const cancelReservation = () => {
+  const cancelReservation = (id: number) => {
+    setId(id);
     setCancelModal(true);
   };
 
-  const writeReview = () => {
+  const writeReview = (id: number) => {
+    setId(id);
     // 리뷰 작성하기
     router.push("/review/write");
   };
@@ -111,28 +139,28 @@ export default function Page() {
 
   const functions: FunctionsType = {
     CANCELED: {
-      left: retryReservation,
-      right: inquiry,
+      left: (id: number) => retryReservation(id),
+      right: (id: number) => inquiry(id),
     },
     CONFIRM_REQUESTED: {
-      left: checkAccount,
-      right: changeReservationDate,
+      left: (id: number) => inquiry(id),
+      right: (id: number) => changeReservationDate(id),
     },
     PAYMENT_CONFIRMED: {
-      left: inquiry,
-      right: changeReservationDate,
+      left: (id: number) => inquiry(id),
+      right: (id: number) => changeReservationDate(id),
     },
     PENDING_PAYMENT: {
-      left: changeReservationDate,
-      right: cancelReservation,
+      left: (id: number) => checkAccount(id),
+      right: (id: number) => cancelReservation(id),
     },
     REVIEW_COMPLETED: {
-      left: retryReservation,
-      right: writeReview,
+      left: (id: number) => retryReservation(id),
+      right: (id: number) => writeReview(id),
     },
     SHOOTING_COMPLETED: {
-      left: retryReservation,
-      right: writeReview,
+      left: (id: number) => retryReservation(id),
+      right: (id: number) => writeReview(id),
     },
   };
 
@@ -151,10 +179,10 @@ export default function Page() {
             key={cardData.id}
             reservationType={cardData.statusType}
             handleMenuButtonClick={() =>
-              handleMenuButtonClick(cardData.shootDate)
+              handleMenuButtonClick(cardData.shootDate, cardData.id)
             }
-            left={functions[cardData.statusType].left}
-            right={functions[cardData.statusType].right}
+            left={() => functions[cardData.statusType].left(cardData.id)}
+            right={() => functions[cardData.statusType].right(cardData.id)}
             imgUrl={cardData.productImage}
             imgTitle={cardData.productName}
             date={cardData.shootDate}
@@ -180,7 +208,7 @@ export default function Page() {
       )}
       {depositModal && (
         <Modal type="custom" setModalState={setDepositModal}>
-          <DepositModal />
+          <DepositModal setModal={setDepositModal} />
         </Modal>
       )}
       {menuModal && (
@@ -270,4 +298,21 @@ export default function Page() {
       )}
     </div>
   );
+}
+// 상태별 예약 정보 호출 함수
+async function fetchReservations(status: string): Promise<DataType[]> {
+  const res = await apiClient.get(`/api/reservations?status=${status}`);
+  return res.data;
+}
+
+async function fetchReservationsDetail(
+  reservationId: number
+): Promise<ReservationDetail> {
+  const res = await apiClient.get(`/api/reservations/${reservationId}`);
+  return res.data;
+}
+
+// 예약 취소
+async function deleteReservation(reservationId: number) {
+  await apiClient.patch(`/api/reservations/${reservationId}`);
 }

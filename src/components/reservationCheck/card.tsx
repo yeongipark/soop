@@ -56,13 +56,13 @@ const ReservationStatusType = {
   PENDING_PAYMENT: {
     title: "예약금 전송 전이에요.",
     subTitle: "예약금 입금 후 확인 요청을 보내주세요.",
-    button1: "예약 변경",
+    button1: "입금 계좌 확인",
     button2: "예약 취소",
   },
   CONFIRM_REQUESTED: {
     title: "아직 입금 확인 중이에요!",
     subTitle: "빠르게 처리해드릴게요.",
-    button1: "입금 계좌 확인",
+    button1: "문의하기",
     button2: "예약 변경",
   },
   PAYMENT_CONFIRMED: {
