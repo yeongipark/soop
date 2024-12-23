@@ -5,7 +5,9 @@ import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/util/axios";
-import { ReviewData } from "./comment";
+import { useRouter } from "next/navigation";
+import { getToken } from "@/util/cookie";
+import Alert from "../alert";
 
 // 댓글을 서버에 전송하는 함수
 async function postComment(reviewId: string, content: string) {
@@ -16,6 +18,10 @@ async function postComment(reviewId: string, content: string) {
 }
 
 export default function Input({ reviewId }: { reviewId: string }) {
+  // 로그인 안 했을 때 댓글 작성하는 경우우
+  const [showAlert, setShowAlert] = useState(false);
+  const router = useRouter();
+
   const [input, setInput] = useState("");
   const queryClient = useQueryClient();
 
@@ -64,6 +70,12 @@ export default function Input({ reviewId }: { reviewId: string }) {
   });
 
   const handleSubmit = () => {
+    const cookie = getToken();
+    if (!cookie) {
+      setShowAlert(true);
+      return;
+    }
+
     if (input.trim().length >= 2) {
       mutate(input); // 댓글 등록
       setInput(""); // 입력 필드 초기화
@@ -89,6 +101,16 @@ export default function Input({ reviewId }: { reviewId: string }) {
         className={style.icon}
         onClick={handleSubmit} // 아이콘 클릭 이벤트
       />
+
+      {showAlert && (
+        <Alert
+          title="로그인 후 이용해주세요."
+          setModalState={() => {
+            setShowAlert(false);
+            router.push("/login");
+          }}
+        />
+      )}
     </div>
   );
 }
