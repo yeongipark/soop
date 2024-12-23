@@ -6,6 +6,8 @@ import style from "./productCardList.module.css";
 import { useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserve } from "@/hooks/useIntersectionObserve";
+import Alert from "../alert";
+import { useRouter } from "next/navigation";
 
 // Product 타입 정의
 interface ProductType {
@@ -26,22 +28,30 @@ async function getProducts(pageParam: number) {
 }
 
 export default function ProductCardList() {
+  const router = useRouter();
+
   // 무한 스크롤
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: ["products"],
-      queryFn: ({ pageParam = 0 }) => getProducts(pageParam),
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => {
-        // 페이지의 마지막 id로 다음 페이지를 결정
-        if (lastPage && lastPage.length === 6) {
-          return lastPage[lastPage.length - 1]?.id;
-        }
-        return undefined;
-      },
-      refetchOnWindowFocus: false,
-      retry: 0,
-    });
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    error,
+  } = useInfiniteQuery({
+    queryKey: ["products"],
+    queryFn: ({ pageParam = 0 }) => getProducts(pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      // 페이지의 마지막 id로 다음 페이지를 결정
+      if (lastPage && lastPage.length === 6) {
+        return lastPage[lastPage.length - 1]?.id;
+      }
+      return undefined;
+    },
+    refetchOnWindowFocus: false,
+    retry: 0,
+  });
 
   // 감시할 요소 저장할 ref
   const nextFetchTargetRef = useRef<HTMLDivElement>(null);
@@ -62,6 +72,18 @@ export default function ProductCardList() {
     }
     return chunked;
   };
+
+  if (isLoading) return "로딩중...";
+
+  if (error)
+    return (
+      <Alert
+        title="오류가 발생했습니다. 다시 시도해 주세요."
+        setModalState={() => {
+          router.push("/");
+        }}
+      />
+    );
 
   return (
     <div>
