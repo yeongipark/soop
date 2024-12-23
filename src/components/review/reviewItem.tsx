@@ -1,7 +1,12 @@
+"use client";
+
 import style from "./reviewItem.module.css";
 import ReviewButton from "./reviewButton";
 import Link from "next/link";
 import ReviewChatCount from "./reviewChatCount";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { reviewHelpState, reviewIsHelpState } from "@/recoil/reviewFamily";
 
 export default function ReviewItem({
   reviewId,
@@ -11,6 +16,7 @@ export default function ReviewItem({
   helpCnt,
   isHelped,
   commentCnt,
+  productId,
 }: {
   reviewId: number;
   nickname: string;
@@ -19,12 +25,24 @@ export default function ReviewItem({
   helpCnt: number;
   isHelped: boolean;
   commentCnt: number;
+  productId: number;
 }) {
+  // Recoil 상태 관리
+  const [help, setHelp] = useRecoilState(reviewHelpState(reviewId));
+  const [isHelp, setIsHelp] = useRecoilState(reviewIsHelpState(reviewId));
+
+  // 최초 렌더 시 초기값 설정
+  useEffect(() => {
+    setHelp(helpCnt);
+    setIsHelp(isHelped);
+  }, [helpCnt, isHelped, setHelp, setIsHelp]);
+
   return (
     <div className={style.container}>
       <Link
         href={{
           pathname: `/review/detail/${reviewId}`,
+          query: { productId },
         }}
       >
         <div className={style.title}>
@@ -37,6 +55,7 @@ export default function ReviewItem({
         <Link
           href={{
             pathname: `/review/detail/${reviewId}`,
+            query: { productId },
           }}
         >
           <p>{content}</p>
@@ -44,21 +63,23 @@ export default function ReviewItem({
       </div>
       <div className={style.recommend}>
         <ReviewButton
+          setHelp={setHelp}
+          setIsHelp={setIsHelp}
           reviewId={reviewId}
-          helpCnt={helpCnt}
-          isHelped={isHelped}
+          helpCnt={help}
+          isHelped={isHelp}
+          productId={productId}
         />
         {commentCnt > 0 ? (
           <Link
             href={{
               pathname: `/review/detail/${reviewId}`,
+              query: { productId },
             }}
           >
             <ReviewChatCount commentCnt={commentCnt} />
           </Link>
-        ) : (
-          ""
-        )}
+        ) : null}
       </div>
     </div>
   );

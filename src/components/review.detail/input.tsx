@@ -18,7 +18,7 @@ async function postComment(reviewId: string, content: string) {
 }
 
 export default function Input({ reviewId }: { reviewId: string }) {
-  // 로그인 안 했을 때 댓글 작성하는 경우우
+  // 로그인 안 했을 때 댓글 작성하는 경우
   const [showAlert, setShowAlert] = useState(false);
   const router = useRouter();
 
@@ -43,7 +43,7 @@ export default function Input({ reviewId }: { reviewId: string }) {
               ...oldData.commentResponses,
               {
                 id: Date.now(), // 임시 ID
-                writer: "You", // 현재 사용자의 이름
+                writer: "re-bin",
                 content: newContent,
                 createdAt: new Date().toISOString(),
               },

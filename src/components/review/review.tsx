@@ -57,7 +57,7 @@ export default function Review({ id }: { id: string }) {
       <p className={style.title}>REVIEW ({data?.pages[0].total})</p>
       {data?.pages[0].total === 0 && "등록된 리뷰가 없습니다."}
       {allReviews?.map((review) => (
-        <ReviewItem key={review.reviewId} {...review} />
+        <ReviewItem key={review.reviewId} {...review} productId={id} />
       ))}
 
       {/* "리뷰 더보기" 버튼 */}

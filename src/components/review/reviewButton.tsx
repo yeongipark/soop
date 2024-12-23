@@ -2,7 +2,7 @@
 import apiClient from "@/util/axios";
 import style from "./reviewButton.module.css";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getToken } from "@/util/cookie";
 import Alert from "../alert";
 import { useRouter } from "next/navigation";
@@ -19,34 +19,69 @@ async function deleteReviewLike(reviewId: number) {
 }
 
 export default function ReviewButton({
+  setHelp,
+  setIsHelp,
   reviewId,
   helpCnt,
   isHelped,
+  productId,
 }: {
+  setHelp: React.Dispatch<React.SetStateAction<number>>;
+  setIsHelp: React.Dispatch<React.SetStateAction<boolean>>;
   reviewId: number;
   helpCnt: number;
   isHelped: boolean;
+  productId?: string;
 }) {
   // 로그인 안 했을 때 좋아요 버튼 누는 경우우
   const [showAlert, setShowAlert] = useState(false);
   const router = useRouter();
 
-  const [liked, setLiked] = useState(isHelped ?? false);
-  const [likeCount, setLikeCount] = useState(helpCnt ?? 0);
+  const queryClient = useQueryClient();
 
   // 좋아요 추가 Mutation
   const postMutation = useMutation({
     mutationFn: () => postReviewLike(reviewId),
     onMutate: () => {
-      // 낙관적 업데이트: 좋아요 상태를 미리 변경
-      setLiked(true);
-      setLikeCount((prev) => prev + 1);
+      setHelp((prev) => prev + 1);
+      setIsHelp(true);
+
+      // 낙관적 업데이트: 좋아요 취소 상태를 미리 변경
+      queryClient.setQueryData(
+        ["reviews", String(productId)],
+        (oldData: any) => {
+          const prevData = queryClient.getQueryData(["reviews", productId]);
+          console.log(productId);
+          console.log(prevData);
+          if (!oldData) return;
+
+          const data = {
+            ...oldData,
+            pages: oldData.pages.map((page: any) => ({
+              ...page,
+              reviews: page.reviews.map((review: any) =>
+                review.reviewId === reviewId
+                  ? { ...review, isHelped: true, helpCnt: review.helpCnt + 1 }
+                  : review
+              ),
+            })),
+          };
+
+          console.log(data);
+
+          return data;
+        }
+      );
     },
-    onError: (error) => {
-      console.error("Error posting like:", error);
-      // 오류 발생 시 상태 롤백
-      setLiked(false);
-      setLikeCount((prev) => prev - 1);
+    onSettled: () => {
+      queryClient.removeQueries({
+        queryKey: ["reviews", productId],
+        exact: true,
+      });
+      queryClient.removeQueries({
+        queryKey: ["reviewDetail", reviewId],
+        exact: true,
+      });
     },
   });
 
@@ -54,15 +89,45 @@ export default function ReviewButton({
   const deleteMutation = useMutation({
     mutationFn: () => deleteReviewLike(reviewId),
     onMutate: () => {
+      setHelp((prev) => prev - 1);
+      setIsHelp(false);
+
       // 낙관적 업데이트: 좋아요 취소 상태를 미리 변경
-      setLiked(false);
-      setLikeCount((prev) => prev - 1);
+      queryClient.setQueryData(["reviews", productId], (oldData: any) => {
+        const prevData = queryClient.getQueryData([
+          "reviews",
+          String(productId),
+        ]);
+        console.log(productId);
+        console.log(prevData);
+        if (!oldData) return;
+
+        const data = {
+          ...oldData,
+          pages: oldData.pages.map((page: any) => ({
+            ...page,
+            reviews: page.reviews.map((review: any) =>
+              review.reviewId === reviewId
+                ? { ...review, isHelped: false, helpCnt: review.helpCnt - 1 }
+                : review
+            ),
+          })),
+        };
+
+        console.log(data);
+
+        return data;
+      });
     },
-    onError: (error) => {
-      console.error("Error deleting like:", error);
-      // 오류 발생 시 상태 롤백
-      setLiked(true);
-      setLikeCount((prev) => prev + 1);
+    onSettled: () => {
+      queryClient.removeQueries({
+        queryKey: ["reviews", productId],
+        exact: true,
+      });
+      queryClient.removeQueries({
+        queryKey: ["reviewDetail", reviewId],
+        exact: true,
+      });
     },
   });
 
@@ -73,7 +138,7 @@ export default function ReviewButton({
       return;
     }
 
-    if (!liked) {
+    if (!isHelped) {
       postMutation.mutate(); // 좋아요 추가
     } else {
       deleteMutation.mutate(); // 좋아요 취소
@@ -83,11 +148,11 @@ export default function ReviewButton({
   return (
     <div className={style.container}>
       <span
-        className={`${style.likeBtn} ${liked ? style.clicked : ""}`}
+        className={`${style.likeBtn} ${isHelped ? style.clicked : ""}`}
         onClick={handleLike}
       >
-        <span className={`${liked ? style.btnAnimation : ""}`}>👍</span>도움돼요{" "}
-        <span>{likeCount}</span>
+        <span className={`${isHelped ? style.btnAnimation : ""}`}>👍</span>
+        도움돼요 <span>{helpCnt}</span>
       </span>
       {showAlert && (
         <Alert
