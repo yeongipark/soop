@@ -10,6 +10,8 @@ import ProductContent from "@/components/product/productContent";
 import ProductNav from "@/components/product/productNav";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
+import Alert from "@/components/alert";
+import { useRouter } from "next/navigation";
 
 interface ProductType {
   id: number;
@@ -34,7 +36,9 @@ async function getProductData(productId: string): Promise<ProductType> {
 }
 
 export default function ClientProductPage({ id }: { id: string }) {
-  const { data, isLoading } = useQuery({
+  const router = useRouter();
+
+  const { data, isLoading, error } = useQuery({
     queryKey: ["productDetail", id],
     queryFn: () => getProductData(id),
     refetchOnMount: false,
@@ -56,6 +60,15 @@ export default function ClientProductPage({ id }: { id: string }) {
   }, [data, setReservationState]);
 
   if (isLoading) return "로딩중...";
+
+  if (error) {
+    return (
+      <Alert
+        title="잘못된 접근입니다. 다시 시도해주세요."
+        setModalState={() => router.replace("/product")}
+      />
+    );
+  }
 
   return (
     <div>

@@ -6,8 +6,8 @@ import Comment from "@/components/review.detail/comment";
 import Input from "@/components/review.detail/input";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
-import { useRecoilState } from "recoil";
-import { reviewIdState } from "@/recoil/reviewIdAtom";
+import { useRouter } from "next/navigation";
+import Alert from "@/components/alert";
 
 // CommentResponse 타입 정의
 interface CommentResponse {
@@ -39,10 +39,11 @@ async function getReviewDetail(reviewId: string): Promise<ReviewData> {
   return res.data;
 }
 
-export default function Page() {
-  const [reviewId] = useRecoilState(reviewIdState);
+export default function Page({ params }: { params: { id: number } }) {
+  const router = useRouter();
+  const reviewId = params.id;
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["reviewDetail", reviewId],
     queryFn: () => getReviewDetail(String(reviewId)),
     refetchOnWindowFocus: true,
@@ -50,6 +51,15 @@ export default function Page() {
   });
 
   if (isLoading) return "로딩중...";
+
+  if (error) {
+    return (
+      <Alert
+        title="잘못된 접근입니다. 다시 시도해주세요."
+        setModalState={() => router.replace("/product")}
+      />
+    );
+  }
 
   return (
     <div className={style.container}>
