@@ -52,13 +52,15 @@
   margin-top: 1.5rem;
   display: flex;
   justify-content: center;
-  gap: 2rem;
+  gap: 1.5rem;
 }
 
 .buttonWrap > button {
-  font-size: 0.8rem;
-  padding: 0.5rem 1.8rem;
+  min-width: 90px;
+  font-size: 0.7rem;
+  padding: 0.5rem 1rem;
   word-break: keep-all;
+  color: black;
 }
 
 .detail {
