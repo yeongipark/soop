@@ -12,6 +12,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/util/axios";
 import { useMutation } from "@tanstack/react-query";
+import Alert from "@/components/alert";
 
 // 예약 데이터를 서버로 전송하는 함수
 async function postReservation(data: any) {
@@ -82,6 +83,17 @@ export default function Page() {
 
     mutate(data); // 예약 데이터를 서버로 전송
   };
+
+  // url로 접근하는 거 막음
+  if (reservationData.timeSlotId === null)
+    return (
+      <Alert
+        title="잘못된 접근입니다."
+        setModalState={() => {
+          router.replace("/product");
+        }}
+      />
+    );
 
   // 모든 필드가 채워져 있을 때만 버튼 활성화
   const isFormValid =

@@ -2,12 +2,10 @@
 
 import Image from "next/image";
 import style from "./page.module.css";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export default function Page() {
   const [content, setContent] = useState("");
-  const params = useSearchParams();
 
   // 최대 글자 수 제한
   const handleChange = (e) => {

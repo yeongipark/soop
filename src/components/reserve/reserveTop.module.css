@@ -9,12 +9,12 @@
 }
 
 .imageWrap {
-  background-image: url("/프로필사진.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  position: relative;
   width: 50%;
   height: 180px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .textWrap {
@@ -28,6 +28,7 @@
 /* 상품 제목 */
 .textWrap p:first-child {
   font-size: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* 상품 가격 */

@@ -7,6 +7,10 @@ import Calendar from "@/components/calendar/calendar";
 import { useCalendar } from "@/hooks/useCalendar";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
+import { reservationState } from "@/recoil/reservationAtom";
+import Alert from "@/components/alert";
+import { useRouter } from "next/navigation";
 
 export interface TimeType {
   id: number;
@@ -21,7 +25,9 @@ async function getTimeSlot(date: string): Promise<TimeType[]> {
 }
 
 export default function Page() {
+  const router = useRouter();
   const calendarProps = useCalendar();
+  const [reserveData] = useRecoilState(reservationState);
 
   const { data, isLoading } = useQuery({
     queryKey: ["timeSlot", calendarProps.selectedDate.date],
@@ -29,6 +35,17 @@ export default function Page() {
   });
 
   if (isLoading) return "로딩중...";
+
+  if (reserveData.thumbnail === "") {
+    return (
+      <Alert
+        title="올바르지 않은 접근입니다."
+        setModalState={() => {
+          router.replace("/");
+        }}
+      />
+    );
+  }
 
   return (
     <div>

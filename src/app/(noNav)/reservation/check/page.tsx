@@ -12,8 +12,8 @@ import Confirm from "@/components/confirm";
 import { ReservationStatusTypeKey } from "@/types";
 import Alert from "@/components/alert";
 import apiClient from "@/util/axios";
-import { useQuery } from "@tanstack/react-query";
-import { useSetRecoilState } from "recoil";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { reservationIdState } from "@/recoil/reservationIdAtom";
 
 type ActionFunction = (id: number) => void;
@@ -54,6 +54,8 @@ interface ReservationDetail {
 }
 
 export default function Page() {
+  const queryClient = useQueryClient();
+
   // 모달 관련 state
   const [depositModal, setDepositModal] = useState(false);
   const [menuModal, setMenuModal] = useState(false);
@@ -75,6 +77,7 @@ export default function Page() {
 
   // 예약 번호 저장할 state
   const setReservationId = useSetRecoilState(reservationIdState);
+  const [reservationId] = useRecoilState(reservationIdState);
 
   const setId = (id: number) => {
     setReservationId(id);
@@ -107,7 +110,7 @@ export default function Page() {
   const changeReservationDate = (id: number) => {
     setId(id);
     // 현재 예약날짜랑 시간 같이 보내기
-    router.push("/reservation/change");
+    router.push(`/reservation/change`);
   };
 
   const cancelReservation = (id: number) => {
@@ -131,6 +134,33 @@ export default function Page() {
     queryKey: ["reservations", statusMap[activeMenu]],
     queryFn: () => fetchReservations(statusMap[activeMenu]),
     keepPreviousData: true, // 상태 변경 시 이전 데이터를 유지
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: (id: number) => deleteReservation(id),
+    onMutate: async (id: number) => {
+      // 이전 캐시 데이터를 snapshot으로 저장
+      await queryClient.cancelQueries(["reservations", "BEFORE"]);
+      const previousData = queryClient.getQueryData<{ id: number }[]>([
+        "reservations",
+        "BEFORE",
+      ]);
+
+      if (previousData) {
+        // 낙관적 업데이트로 id가 같은 항목 제거
+        const updatedData = previousData.filter(
+          (reservation) => reservation.id !== id
+        );
+        queryClient.setQueryData(["reservations", "BEFORE"], updatedData);
+      }
+
+      // onError에서 롤백을 위해 snapshot 반환
+      return { previousData };
+    },
+    onSettled: () => {
+      // 성공 또는 실패 여부와 관계없이 데이터 재요청
+      queryClient.invalidateQueries(["reservations", "BEFORE"]);
+    },
   });
 
   const handleMenuClick = (menu: string) => {
@@ -203,6 +233,10 @@ export default function Page() {
             </span>
           }
           ok="네"
+          func={() => {
+            mutate(reservationId);
+            setReservationCancel(true);
+          }}
           setModalState={setCancelModal}
         />
       )}

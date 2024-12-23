@@ -1,14 +1,14 @@
-"use client";
-import useLogin from "@/hooks/auth/useLogin";
+import ClientLoginPage from "./clientLoginPage";
 
-export default function Page({
+export async function generateStaticParams() {
+  const providers = ["kakao", "google"];
+  return providers.map((provider) => ({ provider }));
+}
+
+export default function LoginPage({
   params,
-  searchParams,
 }: {
   params: { provider: string };
-  searchParams: { code: string };
 }) {
-  useLogin(params.provider, searchParams.code);
-
-  return <div>로그인 진행중입니다. 잠시만 기다려주세요.</div>;
+  return <ClientLoginPage provider={params.provider} />;
 }

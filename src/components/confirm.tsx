@@ -10,6 +10,7 @@ interface ConfirmType {
   subTitle?: React.ReactNode;
   cancel?: string;
   ok?: string;
+  func?: () => void;
 }
 
 export default function Confirm({
@@ -19,6 +20,7 @@ export default function Confirm({
   subTitle,
   cancel = "취소",
   ok = "확인",
+  func = undefined,
 }: ConfirmType) {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -26,6 +28,13 @@ export default function Confirm({
     if (setModalState) {
       setModalState(false);
     }
+  };
+
+  const handleYes = () => {
+    if (func) {
+      func();
+    }
+    if (setModalState) setModalState(false);
   };
 
   useEffect(() => {
@@ -42,7 +51,7 @@ export default function Confirm({
         <button className={style.btn} onClick={handleClose}>
           {cancel}
         </button>
-        <button className={style.btn} onClick={handleClose}>
+        <button className={style.btn} onClick={handleYes}>
           {ok}
         </button>
       </div>

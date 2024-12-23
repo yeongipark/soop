@@ -11,10 +11,6 @@ import ProductNav from "@/components/product/productNav";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface PageType {
-  params: { id: string };
-}
-
 interface ProductType {
   id: number;
   name: string;
@@ -37,22 +33,22 @@ async function getProductData(productId: string): Promise<ProductType> {
   return res.data;
 }
 
-export default function Page({ params }: PageType) {
+export default function ClientProductPage({ id }: { id: string }) {
   const { data, isLoading } = useQuery({
-    queryKey: ["productDetail", params.id],
-    queryFn: () => getProductData(params.id),
+    queryKey: ["productDetail", id],
+    queryFn: () => getProductData(id),
     refetchOnMount: false,
   });
 
-  // Atom 상태 업데이트용 Setter 가져오기
   const setReservationState = useSetRecoilState(reservationState);
 
-  // 서버 데이터 Atom에 저장
   useEffect(() => {
     if (data) {
       setReservationState((prev) => ({
         ...prev,
-        price: parseInt(data.price), // 서버에서 가져온 price를 Atom에 저장
+        name: data.name,
+        thumbnail: data.thumbnail,
+        price: parseInt(data.price),
         additionalFee: data.additionalFee,
         productId: data.id,
       }));
@@ -80,7 +76,7 @@ export default function Page({ params }: PageType) {
       <div>
         <ProductNav info={false} />
       </div>
-      <Review id={params.id} />
+      <Review id={id} />
     </div>
   );
 }

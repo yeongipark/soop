@@ -4,20 +4,67 @@ import { useEffect, useState } from "react";
 import style from "./changeClockButtons.module.css";
 import NextButton from "../nextButton";
 import Confirm from "../confirm";
+import { TimeType } from "@/app/(noFooter)/reserve/page";
+import apiClient from "@/util/axios";
+import { useRecoilState } from "recoil";
+import { reservationIdState } from "@/recoil/reservationIdAtom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 
 export default function ChangeClockButtons({
   basicDate,
   basicClock,
   selectDate,
+  timeData = [],
 }: {
   basicDate: string;
   basicClock: string;
   selectDate: string;
+  timeData: TimeType[];
 }) {
   // selectClock의 초기 상태를 조건에 따라 설정
   const [selectClock, setSelectClock] = useState<string | null>(basicClock);
 
   const [confirmState, setConfirmState] = useState(false);
+
+  const [timeSlotId, setTimeSlotId] = useState(0);
+
+  const [reservationId] = useRecoilState(reservationIdState);
+
+  const router = useRouter();
+
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: () => changeReservation(reservationId, timeSlotId),
+    onMutate: async () => {
+      // 이전 캐시 데이터를 snapshot으로 저장
+      await queryClient.cancelQueries(["reservations", "BEFORE"]);
+      await queryClient.cancelQueries(["reservationChange", reservationId]);
+      const previousData = queryClient.getQueryData<{ id: number }[]>([
+        "reservations",
+        "BEFORE",
+      ]);
+
+      if (previousData) {
+        // 낙관적 업데이트로 id가 같은 항목 제거
+        const updatedData = previousData.map((reservation) => {
+          if (reservation.id === reservationId) {
+            return { ...reservation, shootDate: selectDate };
+          } else return reservation;
+        });
+        queryClient.setQueryData(["reservations", "BEFORE"], updatedData);
+      }
+
+      // onError에서 롤백을 위해 snapshot 반환
+      return { previousData };
+    },
+    onSettled: () => {
+      // 성공 또는 실패 여부와 관계없이 데이터 재요청
+      queryClient.invalidateQueries(["reservations", "BEFORE"]);
+      queryClient.invalidateQueries(["reservationChange", reservationId]);
+    },
+  });
 
   useEffect(() => {
     setSelectClock(() => {
@@ -27,6 +74,8 @@ export default function ChangeClockButtons({
 
   // 시간 클릭 핸들러 함수
   const handleOnClockBtn = (clock: string) => {
+    const id = +findTime(clock, timeData);
+    setTimeSlotId(id);
     setSelectClock(clock);
   };
 
@@ -36,6 +85,13 @@ export default function ChangeClockButtons({
       setConfirmState(true);
     }
   };
+
+  // 예약 가능 여부를 계산
+  const availabilityMap = new Map<string, boolean>();
+  timeData.forEach(({ startTime, isAvailable }) => {
+    const formattedTime = formatTime(startTime);
+    availabilityMap.set(formattedTime, isAvailable); // 시간별 예약 가능 여부 저장
+  });
 
   const am = ["10:00", "10:30", "11:00", "11:30"];
   const pm1 = ["1:00", "1:30", "2:00", "2:30"];
@@ -58,58 +114,99 @@ export default function ChangeClockButtons({
               <br />
               <br />
               <br />
-              변경 전 날짜: 2024. 09. 23 13:00
+              변경 전 날짜: {basicDate} {basicClock}
               <br />
               <span style={{ color: "red" }}>
-                변경 후 날짜: 2024. 09. 27 13:00
+                변경 후 날짜: {selectDate} {selectClock}
               </span>
             </>
           }
+          func={() => {
+            mutate();
+            router.back();
+          }}
           ok="변경"
         />
       )}
       <p>오전</p>
       <div>
         <div className={style.buttonWrap}>
-          {am.map((clock) => (
-            <div key={clock} className={style.impossibleBtn}>
-              <button
-                onClick={() => handleOnClockBtn(clock)}
-                className={`${selectClock === clock && style.selected}`}
-              >
-                <p className={style.clockText}>{clock}</p>
-                <p className={style.impossible}>예약마감</p>
-              </button>
-            </div>
-          ))}
+          {am.map((clock) => {
+            const isAvailable = availabilityMap.get(clock) || false; // 예약 가능 여부
+            const isSelected = selectClock === clock; // 선택 여부
+
+            return (
+              <div key={clock}>
+                <button
+                  onClick={() => handleOnClockBtn(clock)}
+                  className={`${
+                    isAvailable ? style.possibleBtn : style.impossibleBtn
+                  } ${isSelected && style.selected}`}
+                  disabled={!isAvailable} // 예약마감 버튼 비활성화
+                >
+                  <p className={style.clockText}>{clock}</p>
+                  <p
+                    className={isAvailable ? style.possible : style.impossible}
+                  >
+                    {isAvailable ? "예약가능" : "예약마감"}
+                  </p>
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
       <p>오후</p>
       <div className={style.buttons}>
         <div className={style.buttonWrap}>
-          {pm1.map((clock) => (
-            <div key={clock}>
-              <button
-                className={`${style.possibleBtn} ${
-                  selectClock === clock && style.selected
-                }`}
-                onClick={() => handleOnClockBtn(clock)}
-              >
-                <p className={style.clockText}>{clock}</p>
-                <p className={style.possible}>예약가능</p>
-              </button>
-            </div>
-          ))}
+          {pm1.map((clock) => {
+            const isAvailable = availabilityMap.get(clock) || false;
+            const isSelected = selectClock === clock;
+
+            return (
+              <div key={clock}>
+                <button
+                  onClick={() => handleOnClockBtn(clock)}
+                  className={`${
+                    isAvailable ? style.possibleBtn : style.impossibleBtn
+                  } ${isSelected && style.selected}`}
+                  disabled={!isAvailable}
+                >
+                  <p className={style.clockText}>{clock}</p>
+                  <p
+                    className={isAvailable ? style.possible : style.impossible}
+                  >
+                    {isAvailable ? "예약가능" : "예약마감"}
+                  </p>
+                </button>
+              </div>
+            );
+          })}
         </div>
         <div className={style.buttonWrap}>
-          {pm2.map((clock) => (
-            <div key={clock} className={style.impossibleBtn}>
-              <button onClick={() => handleOnClockBtn(clock)}>
-                <p className={style.clockText}>{clock}</p>
-                <p className={style.impossible}>예약마감</p>
-              </button>
-            </div>
-          ))}
+          {pm2.map((clock) => {
+            const isAvailable = availabilityMap.get(clock) || false;
+            const isSelected = selectClock === clock;
+
+            return (
+              <div key={clock}>
+                <button
+                  onClick={() => handleOnClockBtn(clock)}
+                  className={`${
+                    isAvailable ? style.possibleBtn : style.impossibleBtn
+                  } ${isSelected && style.selected}`}
+                  disabled={!isAvailable}
+                >
+                  <p className={style.clockText}>{clock}</p>
+                  <p
+                    className={isAvailable ? style.possible : style.impossible}
+                  >
+                    {isAvailable ? "예약가능" : "예약마감"}
+                  </p>
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
       <NextButton
@@ -119,4 +216,24 @@ export default function ChangeClockButtons({
       />
     </div>
   );
+}
+
+// 시간을 12시간제로 변환하는 함수
+function formatTime(serverTime: string): string {
+  const [hour, minute] = serverTime.split(":").map(Number);
+  const formattedHour = hour % 12 || 12; // 0시는 12로 처리
+  return `${formattedHour}:${minute.toString().padStart(2, "0")}`;
+}
+
+function findTime(time: string, timeData: TimeType[]) {
+  return timeData.find((data) => {
+    const curTime = formatTime(data.startTime);
+    return curTime == time;
+  })?.id;
+}
+
+async function changeReservation(id, timeSlot) {
+  await apiClient.patch(`/api/reservations/${id}/time`, {
+    timeSlotId: timeSlot,
+  });
 }

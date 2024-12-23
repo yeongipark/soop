@@ -17,8 +17,17 @@ export default function ProductTop({
 }: ProductTopType) {
   return (
     <div>
-      <div className={style.imgContainer}>
-        <Image alt="상품 사진" fill src={thumbnail} />
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <div className={style.imgContainer}>
+          <Image
+            alt="상품 사진"
+            width={16}
+            height={9}
+            layout="responsive"
+            src={thumbnail}
+            style={{ objectFit: "cover" }}
+          />
+        </div>
       </div>
       <div className={style.textContainer}>
         <p>{name}</p>

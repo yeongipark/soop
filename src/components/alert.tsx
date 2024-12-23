@@ -6,10 +6,10 @@ import { FiAlertCircle, FiAlertOctagon } from "react-icons/fi";
 
 interface AlertType {
   width?: string; // 기본값 설정 가능
-  type: "info" | "cancel" | undefined;
+  type?: "info" | "cancel" | undefined;
   title: string;
   subTitle?: React.ReactNode;
-  setModalState?: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalState?: React.Dispatch<React.SetStateAction<boolean>> | (() => void);
 }
 
 export default function Alert({

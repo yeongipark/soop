@@ -14,7 +14,8 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname(); // 현재 경로를 가져옴
 
-  const backgroundColor = pathname === "/" ? "var(--background)" : "#ffffff";
+  const backgroundColor =
+    pathname === "/" || pathname === "/login" ? "var(--background)" : "#ffffff";
 
   return (
     <html lang="en">

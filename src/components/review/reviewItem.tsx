@@ -1,6 +1,9 @@
 import style from "./reviewItem.module.css";
 import ReviewButton from "./reviewButton";
 import Link from "next/link";
+import { useSetRecoilState } from "recoil";
+import { reviewIdState } from "@/recoil/reviewIdAtom";
+
 export default function ReviewItem({
   reviewId,
   nickname,
@@ -18,6 +21,10 @@ export default function ReviewItem({
   isHelped: boolean;
   commentCnt: number;
 }) {
+  const setReviewId = useSetRecoilState(reviewIdState);
+  const onClick = () => {
+    setReviewId(reviewId);
+  };
   return (
     <div className={style.container}>
       <Link
@@ -34,7 +41,7 @@ export default function ReviewItem({
           },
         }}
       >
-        <div className={style.title}>
+        <div className={style.title} onClick={onClick}>
           <p>{nickname}</p>
           <p>{shootDate} 촬영</p>
         </div>
@@ -55,7 +62,7 @@ export default function ReviewItem({
             },
           }}
         >
-          <p>{content}</p>
+          <p onClick={onClick}>{content}</p>
         </Link>
       </div>
       <div className={style.recommend}>

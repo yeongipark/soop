@@ -1,12 +1,13 @@
 "use client";
 
 import style from "./page.module.css";
-import { useSearchParams } from "next/navigation";
 import Review from "@/components/review.detail/review";
 import Comment from "@/components/review.detail/comment";
 import Input from "@/components/review.detail/input";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useRecoilState } from "recoil";
+import { reviewIdState } from "@/recoil/reviewIdAtom";
 
 // CommentResponse 타입 정의
 interface CommentResponse {
@@ -39,12 +40,11 @@ async function getReviewDetail(reviewId: string): Promise<ReviewData> {
 }
 
 export default function Page() {
-  const params = useSearchParams();
-  const reviewId = params.get("reviewId") as string;
+  const [reviewId] = useRecoilState(reviewIdState);
 
   const { data, isLoading } = useQuery({
     queryKey: ["reviewDetail", reviewId],
-    queryFn: () => getReviewDetail(reviewId),
+    queryFn: () => getReviewDetail(String(reviewId)),
     refetchOnWindowFocus: true,
     refetchOnMount: true,
   });
@@ -65,7 +65,7 @@ export default function Page() {
         />
         <Comment contents={data!.commentResponses} />
       </div>
-      <Input reviewId={reviewId} />
+      <Input reviewId={String(reviewId)} />
     </div>
   );
 }
