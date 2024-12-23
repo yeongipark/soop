@@ -9,6 +9,7 @@ interface ModalProps {
   width?: string; // 기본값 설정 가능
   type?: "redirect" | "custom";
   setModalState?: React.Dispatch<React.SetStateAction<boolean>>;
+  borderRadius?: string;
 }
 
 export default function Modal({
@@ -16,6 +17,7 @@ export default function Modal({
   width = "80%",
   type = "redirect",
   setModalState,
+  borderRadius, // 30px
 }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const router = useRouter();
@@ -46,7 +48,7 @@ export default function Modal({
       onClick={clickBackground}
       className={style.modal}
       ref={dialogRef}
-      style={{ width }}
+      style={{ width, borderRadius }}
     >
       {children}
     </dialog>
