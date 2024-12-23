@@ -3,6 +3,7 @@ import ReviewButton from "./reviewButton";
 import Link from "next/link";
 import { useSetRecoilState } from "recoil";
 import { reviewIdState } from "@/recoil/reviewIdAtom";
+import ReviewChatCount from "./reviewChatCount";
 
 export default function ReviewItem({
   reviewId,
@@ -71,7 +72,26 @@ export default function ReviewItem({
           helpCnt={helpCnt}
           isHelped={isHelped}
         />
-        <p>{commentCnt > 0 ? `댓글(${commentCnt})` : ""}</p>
+        {commentCnt > 0 ? (
+          <Link
+            href={{
+              pathname: "/review/detail",
+              query: {
+                nickname,
+                shootDate,
+                content,
+                reviewId,
+                helpCnt,
+                isHelped,
+                commentCnt,
+              },
+            }}
+          >
+            <ReviewChatCount commentCnt={commentCnt} />
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

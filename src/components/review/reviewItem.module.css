@@ -31,7 +31,7 @@
 .recommend {
   display: flex;
   align-items: flex-end;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .recommend > p {

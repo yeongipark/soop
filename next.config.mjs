@@ -3,7 +3,6 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  output: "export",
   eslint: {
     ignoreDuringBuilds: true, // 빌드 시 ESLint 검사 비활성화
   },
