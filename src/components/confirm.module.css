@@ -17,7 +17,7 @@
 
 .title {
   margin-top: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .subTitle {
@@ -32,15 +32,18 @@
 .btn {
   border-radius: 30px;
   margin-top: 1rem;
-  padding: 0.5rem 3rem;
+  padding: 0.5rem 2rem;
   background-color: var(--main);
   color: white;
+  outline: none;
 }
 
 .btn:hover {
   background-color: var(--hoverMain);
+  outline: none;
 }
 
 .btn:active {
   background-color: var(--activeMain);
+  outline: none;
 }
