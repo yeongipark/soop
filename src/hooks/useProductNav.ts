@@ -28,16 +28,11 @@ export default function useProductNav() {
   };
 
   const handleReviewClick = () => {
-    const heightArray = Array.from(heights);
-    const secondNavHeight = heightArray[1];
-    if (secondNavHeight !== undefined) {
-      window.scrollTo({
-        // top 내비게이션 높이 만큼 빼주기
-        top: secondNavHeight - 80,
-        behavior: "smooth",
-      });
-    }
+    // 화면의 제일 아래로 스크롤
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
   };
-
   return { divRef, handleInfoClick, handleReviewClick };
 }

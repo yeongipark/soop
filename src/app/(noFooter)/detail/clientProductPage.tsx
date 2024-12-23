@@ -70,7 +70,7 @@ export default function ClientProductPage({ id }: { id: string }) {
       </div>
       <ProductFooter liked={data?.isMemberLike ?? false} />
       <ProductContent
-        content={data?.guideLine ?? ""}
+        content={data?.description ?? ""}
         images={data?.images ?? []}
       />
       <div>
