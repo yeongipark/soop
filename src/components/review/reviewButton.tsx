@@ -3,6 +3,9 @@ import apiClient from "@/util/axios";
 import style from "./reviewButton.module.css";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { getToken } from "@/util/cookie";
+import Alert from "../alert";
+import { useRouter } from "next/navigation";
 
 // API 호출 함수
 async function postReviewLike(reviewId: number) {
@@ -24,6 +27,10 @@ export default function ReviewButton({
   helpCnt: number;
   isHelped: boolean;
 }) {
+  // 로그인 안 했을 때 좋아요 버튼 누는 경우우
+  const [showAlert, setShowAlert] = useState(false);
+  const router = useRouter();
+
   const [liked, setLiked] = useState(isHelped ?? false);
   const [likeCount, setLikeCount] = useState(helpCnt ?? 0);
 
@@ -60,6 +67,12 @@ export default function ReviewButton({
   });
 
   const handleLike = () => {
+    const cookie = getToken();
+    if (!cookie) {
+      setShowAlert(true);
+      return;
+    }
+
     if (!liked) {
       postMutation.mutate(); // 좋아요 추가
     } else {
@@ -76,6 +89,15 @@ export default function ReviewButton({
         <span className={`${liked ? style.btnAnimation : ""}`}>👍</span>도움돼요{" "}
         <span>{likeCount}</span>
       </span>
+      {showAlert && (
+        <Alert
+          title="로그인 후 이용해주세요."
+          setModalState={() => {
+            setShowAlert(false);
+            router.push("/login");
+          }}
+        />
+      )}
     </div>
   );
 }
