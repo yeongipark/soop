@@ -1,5 +1,5 @@
 "use client";
-import Logo from "@/components/home/logo";
+
 import {
   FirstImageComponent,
   SecondImageComponent,
@@ -13,7 +13,7 @@ import style from "./home.module.css";
 import { ReserveButton } from "@/components/home/logo";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
 
-export default function Home() {
+export default function Intro() {
   // 텍스트 애니메이션 처리 함수
   const textAnimation = () => {
     const textElement = document.querySelector(`.${style.lastText} p`);
@@ -51,7 +51,6 @@ export default function Home() {
 
   return (
     <div className={style.container}>
-      <Logo />
       <FirstImageComponent />
       <SecondImageComponent />
       <ThirdImageComponent />

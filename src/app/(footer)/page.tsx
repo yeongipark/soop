@@ -1,6 +1,6 @@
-import Home from "@/components/home/home";
-import style from "./page.module.css";
-import { Metadata } from "next";
+"use client";
+
+import Logo from "@/components/home/logo";
 
 // 메타 데이터 설정
 // export const metadata: Metadata = {
@@ -16,7 +16,7 @@ import { Metadata } from "next";
 export default function HomePage() {
   return (
     <div>
-      <Home />
+      <Logo />
     </div>
   );
 }

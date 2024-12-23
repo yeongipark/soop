@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { IoArrowDownCircleOutline } from "react-icons/io5";
 
 import style from "./logo.module.css";
 import Link from "next/link";
@@ -22,14 +21,6 @@ export default function Logo() {
     };
   }, []);
 
-  // 화살표 클릭 시 200vh 아래로 스크롤하는 함수
-  const handleArrowClick = () => {
-    window.scrollTo({
-      top: window.innerHeight * 2, // 현재 viewport 높이 (100vh 만큼 아래로 이동)
-      behavior: "smooth",
-    });
-  };
-
   return (
     <div className={style.logo}>
       <div className={style.stick}>
@@ -41,9 +32,6 @@ export default function Logo() {
       <div className={style.button}>
         <div className={style.buttonWrap}>
           <ReserveButton />
-        </div>
-        <div className={style.arrow} onClick={handleArrowClick}>
-          <IoArrowDownCircleOutline size={40} />
         </div>
       </div>
     </div>

@@ -57,7 +57,9 @@ export default function Nav() {
           <p>
             <Link href={"/product"}>예약하기</Link>
           </p>
-          <p>소개</p>
+          <p>
+            <Link href={"/intro"}>소개</Link>
+          </p>
           {isLogin && (
             <p>
               <Link href={"/mypage"}>마이페이지</Link>
