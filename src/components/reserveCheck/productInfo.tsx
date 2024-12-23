@@ -1,6 +1,15 @@
-import style from "./productInfo.module.css";
+"use client";
 
-export default function ProductInfo() {
+import { useRecoilState } from "recoil";
+import style from "./productInfo.module.css";
+import { reservationState } from "@/recoil/reservationAtom";
+
+export default function ProductInfo({ people }: { people: number }) {
+  const [reservationData] = useRecoilState(reservationState);
+
+  const price = reservationData.price;
+  const additionFee = reservationData.additionalFee * (people - 1);
+
   return (
     <section className={style.productInfoContainer}>
       <p className={style.title}>상품 정보</p>
@@ -13,11 +22,11 @@ export default function ProductInfo() {
           <tbody>
             <tr>
               <td className={style.priceTitle}>개인 프로필</td>
-              <td>70,000</td>
+              <td>{price.toLocaleString()}</td>
             </tr>
             <tr>
               <td>인원 추가비용</td>
-              <td>0</td>
+              <td>{additionFee.toLocaleString()}</td>
             </tr>
           </tbody>
         </table>
@@ -32,11 +41,16 @@ export default function ProductInfo() {
               <td className={`${style.priceTitle} ${style.bold}`}>
                 촬영 후 결제 금액
               </td>
-              <td className={style.bold}>60,000</td>
+              <td className={style.bold}>
+                {(price + additionFee - 10000).toLocaleString()}
+              </td>
             </tr>
             <tr>
               <td className={`${style.priceTitle} ${style.bold}`}>총 금액</td>
-              <td className={`${style.bold} ${style.red}`}>70,000</td>
+              <td className={`${style.bold} ${style.red}`}>
+                {" "}
+                {(price + additionFee).toLocaleString()}
+              </td>
             </tr>
           </tbody>
         </table>

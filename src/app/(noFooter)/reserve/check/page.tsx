@@ -103,13 +103,11 @@ export default function Page() {
     secondTel &&
     lastTel &&
     person &&
-    instarAgree &&
     personalAgree &&
-    useAgree &&
-    allAgree;
+    useAgree;
 
   return (
-    <article>
+    <article style={{ padding: "0px 10px" }}>
       <Info
         name={name}
         setName={setName}
@@ -125,7 +123,7 @@ export default function Page() {
         setPerson={setPerson}
       />
       <Request request={request} setRequest={setRequest} />
-      <ProductInfo />
+      <ProductInfo people={+person} />
       <Agree
         instarAgree={instarAgree}
         personalAgree={personalAgree}
