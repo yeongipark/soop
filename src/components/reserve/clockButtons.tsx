@@ -56,6 +56,8 @@ export default function ClockButtons({ date }: { date: string }) {
     setReservationState((prev) => ({
       ...prev,
       timeSlotId: id,
+      time: clock,
+      date: date,
     }));
     setSelectClock(clock);
   };

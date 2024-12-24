@@ -55,6 +55,8 @@ export default function ClientProductPage({ id }: { id: string }) {
         price: parseInt(data.price),
         additionalFee: data.additionalFee,
         productId: data.id,
+        productName: data.name,
+        deposit: data.deposit,
       }));
     }
   }, [data, setReservationState]);

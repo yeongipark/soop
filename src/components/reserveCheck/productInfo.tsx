@@ -14,8 +14,10 @@ export default function ProductInfo({ people }: { people: number }) {
     <section className={style.productInfoContainer}>
       <p className={style.title}>상품 정보</p>
       <div className={style.productWrap}>
-        <p className={style.productName}>개인 프로필</p>
-        <p className={style.reserveTime}>일정 9.26(목) 오후 12:30</p>
+        <p className={style.productName}>{reservationData.productName}</p>
+        <p className={style.reserveTime}>
+          일정 {reservationData.date} {reservationData.time}
+        </p>
       </div>
       <div className={style.price}>
         <table cellPadding={"3px"}>
@@ -35,7 +37,9 @@ export default function ProductInfo({ people }: { people: number }) {
           <tbody>
             <tr>
               <td className={`${style.priceTitle} ${style.bold}`}>예약금</td>
-              <td className={style.bold}>10,000</td>
+              <td className={style.bold}>
+                {reservationData.deposit.toLocaleString()}
+              </td>
             </tr>
             <tr>
               <td className={`${style.priceTitle} ${style.bold}`}>
@@ -48,7 +52,6 @@ export default function ProductInfo({ people }: { people: number }) {
             <tr>
               <td className={`${style.priceTitle} ${style.bold}`}>총 금액</td>
               <td className={`${style.bold} ${style.red}`}>
-                {" "}
                 {(price + additionFee).toLocaleString()}
               </td>
             </tr>
