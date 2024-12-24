@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./clockButtons.module.css";
 import { useRouter } from "next/navigation";
 import NextButton from "../nextButton";
 import { TimeType } from "@/app/(noFooter)/reserve/page";
 import { useSetRecoilState } from "recoil";
 import { reservationState } from "@/recoil/reservationAtom";
+import apiClient from "@/util/axios";
+import { useQuery } from "@tanstack/react-query";
 
 // 시간을 12시간제로 변환하는 함수
 function formatTime(serverTime: string): string {
@@ -15,18 +17,38 @@ function formatTime(serverTime: string): string {
   return `${formattedHour}:${minute.toString().padStart(2, "0")}`;
 }
 
-function findTime(time: string, timeData: TimeType[]) {
-  return timeData.find((data) => {
-    const curTime = formatTime(data.startTime);
-    return curTime == time;
-  })?.id;
+function findTime(time: string, timeData: TimeType[]): number | null {
+  const found = timeData.find((data) => formatTime(data.startTime) === time);
+  return found ? found.id : null;
 }
 
-export default function ClockButtons({ timeData }: { timeData: TimeType[] }) {
+export default function ClockButtons({ date }: { date: string }) {
   const router = useRouter();
   const [selectClock, setSelectClock] = useState<string | null>(null);
+  const [availabilityMap, setAvailabilityMap] = useState<Map<string, boolean>>(
+    new Map()
+  );
+
+  const { data: timeData, isLoading } = useQuery<TimeType[]>({
+    queryKey: ["timeSlot", date],
+    queryFn: () => getTimeSlot(date),
+  });
 
   const setReservationState = useSetRecoilState(reservationState);
+
+  // timeData가 변경될 때 availabilityMap 업데이트
+  useEffect(() => {
+    if (timeData) {
+      const newAvailabilityMap = new Map<string, boolean>();
+      timeData.forEach(({ startTime, isAvailable }) => {
+        const formattedTime = formatTime(startTime);
+        newAvailabilityMap.set(formattedTime, isAvailable);
+      });
+      setAvailabilityMap(newAvailabilityMap);
+    }
+  }, [timeData]);
+
+  if (isLoading) return "로딩중...";
 
   // 시간 클릭 핸들러 함수
   const handleOnClockBtn = (clock: string) => {
@@ -42,13 +64,6 @@ export default function ClockButtons({ timeData }: { timeData: TimeType[] }) {
   const handleOnNextBtn = () => {
     router.push("/reserve/check");
   };
-
-  // 예약 가능 여부를 계산
-  const availabilityMap = new Map<string, boolean>();
-  timeData.forEach(({ startTime, isAvailable }) => {
-    const formattedTime = formatTime(startTime);
-    availabilityMap.set(formattedTime, isAvailable); // 시간별 예약 가능 여부 저장
-  });
 
   const am = ["10:00", "10:30", "11:00", "11:30"];
   const pm1 = ["1:00", "1:30", "2:00", "2:30"];
@@ -127,6 +142,7 @@ export default function ClockButtons({ timeData }: { timeData: TimeType[] }) {
           );
         })}
       </div>
+
       <NextButton
         isEnabled={!!selectClock}
         onClick={handleOnNextBtn}
@@ -134,4 +150,9 @@ export default function ClockButtons({ timeData }: { timeData: TimeType[] }) {
       />
     </div>
   );
+}
+
+async function getTimeSlot(date: string): Promise<TimeType[]> {
+  const res = await apiClient.get(`/api/timeslots?date=${date}`);
+  return res.data;
 }
