@@ -31,7 +31,7 @@ export default function ReviewButton({
   reviewId: number;
   helpCnt: number;
   isHelped: boolean;
-  productId?: string;
+  productId?: number;
 }) {
   // 로그인 안 했을 때 좋아요 버튼 누는 경우우
   const [showAlert, setShowAlert] = useState(false);
@@ -50,9 +50,6 @@ export default function ReviewButton({
       queryClient.setQueryData(
         ["reviews", String(productId)],
         (oldData: any) => {
-          const prevData = queryClient.getQueryData(["reviews", productId]);
-          console.log(productId);
-          console.log(prevData);
           if (!oldData) return;
 
           const data = {
@@ -67,8 +64,6 @@ export default function ReviewButton({
             })),
           };
 
-          console.log(data);
-
           return data;
         }
       );
@@ -76,6 +71,10 @@ export default function ReviewButton({
     onSettled: () => {
       queryClient.removeQueries({
         queryKey: ["reviews", productId],
+        exact: true,
+      });
+      queryClient.removeQueries({
+        queryKey: ["myReviews"],
         exact: true,
       });
       queryClient.removeQueries({
@@ -94,12 +93,6 @@ export default function ReviewButton({
 
       // 낙관적 업데이트: 좋아요 취소 상태를 미리 변경
       queryClient.setQueryData(["reviews", productId], (oldData: any) => {
-        const prevData = queryClient.getQueryData([
-          "reviews",
-          String(productId),
-        ]);
-        console.log(productId);
-        console.log(prevData);
         if (!oldData) return;
 
         const data = {
@@ -114,14 +107,16 @@ export default function ReviewButton({
           })),
         };
 
-        console.log(data);
-
         return data;
       });
     },
     onSettled: () => {
       queryClient.removeQueries({
         queryKey: ["reviews", productId],
+        exact: true,
+      });
+      queryClient.removeQueries({
+        queryKey: ["myReviews"],
         exact: true,
       });
       queryClient.removeQueries({

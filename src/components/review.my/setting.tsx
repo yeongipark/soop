@@ -12,7 +12,7 @@ export default function Setting({
   return (
     <div className={style.container}>
       <div>
-        <button>리뷰 수정</button>
+        <button onClick={handleEditBtn}>리뷰 수정</button>
       </div>
       <div>
         <button onClick={handleDeleteBtn}>리뷰 삭제</button>

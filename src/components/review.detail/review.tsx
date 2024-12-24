@@ -15,12 +15,12 @@ export default function Review({
   content,
   reviewId,
   onClick,
+  productName,
 }: {
+  productName: string;
   name: string;
   date: string;
   content: string;
-  helpCnt: number;
-  isHelped: boolean;
   reviewId: number;
   onClick?: (e?: React.ChangeEvent<HTMLAllCollection>) => void;
 }) {
@@ -49,7 +49,7 @@ export default function Review({
         </div>
         <HiOutlineDotsHorizontal className={style.icon} onClick={onClick} />
       </div>
-      <p className={style.productName}>우정 스냅</p>
+      <p className={style.productName}>{productName}</p>
       <p className={style.content}>{content}</p>
       <ReviewButton
         setHelp={setHelp}
@@ -57,7 +57,6 @@ export default function Review({
         reviewId={reviewId}
         helpCnt={help}
         isHelped={isHelp}
-        productId={productId}
       />
     </div>
   );

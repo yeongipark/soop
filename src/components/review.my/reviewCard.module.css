@@ -1,0 +1,50 @@
+.container {
+  width: 100%;
+  padding: 30px 10px;
+  border-bottom: 1px solid var(--gray5);
+}
+
+.title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon {
+  cursor: pointer;
+}
+
+.title p:nth-child(1) {
+  font-size: 0.8rem;
+  margin-right: 10px;
+}
+
+.title p:nth-child(2) {
+  font-size: 0.8rem;
+  color: var(--gray5);
+  display: flex;
+  align-items: flex-end;
+}
+
+.productName {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.content {
+  font-size: 0.9rem;
+  margin-top: 10px;
+}
+.content p {
+  white-space: pre-wrap;
+}
+
+.recommend {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.recommend > p {
+  font-size: 0.8rem;
+}

@@ -55,6 +55,7 @@ export default function Input({ reviewId }: { reviewId: string }) {
       return { previousComments };
     },
     onError: (context: any) => {
+      console.log("에러 발생");
       // 오류 발생 시, 이전 상태로 롤백
       if (context?.previousComments) {
         queryClient.setQueryData(
@@ -64,8 +65,8 @@ export default function Input({ reviewId }: { reviewId: string }) {
       }
     },
     onSettled: () => {
-      // 성공 또는 실패 후, 최신 데이터를 가져옴
-      queryClient.invalidateQueries(["reviewDetail", reviewId]);
+      queryClient.invalidateQueries({ queryKey: ["reviewDetail", reviewId] });
+      queryClient.invalidateQueries({ queryKey: ["myReviews"] });
     },
   });
 

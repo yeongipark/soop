@@ -1,14 +1,15 @@
 "use client";
 
-import style from "./reviewItem.module.css";
-import ReviewButton from "./reviewButton";
-import Link from "next/link";
-import ReviewChatCount from "./reviewChatCount";
-import { useEffect } from "react";
 import { useRecoilState } from "recoil";
+import ReviewButton from "../review/reviewButton";
+import ReviewChatCount from "../review/reviewChatCount";
+import style from "./reviewCard.module.css";
+import Link from "next/link";
 import { reviewHelpState, reviewIsHelpState } from "@/recoil/reviewFamily";
+import { useEffect } from "react";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
-export default function ReviewItem({
+export default function ReviewCard({
   reviewId,
   nickname,
   content,
@@ -16,7 +17,8 @@ export default function ReviewItem({
   helpCnt,
   isHelped,
   commentCnt,
-  productId,
+  productName,
+  onClick,
 }: {
   reviewId: number;
   nickname: string;
@@ -25,7 +27,8 @@ export default function ReviewItem({
   helpCnt: number;
   isHelped: boolean;
   commentCnt: number;
-  productId: number;
+  productName: string;
+  onClick: () => void;
 }) {
   // Recoil 상태 관리
   const [help, setHelp] = useRecoilState(reviewHelpState(reviewId));
@@ -39,13 +42,24 @@ export default function ReviewItem({
 
   return (
     <div className={style.container}>
-      <Link href={{ pathname: `/review/detail/${reviewId}` }}>
-        <div className={style.title}>
-          <p>{nickname}</p>
+      <div className={style.title}>
+        <div style={{ display: "flex" }}>
+          <p>
+            <Link href={{ pathname: `/review/detail/${reviewId}` }}>
+              {nickname}
+            </Link>
+          </p>
           <p>{shootDate} 촬영</p>
         </div>
+        <HiOutlineDotsHorizontal className={style.icon} onClick={onClick} />
+      </div>
+      <Link
+        href={{
+          pathname: `/review/detail/${reviewId}`,
+        }}
+      >
+        <p className={style.productName}>{productName}</p>
       </Link>
-
       <div className={style.content}>
         <Link
           href={{
@@ -62,17 +76,15 @@ export default function ReviewItem({
           reviewId={reviewId}
           helpCnt={help}
           isHelped={isHelp}
-          productId={productId}
         />
-        {commentCnt > 0 ? (
-          <Link
-            href={{
-              pathname: `/review/detail/${reviewId}`,
-            }}
-          >
-            <ReviewChatCount commentCnt={commentCnt} />
-          </Link>
-        ) : null}
+
+        <Link
+          href={{
+            pathname: `/review/detail/${reviewId}`,
+          }}
+        >
+          <ReviewChatCount commentCnt={commentCnt} />
+        </Link>
       </div>
     </div>
   );

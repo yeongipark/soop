@@ -106,6 +106,11 @@ export default function Page() {
     setCancelModal(true);
   };
 
+  // 리뷰 보기
+  const showReview = () => {
+    router.push(`/review/my`);
+  };
+
   const writeReview = (
     id: number,
     productName: string,
@@ -184,7 +189,7 @@ export default function Page() {
     },
     REVIEW_COMPLETED: {
       left: retryReservation,
-      right: writeReview,
+      right: showReview,
     },
     SHOOTING_COMPLETED: {
       left: retryReservation,

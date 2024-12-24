@@ -81,10 +81,10 @@ export const ReservationStatus = {
     button2: "리뷰 작성",
   },
   REVIEW_COMPLETED: {
-    title: "촬영 완료!",
-    subTitle: "리뷰 작성 부탁드립니다 :)",
+    title: "리뷰 작성 완료!",
+    subTitle: "다음에 또 이용해주세요 :)",
     button1: "다시 예약",
-    button2: "리뷰 작성",
+    button2: "리뷰 보기",
   },
   CANCELED: {
     title: "촬영이 취소되었어요.",

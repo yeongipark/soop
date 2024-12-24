@@ -8,6 +8,7 @@ import apiClient from "@/util/axios";
 import { useRouter } from "next/navigation";
 import Alert from "@/components/alert";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 // CommentResponse 타입 정의
 interface CommentResponse {
@@ -26,6 +27,9 @@ interface ReviewResponse {
   helpCnt: number;
   isHelped: boolean;
   commentCnt: number;
+  productInfo: {
+    name: string;
+  };
 }
 
 // 전체 응답 타입 정의
@@ -42,26 +46,15 @@ async function getReviewDetail(reviewId: string): Promise<ReviewData> {
 export default function Page({ params }: { params: { id: number } }) {
   const router = useRouter();
   const reviewId = params.id;
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<ReviewData | null>(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true);
-        const fetched = await getReviewDetail(String(reviewId));
-        setData(fetched);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [reviewId]);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["reviewDetail", reviewId],
+    queryFn: () => getReviewDetail(String(reviewId)),
+  });
 
   if (isLoading) return <div>로딩중...</div>;
 
-  if (!data) {
+  if (isError || !data) {
     return (
       <Alert
         title="잘못된 접근입니다. 다시 시도해주세요."
@@ -81,6 +74,7 @@ export default function Page({ params }: { params: { id: number } }) {
           helpCnt={data.reviewResponse.helpCnt}
           isHelped={data.reviewResponse.isHelped}
           reviewId={data.reviewResponse.reviewId}
+          productName={data.reviewResponse.productInfo.name}
         />
         <Comment contents={data.commentResponses} />
       </div>

@@ -1,15 +1,14 @@
 "use client";
 
-import Review from "@/components/review.detail/review";
 import style from "./page.module.css";
 import apiClient from "@/util/axios";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Modal from "@/components/modal";
 import Setting from "@/components/review.my/setting";
 import { useState } from "react";
 import Confirm from "@/components/confirm";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import ReviewCard from "@/components/review.my/reviewCard";
 
 type ReviewResponse = {
   reviewId: number;
@@ -36,13 +35,9 @@ type ServerResponse = {
 
 type ServerResponseArray = ServerResponse[];
 
-async function getMyReviews(): Promise<ServerResponseArray> {
-  const res = await apiClient.get("/api/reviews/my");
-  return res.data;
-}
-
 export default function Page() {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [settingModal, setSettingModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -65,16 +60,42 @@ export default function Page() {
   };
 
   const handleEditBtn = () => {
-    const query = new URLSearchParams(reviewData as ServerResponse).toString(); // 쿼리 문자열 생성
-    router.push({
-      pa,
-    });
+    if (!reviewData) return;
+    const query = new URLSearchParams({
+      productName: reviewData.productResponse.name,
+      productImage: reviewData.productResponse.thumbnail,
+      productPrice: String(reviewData.productResponse.price),
+      reviewContent: String(reviewData.reviewResponse.content),
+    }).toString();
+    router.push(`/review/edit/${reviewId}?${query}`);
   };
 
   const { data, isLoading } = useQuery({
     queryKey: ["myReviews"],
     queryFn: getMyReviews,
-    refetchOnMount: false,
+    refetchOnMount: true,
+  });
+
+  // 댓글 삭제
+  const { mutate } = useMutation({
+    mutationFn: () => deleteReview(reviewId),
+    onMutate: () => {
+      const previousData = queryClient.getQueryData<ServerResponseArray>([
+        "myReviews",
+      ]);
+
+      if (previousData) {
+        queryClient.setQueryData(
+          ["myReviews"],
+          previousData.filter(
+            (review) => review.reviewResponse.reviewId !== reviewId
+          )
+        );
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["myReviews"] });
+    },
   });
 
   if (isLoading) return "로딩중...";
@@ -86,6 +107,7 @@ export default function Page() {
           setModalState={setDeleteModal}
           title="리뷰를 삭제하시겠습니까?"
           ok="네"
+          func={mutate}
         />
       )}
       {settingModal && (
@@ -101,60 +123,31 @@ export default function Page() {
       <p className={style.subTitle}>등록한 리뷰 {data?.length ?? 0}건</p>
       <div className={style.reviewWrap}>
         {data?.map((review) => (
-          <Link
+          <ReviewCard
+            commentCnt={review.reviewResponse.commentCnt}
+            content={review.reviewResponse.content}
+            helpCnt={+review.reviewResponse.helpCnt}
+            isHelped={review.reviewResponse.isHelped}
+            nickname={review.reviewResponse.nickname}
+            reviewId={review.reviewResponse.reviewId}
+            shootDate={review.reviewResponse.shootDate}
             key={review.reviewResponse.reviewId}
-            href={{
-              pathname: "/review/detail",
-              query: {
-                reviewId: review.reviewResponse.reviewId,
-                content: review.reviewResponse.content,
-                shootDate: review.reviewResponse.shootDate,
-                helpCnt: review.reviewResponse.helpCnt,
-                isHelped: review.reviewResponse.isHelped,
-                nickname: review.reviewResponse.nickname,
-              },
-            }}
-          >
-            <Review
-              key={review.reviewResponse.reviewId}
-              content={review.reviewResponse.content}
-              date={review.reviewResponse.shootDate}
-              helpCnt={review.reviewResponse.helpCnt}
-              isHelped={review.reviewResponse.isHelped}
-              name={review.reviewResponse.nickname}
-              onClick={(e) => {
-                e.preventDefault();
-                handleSettingBtn(review.reviewResponse.reviewId, review);
-              }}
-            />
-          </Link>
-        ))}
-        <Link
-          href={{
-            pathname: "/review/detail",
-            query: {
-              reviewId: 3,
-              content: "하이요",
-              shootDate: "2024-11-08",
-              helpCnt: "3",
-              isHelped: true,
-              nickname: "박연기",
-            },
-          }}
-        >
-          <Review
-            content="하이요"
-            date="2024-11-08"
-            helpCnt="3"
-            isHelped={true}
-            name={"박연기"}
-            onClick={(e) => {
-              e.preventDefault();
-              handleSettingBtn(3);
-            }}
+            productName={review.productResponse.name}
+            onClick={() =>
+              handleSettingBtn(review.reviewResponse.reviewId, review)
+            }
           />
-        </Link>
+        ))}
       </div>
     </div>
   );
+}
+
+async function getMyReviews(): Promise<ServerResponseArray> {
+  const res = await apiClient.get("/api/reviews/my");
+  return res.data;
+}
+
+async function deleteReview(reviewId: number | string) {
+  await apiClient.delete(`/api/reviews/${reviewId}`);
 }
