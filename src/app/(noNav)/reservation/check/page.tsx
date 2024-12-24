@@ -16,42 +16,29 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { reservationIdState } from "@/recoil/reservationIdAtom";
 
-type ActionFunction = (id: number) => void;
-
-type FunctionsType = {
-  [key in ReservationStatusTypeKey]: {
-    left: ActionFunction;
-    right: ActionFunction;
-  };
-};
-
 interface DataType {
   id: number;
   productName: string;
   productImage: string;
   shootDate: string;
   statusType: ReservationStatusTypeKey;
+  productPrice: number;
 }
 
-interface ReservationDetail {
-  id: number;
-  code: string;
-  shootDate: string;
-  time: {
-    hour: string;
-    minute: string;
-    second: string;
-    nano: string;
+type ActionFunction = (
+  id: number,
+  productName: string,
+  productImage: string,
+  productPrice: number
+) => void;
+
+// FunctionsType 수정
+type FunctionsType = {
+  [key in ReservationStatusTypeKey]: {
+    left: ActionFunction;
+    right: ActionFunction;
   };
-  name: string;
-  phone: string;
-  status: ReservationStatusTypeKey;
-  peopleCnt: number;
-  isAgreeUpload: boolean;
-  notes: string;
-  price: number;
-  canChange: boolean;
-}
+};
 
 export default function Page() {
   const queryClient = useQueryClient();
@@ -119,10 +106,22 @@ export default function Page() {
     setCancelModal(true);
   };
 
-  const writeReview = (id: number) => {
+  const writeReview = (
+    id: number,
+    productName: string,
+    productImage: string,
+    productPrice: number
+  ) => {
     setId(id);
+
     // 리뷰 작성하기
-    router.push("/review/write");
+    router.push(
+      `/review/write/${id}?productName=${encodeURIComponent(
+        productName
+      )}&productImage=${encodeURIComponent(
+        productImage
+      )}&productPrice=${productPrice}`
+    );
   };
 
   const statusMap: Record<string, string> = {
@@ -134,14 +133,13 @@ export default function Page() {
   const { data, isLoading } = useQuery({
     queryKey: ["reservations", statusMap[activeMenu]],
     queryFn: () => fetchReservations(statusMap[activeMenu]),
-    keepPreviousData: true, // 상태 변경 시 이전 데이터를 유지
   });
 
   const { mutate } = useMutation({
     mutationFn: (id: number) => deleteReservation(id),
     onMutate: async (id: number) => {
       // 이전 캐시 데이터를 snapshot으로 저장
-      await queryClient.cancelQueries(["reservations", "BEFORE"]);
+      await queryClient.cancelQueries({ queryKey: ["reservations", "BEFORE"] });
       const previousData = queryClient.getQueryData<{ id: number }[]>([
         "reservations",
         "BEFORE",
@@ -159,8 +157,7 @@ export default function Page() {
       return { previousData };
     },
     onSettled: () => {
-      // 성공 또는 실패 여부와 관계없이 데이터 재요청
-      queryClient.invalidateQueries(["reservations", "BEFORE"]);
+      queryClient.invalidateQueries({ queryKey: ["reservations", "BEFORE"] });
     },
   });
 
@@ -170,28 +167,28 @@ export default function Page() {
 
   const functions: FunctionsType = {
     CANCELED: {
-      left: (id: number) => retryReservation(id),
-      right: (id: number) => inquiry(id),
+      left: retryReservation,
+      right: inquiry,
     },
     CONFIRM_REQUESTED: {
-      left: (id: number) => inquiry(id),
-      right: (id: number) => changeReservationDate(id),
+      left: inquiry,
+      right: changeReservationDate,
     },
     PAYMENT_CONFIRMED: {
-      left: (id: number) => inquiry(id),
-      right: (id: number) => changeReservationDate(id),
+      left: inquiry,
+      right: changeReservationDate,
     },
     PENDING_PAYMENT: {
-      left: (id: number) => checkAccount(id),
-      right: (id: number) => cancelReservation(id),
+      left: checkAccount,
+      right: cancelReservation,
     },
     REVIEW_COMPLETED: {
-      left: (id: number) => retryReservation(id),
-      right: (id: number) => writeReview(id),
+      left: retryReservation,
+      right: writeReview,
     },
     SHOOTING_COMPLETED: {
-      left: (id: number) => retryReservation(id),
-      right: (id: number) => writeReview(id),
+      left: retryReservation,
+      right: writeReview,
     },
   };
 
@@ -205,7 +202,7 @@ export default function Page() {
           activeMenu={activeMenu}
           handleMenuClick={handleMenuClick}
         />
-        {data.map((cardData) => (
+        {data?.map((cardData) => (
           <Card
             key={cardData.id}
             id={cardData.id}
@@ -213,13 +210,28 @@ export default function Page() {
             handleMenuButtonClick={() =>
               handleMenuButtonClick(cardData.shootDate, cardData.id)
             }
-            left={() => functions[cardData.statusType].left(cardData.id)}
-            right={() => functions[cardData.statusType].right(cardData.id)}
+            left={() =>
+              functions[cardData.statusType].left(
+                cardData.id,
+                cardData.productName,
+                cardData.productImage,
+                cardData.productPrice
+              )
+            }
+            right={() =>
+              functions[cardData.statusType].right(
+                cardData.id,
+                cardData.productName,
+                cardData.productImage,
+                cardData.productPrice
+              )
+            }
             imgUrl={cardData.productImage}
             imgTitle={cardData.productName}
             date={cardData.shootDate}
           />
         ))}
+        {data?.length === 0 && "예약 정보가 없습니다."}
       </div>
 
       {cancelModal && (
@@ -338,13 +350,6 @@ export default function Page() {
 // 상태별 예약 정보 호출 함수
 async function fetchReservations(status: string): Promise<DataType[]> {
   const res = await apiClient.get(`/api/reservations?status=${status}`);
-  return res.data;
-}
-
-async function fetchReservationsDetail(
-  reservationId: number
-): Promise<ReservationDetail> {
-  const res = await apiClient.get(`/api/reservations/${reservationId}`);
   return res.data;
 }
 
