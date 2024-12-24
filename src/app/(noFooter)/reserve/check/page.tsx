@@ -85,7 +85,7 @@ export default function Page() {
   };
 
   // url로 접근하는 거 막음
-  if (reservationData.timeSlotId === null)
+  if (reservationData.timeSlotId === 0)
     return (
       <Alert
         title="잘못된 접근입니다."

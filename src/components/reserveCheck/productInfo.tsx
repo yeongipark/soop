@@ -46,7 +46,11 @@ export default function ProductInfo({ people }: { people: number }) {
                 촬영 후 결제 금액
               </td>
               <td className={style.bold}>
-                {(price + additionFee - 10000).toLocaleString()}
+                {(
+                  price +
+                  additionFee -
+                  reservationData.deposit
+                ).toLocaleString()}
               </td>
             </tr>
             <tr>
