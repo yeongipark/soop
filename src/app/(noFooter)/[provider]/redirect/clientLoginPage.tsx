@@ -6,9 +6,9 @@ import { useRecoilState } from "recoil";
 import { isLoginState } from "@/recoil/isLoginAtom";
 import apiClient from "@/util/axios";
 import { setToken } from "@/util/cookie";
+import Loading from "@/components/loading/loading";
 
 export default function ClientLoginPage({ provider }: { provider: string }) {
-  const [status] = useState("로그인 진행중입니다...");
   const router = useRouter();
   const [_, setIsLogin] = useRecoilState(isLoginState);
 
@@ -48,5 +48,9 @@ export default function ClientLoginPage({ provider }: { provider: string }) {
     }
   }, [provider]);
 
-  return <div>{status}</div>;
+  return (
+    <div>
+      <Loading text="로그인 중입니다." />
+    </div>
+  );
 }

@@ -4,9 +4,14 @@
 import ClientReservationChangePage from "./clientReservationChangePage";
 import { useRecoilState } from "recoil";
 import { reservationIdState } from "@/recoil/reservationIdAtom";
+import ProtectedPage from "@/components/protectedPage";
 
 export default function Page() {
   const [reservationId] = useRecoilState(reservationIdState);
   if (!reservationId) return "잘못된 id 값입니다.";
-  return <ClientReservationChangePage id={String(reservationId)} />;
+  return (
+    <ProtectedPage>
+      <ClientReservationChangePage id={String(reservationId)} />
+    </ProtectedPage>
+  );
 }

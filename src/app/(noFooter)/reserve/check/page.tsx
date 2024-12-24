@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import apiClient from "@/util/axios";
 import { useMutation } from "@tanstack/react-query";
 import Alert from "@/components/alert";
+import ProtectedPage from "@/components/protectedPage";
 
 // 예약 데이터를 서버로 전송하는 함수
 async function postReservation(data: any) {
@@ -107,38 +108,40 @@ export default function Page() {
     useAgree;
 
   return (
-    <article style={{ padding: "0px 10px" }}>
-      <Info
-        name={name}
-        setName={setName}
-        email={email}
-        setEmail={setEmail}
-        firstTel={firstTel}
-        setFirstTel={setFirstTel}
-        secondTel={secondTel}
-        setSecondTel={setSecondTel}
-        lastTel={lastTel}
-        setLastTel={setLastTel}
-        person={person}
-        setPerson={setPerson}
-      />
-      <Request request={request} setRequest={setRequest} />
-      <ProductInfo people={+person} />
-      <Agree
-        instarAgree={instarAgree}
-        personalAgree={personalAgree}
-        useAgree={useAgree}
-        allAgree={allAgree}
-        clickInstarAgree={clickInstarAgree}
-        clickPersonalAgree={clickPersonalAgree}
-        clickUseAgree={clickUseAgree}
-        clickAllAgree={clickAllAgree}
-      />
-      <NextButton
-        isEnabled={isFormValid as boolean}
-        onClick={clickReserveButton}
-        label={isPending ? "예약 중..." : "예약 하기"}
-      />
-    </article>
+    <ProtectedPage>
+      <article style={{ padding: "0px 10px" }}>
+        <Info
+          name={name}
+          setName={setName}
+          email={email}
+          setEmail={setEmail}
+          firstTel={firstTel}
+          setFirstTel={setFirstTel}
+          secondTel={secondTel}
+          setSecondTel={setSecondTel}
+          lastTel={lastTel}
+          setLastTel={setLastTel}
+          person={person}
+          setPerson={setPerson}
+        />
+        <Request request={request} setRequest={setRequest} />
+        <ProductInfo people={+person} />
+        <Agree
+          instarAgree={instarAgree}
+          personalAgree={personalAgree}
+          useAgree={useAgree}
+          allAgree={allAgree}
+          clickInstarAgree={clickInstarAgree}
+          clickPersonalAgree={clickPersonalAgree}
+          clickUseAgree={clickUseAgree}
+          clickAllAgree={clickAllAgree}
+        />
+        <NextButton
+          isEnabled={isFormValid as boolean}
+          onClick={clickReserveButton}
+          label={isPending ? "예약 중..." : "예약 하기"}
+        />
+      </article>
+    </ProtectedPage>
   );
 }

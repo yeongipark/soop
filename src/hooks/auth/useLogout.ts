@@ -11,14 +11,10 @@ export default function useLogout() {
   // 비동기 로그아웃 처리 함수
   const handleLogout = async () => {
     try {
-      const res = await apiClient("/api/logout", {
+      await apiClient("/api/logout", {
         method: "delete",
         withCredentials: true,
       });
-
-      // if (res.status !== 200) {
-      //   throw new Error("로그아웃에 실패했습니다.");
-      // }
 
       // 로그아웃 성공 처리
       setIsLogin(false);

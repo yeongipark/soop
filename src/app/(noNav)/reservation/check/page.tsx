@@ -15,6 +15,7 @@ import apiClient from "@/util/axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { reservationIdState } from "@/recoil/reservationIdAtom";
+import ProtectedPage from "@/components/protectedPage";
 
 interface DataType {
   id: number;
@@ -200,156 +201,158 @@ export default function Page() {
   if (isLoading) return "로딩중...";
 
   return (
-    <div>
-      <p className={style.title}>촬영 예약내역</p>
-      <div className={style.content_wrap}>
-        <ReservationCheckNav
-          activeMenu={activeMenu}
-          handleMenuClick={handleMenuClick}
-        />
-        {data?.map((cardData) => (
-          <Card
-            key={cardData.id}
-            id={cardData.id}
-            reservationType={cardData.statusType}
-            handleMenuButtonClick={() =>
-              handleMenuButtonClick(cardData.shootDate, cardData.id)
-            }
-            left={() =>
-              functions[cardData.statusType].left(
-                cardData.id,
-                cardData.productName,
-                cardData.productImage,
-                cardData.productPrice
-              )
-            }
-            right={() =>
-              functions[cardData.statusType].right(
-                cardData.id,
-                cardData.productName,
-                cardData.productImage,
-                cardData.productPrice
-              )
-            }
-            imgUrl={cardData.productImage}
-            imgTitle={cardData.productName}
-            date={cardData.shootDate}
+    <ProtectedPage>
+      <div>
+        <p className={style.title}>촬영 예약내역</p>
+        <div className={style.content_wrap}>
+          <ReservationCheckNav
+            activeMenu={activeMenu}
+            handleMenuClick={handleMenuClick}
           />
-        ))}
-        {data?.length === 0 && "예약 정보가 없습니다."}
-      </div>
+          {data?.map((cardData) => (
+            <Card
+              key={cardData.id}
+              id={cardData.id}
+              reservationType={cardData.statusType}
+              handleMenuButtonClick={() =>
+                handleMenuButtonClick(cardData.shootDate, cardData.id)
+              }
+              left={() =>
+                functions[cardData.statusType].left(
+                  cardData.id,
+                  cardData.productName,
+                  cardData.productImage,
+                  cardData.productPrice
+                )
+              }
+              right={() =>
+                functions[cardData.statusType].right(
+                  cardData.id,
+                  cardData.productName,
+                  cardData.productImage,
+                  cardData.productPrice
+                )
+              }
+              imgUrl={cardData.productImage}
+              imgTitle={cardData.productName}
+              date={cardData.shootDate}
+            />
+          ))}
+          {data?.length === 0 && "예약 정보가 없습니다."}
+        </div>
 
-      {cancelModal && (
-        <Confirm
-          title="예약을 취소하시겠습니까?"
-          subTitle={
-            <span>
-              촬영일 기준
-              <br />
-              14일 전 90% 환불
-              <br />
-              7일 전~당일 환불 불가
-            </span>
-          }
-          ok="네"
-          func={() => {
-            mutate(reservationId);
-            setReservationCancel(true);
-          }}
-          setModalState={setCancelModal}
-        />
-      )}
-      {depositModal && (
-        <Modal type="custom" setModalState={setDepositModal}>
-          <DepositModal setModal={setDepositModal} />
-        </Modal>
-      )}
-      {menuModal && (
-        <Modal type="custom" setModalState={setMenuModal}>
-          <MenuModal
-            setCancelModal={setCancelModal}
-            setMenuModal={setMenuModal}
-            setInvalidCancel={setInvalidCancel}
-            date={date}
-          />
-        </Modal>
-      )}
-
-      {reservationState && (
-        <Alert
-          type="info"
-          title="예약 상태"
-          setModalState={setReservationState}
-          subTitle={
-            <span>
-              예약금 입금 후 반드시
-              <br />
-              예약 내역 페이지에서{" "}
-              <span style={{ color: "var(--main)" }}>
-                입금 계좌 확인 {">"} 입금 확인 요청
+        {cancelModal && (
+          <Confirm
+            title="예약을 취소하시겠습니까?"
+            subTitle={
+              <span>
+                촬영일 기준
+                <br />
+                14일 전 90% 환불
+                <br />
+                7일 전~당일 환불 불가
               </span>
-              버튼을 눌러주세요.
-            </span>
-          }
-        />
-      )}
-      {reservationChange && (
-        <Alert
-          type="info"
-          title="예약 변경"
-          setModalState={setReservationChange}
-          subTitle={
-            <span>
-              예약 변경은 기간 내 한번 가능하며
-              <br />
-              촬영 당일에는 변경할 수 없습니다.
-            </span>
-          }
-        />
-      )}
-      {reservationCancel && (
-        <Alert
-          type={undefined}
-          title="예약이 취소되었습니다."
-          setModalState={setReservationCancel}
-          subTitle={
-            <span>
-              예약금 환불에 대해서는
-              <br />
-              예약자 연락처로 따로 연락드리겠습니다.
-            </span>
-          }
-        />
-      )}
-      {invalidCancel && (
-        <Alert
-          type="cancel"
-          title="취소 가능 기간이 아닙니다."
-          setModalState={setInvalidCancel}
-        />
-      )}
-      {invalidChange && (
-        <Alert
-          type="cancel"
-          title="예약 변경 불가"
-          setModalState={setInvalidChange}
-          subTitle={
-            <span>
-              예약 변경은 기간 내 한번 가능하며
-              <br />
-              촬영 당일에는 변경할 수 없습니다.
-            </span>
-          }
-        />
-      )}
-      {canceled && (
-        <Alert
-          type="cancel"
-          title="이미 취소된 예약입니다."
-          setModalState={setCanceled}
-        />
-      )}
-    </div>
+            }
+            ok="네"
+            func={() => {
+              mutate(reservationId);
+              setReservationCancel(true);
+            }}
+            setModalState={setCancelModal}
+          />
+        )}
+        {depositModal && (
+          <Modal type="custom" setModalState={setDepositModal}>
+            <DepositModal setModal={setDepositModal} />
+          </Modal>
+        )}
+        {menuModal && (
+          <Modal type="custom" setModalState={setMenuModal}>
+            <MenuModal
+              setCancelModal={setCancelModal}
+              setMenuModal={setMenuModal}
+              setInvalidCancel={setInvalidCancel}
+              date={date}
+            />
+          </Modal>
+        )}
+
+        {reservationState && (
+          <Alert
+            type="info"
+            title="예약 상태"
+            setModalState={setReservationState}
+            subTitle={
+              <span>
+                예약금 입금 후 반드시
+                <br />
+                예약 내역 페이지에서{" "}
+                <span style={{ color: "var(--main)" }}>
+                  입금 계좌 확인 {">"} 입금 확인 요청
+                </span>
+                버튼을 눌러주세요.
+              </span>
+            }
+          />
+        )}
+        {reservationChange && (
+          <Alert
+            type="info"
+            title="예약 변경"
+            setModalState={setReservationChange}
+            subTitle={
+              <span>
+                예약 변경은 기간 내 한번 가능하며
+                <br />
+                촬영 당일에는 변경할 수 없습니다.
+              </span>
+            }
+          />
+        )}
+        {reservationCancel && (
+          <Alert
+            type={undefined}
+            title="예약이 취소되었습니다."
+            setModalState={setReservationCancel}
+            subTitle={
+              <span>
+                예약금 환불에 대해서는
+                <br />
+                예약자 연락처로 따로 연락드리겠습니다.
+              </span>
+            }
+          />
+        )}
+        {invalidCancel && (
+          <Alert
+            type="cancel"
+            title="취소 가능 기간이 아닙니다."
+            setModalState={setInvalidCancel}
+          />
+        )}
+        {invalidChange && (
+          <Alert
+            type="cancel"
+            title="예약 변경 불가"
+            setModalState={setInvalidChange}
+            subTitle={
+              <span>
+                예약 변경은 기간 내 한번 가능하며
+                <br />
+                촬영 당일에는 변경할 수 없습니다.
+              </span>
+            }
+          />
+        )}
+        {canceled && (
+          <Alert
+            type="cancel"
+            title="이미 취소된 예약입니다."
+            setModalState={setCanceled}
+          />
+        )}
+      </div>
+    </ProtectedPage>
   );
 }
 // 상태별 예약 정보 호출 함수

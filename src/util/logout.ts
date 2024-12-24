@@ -16,9 +16,6 @@ export async function logout() {
       throw new Error("로그아웃에 실패했습니다.");
     }
 
-    // 로그아웃 성공 처리
-    console.log("Logged out successfully");
-
     // 필요한 경우 localStorage에서 토큰 삭제
     localStorage.removeItem("accessToken");
   } catch (e) {

@@ -9,6 +9,7 @@ import { useRecoilState } from "recoil";
 import { reservationState } from "@/recoil/reservationAtom";
 import Alert from "@/components/alert";
 import { useRouter } from "next/navigation";
+import ProtectedPage from "@/components/protectedPage";
 
 export interface TimeType {
   id: number;
@@ -34,13 +35,15 @@ export default function Page() {
   }
 
   return (
-    <div>
-      <ReserveTop />
-      <div className={style.container}>
-        <p>🗓️ 날짜와 시간을 선택해주세요</p>
-        <Calendar {...calendarProps} />
-        <ClockButtons date={calendarProps.selectedDate.date} />
+    <ProtectedPage>
+      <div>
+        <ReserveTop />
+        <div className={style.container}>
+          <p>🗓️ 날짜와 시간을 선택해주세요</p>
+          <Calendar {...calendarProps} />
+          <ClockButtons date={calendarProps.selectedDate.date} />
+        </div>
       </div>
-    </div>
+    </ProtectedPage>
   );
 }

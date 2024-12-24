@@ -7,6 +7,7 @@ import apiClient from "@/util/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MemberType } from "@/components/myinfo/myinfo";
 import { useRouter } from "next/navigation";
+import ProtectedPage from "@/components/protectedPage";
 
 async function postNickname(nickname: string) {
   const res = await apiClient.patch("/api/member/nickname", { nickname });
@@ -52,25 +53,27 @@ export default function Page() {
   };
 
   return (
-    <div>
-      <p className={style.title}>변경할 닉네임을 입력해주세요.</p>
-      <div className={style.wrap}>
-        <input
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-        />
-        <TiDeleteOutline className={style.icon} onClick={handleDeleteBtn} />
+    <ProtectedPage>
+      <div>
+        <p className={style.title}>변경할 닉네임을 입력해주세요.</p>
+        <div className={style.wrap}>
+          <input
+            type="text"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
+          />
+          <TiDeleteOutline className={style.icon} onClick={handleDeleteBtn} />
+        </div>
+        <div className={style.btn}>
+          <button
+            disabled={nickname.length < 2}
+            className={`${nickname.length >= 2 && style.active}`}
+            onClick={handleSaveBtn}
+          >
+            저장하기
+          </button>
+        </div>
       </div>
-      <div className={style.btn}>
-        <button
-          disabled={nickname.length < 2}
-          className={`${nickname.length >= 2 && style.active}`}
-          onClick={handleSaveBtn}
-        >
-          저장하기
-        </button>
-      </div>
-    </div>
+    </ProtectedPage>
   );
 }

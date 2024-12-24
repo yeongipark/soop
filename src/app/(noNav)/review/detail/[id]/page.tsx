@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Alert from "@/components/alert";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import ProtectedPage from "@/components/protectedPage";
 
 // CommentResponse 타입 정의
 interface CommentResponse {
@@ -64,21 +65,23 @@ export default function Page({ params }: { params: { id: number } }) {
   }
 
   return (
-    <div className={style.container}>
-      <div className={style.content}>
-        <p className={style.title}>리뷰 상세보기</p>
-        <Review
-          name={data.reviewResponse.nickname}
-          date={data.reviewResponse.shootDate}
-          content={data.reviewResponse.content}
-          helpCnt={data.reviewResponse.helpCnt}
-          isHelped={data.reviewResponse.isHelped}
-          reviewId={data.reviewResponse.reviewId}
-          productName={data.reviewResponse.productInfo.name}
-        />
-        <Comment contents={data.commentResponses} />
+    <ProtectedPage>
+      <div className={style.container}>
+        <div className={style.content}>
+          <p className={style.title}>리뷰 상세보기</p>
+          <Review
+            name={data.reviewResponse.nickname}
+            date={data.reviewResponse.shootDate}
+            content={data.reviewResponse.content}
+            helpCnt={data.reviewResponse.helpCnt}
+            isHelped={data.reviewResponse.isHelped}
+            reviewId={data.reviewResponse.reviewId}
+            productName={data.reviewResponse.productInfo.name}
+          />
+          <Comment contents={data.commentResponses} />
+        </div>
+        <Input reviewId={String(reviewId)} />
       </div>
-      <Input reviewId={String(reviewId)} />
-    </div>
+    </ProtectedPage>
   );
 }

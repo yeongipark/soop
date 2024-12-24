@@ -7,6 +7,7 @@ import apiClient from "@/util/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MemberType } from "@/components/myinfo/myinfo";
 import { useRouter } from "next/navigation";
+import ProtectedPage from "@/components/protectedPage";
 
 async function postPhone(phone: string) {
   const res = await apiClient.patch("/api/member/phone", { phone });
@@ -54,28 +55,30 @@ export default function Page() {
   };
 
   return (
-    <div>
-      <p className={style.title}>
-        변경할 전화번호를 입력해주세요.(하이픈 포함)
-      </p>
-      <div className={style.wrap}>
-        <input
-          type="text"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="010-xxxx-xxxx"
-        />
-        <TiDeleteOutline className={style.icon} onClick={handleDeleteBtn} />
+    <ProtectedPage>
+      <div>
+        <p className={style.title}>
+          변경할 전화번호를 입력해주세요.(하이픈 포함)
+        </p>
+        <div className={style.wrap}>
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="010-xxxx-xxxx"
+          />
+          <TiDeleteOutline className={style.icon} onClick={handleDeleteBtn} />
+        </div>
+        <div className={style.btn}>
+          <button
+            disabled={phoneRegExp.test(phone)}
+            className={`${phoneRegExp.test(phone) && style.active}`}
+            onClick={handleSaveBtn}
+          >
+            저장하기
+          </button>
+        </div>
       </div>
-      <div className={style.btn}>
-        <button
-          disabled={phoneRegExp.test(phone)}
-          className={`${phoneRegExp.test(phone) && style.active}`}
-          onClick={handleSaveBtn}
-        >
-          저장하기
-        </button>
-      </div>
-    </div>
+    </ProtectedPage>
   );
 }

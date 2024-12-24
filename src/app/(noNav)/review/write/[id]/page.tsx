@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Alert from "@/components/alert";
 import apiClient from "@/util/axios";
 import { useMutation } from "@tanstack/react-query";
+import ProtectedPage from "@/components/protectedPage";
 
 export default function Page({ params }: { params: { id: number } }) {
   const router = useRouter();
@@ -47,43 +48,45 @@ export default function Page({ params }: { params: { id: number } }) {
   };
 
   return (
-    <div>
-      <p className={style.title}>리뷰 작성</p>
-      <div className={style.wrap}>
-        <div className={style.imgWrap}>
-          <Image
-            src={productImage} // 이미지 경로
-            alt="상품 이미지"
-            fill // 부모 요소를 기준으로 꽉 채움
-            className={style.productImage}
-          />
+    <ProtectedPage>
+      <div>
+        <p className={style.title}>리뷰 작성</p>
+        <div className={style.wrap}>
+          <div className={style.imgWrap}>
+            <Image
+              src={productImage} // 이미지 경로
+              alt="상품 이미지"
+              fill // 부모 요소를 기준으로 꽉 채움
+              className={style.productImage}
+            />
+          </div>
+          <div className={style.infoWrap}>
+            <p className={style.productName}>{productName}</p>
+            <p className={style.productPrice}>
+              {Number(productPrice).toLocaleString()}원
+            </p>
+          </div>
         </div>
-        <div className={style.infoWrap}>
-          <p className={style.productName}>{productName}</p>
-          <p className={style.productPrice}>
-            {Number(productPrice).toLocaleString()}원
-          </p>
+        <p className={style.subTitle}>촬영은 어떠셨나요?</p>
+        <div className={style.textareaWrap}>
+          <textarea
+            value={content}
+            onChange={handleChange} // 변경된 핸들러
+            placeholder="최소 10자 이상 작성해주세요:)"
+          ></textarea>
+          <p className={style.textLength}>{`${content.length}/500`}</p>
+        </div>
+        <div className={style.btnWrap}>
+          <button
+            disabled={content.length < 10 || isPending}
+            className={`${content.length >= 10 && !isPending && style.active}`}
+            onClick={handleSubmit}
+          >
+            {isPending ? "등록중..." : "등록하기"}
+          </button>
         </div>
       </div>
-      <p className={style.subTitle}>촬영은 어떠셨나요?</p>
-      <div className={style.textareaWrap}>
-        <textarea
-          value={content}
-          onChange={handleChange} // 변경된 핸들러
-          placeholder="최소 10자 이상 작성해주세요:)"
-        ></textarea>
-        <p className={style.textLength}>{`${content.length}/500`}</p>
-      </div>
-      <div className={style.btnWrap}>
-        <button
-          disabled={content.length < 10 || isPending}
-          className={`${content.length >= 10 && !isPending && style.active}`}
-          onClick={handleSubmit}
-        >
-          {isPending ? "등록중..." : "등록하기"}
-        </button>
-      </div>
-    </div>
+    </ProtectedPage>
   );
 }
 
