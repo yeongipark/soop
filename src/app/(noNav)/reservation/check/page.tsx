@@ -96,9 +96,10 @@ export default function Page() {
     router.push("/product");
   };
 
+  // 문의하기
   const inquiry = (id: number) => {
     setId(id);
-    //문의하기
+    window.open("https://open.kakao.com/o/sxFtI9Yg", "_blank");
   };
 
   const checkAccount = (id: number) => {
@@ -207,6 +208,7 @@ export default function Page() {
         {data.map((cardData) => (
           <Card
             key={cardData.id}
+            id={cardData.id}
             reservationType={cardData.statusType}
             handleMenuButtonClick={() =>
               handleMenuButtonClick(cardData.shootDate, cardData.id)

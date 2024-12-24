@@ -1,7 +1,9 @@
 import Image from "next/image";
 import style from "./card.module.css";
+import Link from "next/link";
 
 export default function Card({
+  id,
   reservationType,
   handleMenuButtonClick,
   left,
@@ -10,7 +12,8 @@ export default function Card({
   imgTitle,
   date,
 }: {
-  reservationType: keyof typeof ReservationStatusType;
+  id: number;
+  reservationType: keyof typeof ReservationStatus;
   handleMenuButtonClick: () => void;
   left: () => void;
   right: () => void;
@@ -18,13 +21,13 @@ export default function Card({
   imgTitle: string;
   date: string;
 }) {
-  const texts = ReservationStatusType[reservationType];
+  const texts = ReservationStatus[reservationType];
 
   return (
     <div className={style.container}>
-      <a href="/reservation/detail" className={style.detail}>
+      <Link href={`/reservation/detail/${id}`} className={style.detail}>
         예약 상세 {">"}
-      </a>
+      </Link>
       <p className={style.title}>{texts.title}</p>
       <p className={style.subTitle}>{texts.subTitle}</p>
       <div className={style.productWrap}>
@@ -52,7 +55,7 @@ export default function Card({
   );
 }
 
-const ReservationStatusType = {
+export const ReservationStatus = {
   PENDING_PAYMENT: {
     title: "예약금 전송 전이에요.",
     subTitle: "예약금 입금 후 확인 요청을 보내주세요.",
