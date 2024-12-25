@@ -18,6 +18,7 @@ import { reservationIdState } from "@/recoil/reservationIdAtom";
 import ProtectedPage from "@/components/protectedPage";
 import NoData from "@/components/reservationCheck/noData";
 import Loading from "@/components/loading/loading";
+import CardLoading from "@/components/reservationCheck/cardLoading";
 
 interface DataType {
   id: number;
@@ -211,7 +212,7 @@ export default function Page() {
           />
           <div>
             {isLoading ? (
-              <Loading text="로딩중.." />
+              <CardLoading />
             ) : (
               data?.map((cardData) => (
                 <Card

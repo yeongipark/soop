@@ -1,0 +1,79 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 20px;
+  width: 90%;
+  margin: auto;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 20px 30px;
+  margin-top: 2rem;
+  position: relative;
+  background-color: var(--gray);
+  height: 16rem;
+}
+
+.title {
+  font-size: 1.2rem;
+}
+
+.subTitle {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--main);
+}
+
+.productWrap {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.imageContainer {
+  width: 20%;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.info > p:nth-child(1) {
+  font-size: 1.2rem;
+}
+
+.info > p:nth-child(2) {
+  font-size: 0.9rem;
+}
+
+.buttonWrap {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.buttonWrap > button {
+  min-width: 90px;
+  font-size: 0.7rem;
+  padding: 0.5rem 1rem;
+  word-break: keep-all;
+  color: black;
+}
+
+.detail {
+  cursor: pointer;
+  position: absolute;
+  font-size: 0.9rem;
+  color: var(--main);
+  top: 1rem;
+  right: 1rem;
+}
+
+.detail:hover {
+  text-decoration: underline;
+}
