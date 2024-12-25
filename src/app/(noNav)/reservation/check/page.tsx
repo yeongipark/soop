@@ -202,42 +202,45 @@ export default function Page() {
 
   return (
     <ProtectedPage>
-      <div>
+      <div style={{ paddingBottom: "10px" }}>
         <p className={style.title}>촬영 예약내역</p>
         <div className={style.content_wrap}>
           <ReservationCheckNav
             activeMenu={activeMenu}
             handleMenuClick={handleMenuClick}
           />
-          {data?.map((cardData) => (
-            <Card
-              key={cardData.id}
-              id={cardData.id}
-              reservationType={cardData.statusType}
-              handleMenuButtonClick={() =>
-                handleMenuButtonClick(cardData.shootDate, cardData.id)
-              }
-              left={() =>
-                functions[cardData.statusType].left(
-                  cardData.id,
-                  cardData.productName,
-                  cardData.productImage,
-                  cardData.productPrice
-                )
-              }
-              right={() =>
-                functions[cardData.statusType].right(
-                  cardData.id,
-                  cardData.productName,
-                  cardData.productImage,
-                  cardData.productPrice
-                )
-              }
-              imgUrl={cardData.productImage}
-              imgTitle={cardData.productName}
-              date={cardData.shootDate}
-            />
-          ))}
+          <div>
+            {data?.map((cardData) => (
+              <Card
+                key={cardData.id}
+                id={cardData.id}
+                reservationType={cardData.statusType}
+                handleMenuButtonClick={() =>
+                  handleMenuButtonClick(cardData.shootDate, cardData.id)
+                }
+                left={() =>
+                  functions[cardData.statusType].left(
+                    cardData.id,
+                    cardData.productName,
+                    cardData.productImage,
+                    cardData.productPrice
+                  )
+                }
+                right={() =>
+                  functions[cardData.statusType].right(
+                    cardData.id,
+                    cardData.productName,
+                    cardData.productImage,
+                    cardData.productPrice
+                  )
+                }
+                imgUrl={cardData.productImage}
+                imgTitle={cardData.productName}
+                date={cardData.shootDate}
+              />
+            ))}
+            <div style={{ width: "100%", height: "10px" }}></div>
+          </div>
           {data?.length === 0 && "예약 정보가 없습니다."}
         </div>
 
