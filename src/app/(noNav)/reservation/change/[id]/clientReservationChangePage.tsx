@@ -25,14 +25,15 @@ interface Reservation {
   peopleCnt: number;
   isAgreeUpload: boolean;
   notes: string;
-  price: number;
+  totalPrice: number;
   canChange: boolean;
-  product: {
+  productInfo: {
     id: number;
     name: string;
     thumbnail: string;
     summary: string;
     price: string;
+    deposit: number;
   };
 }
 
@@ -76,9 +77,9 @@ export default function ClientReservationChangePage({
     if (data) {
       setState((prev) => ({
         ...prev,
-        thumbnail: data.product.thumbnail,
-        price: data.product.price,
-        name: data.product.name,
+        thumbnail: data.productInfo.thumbnail,
+        price: data.productInfo.price,
+        name: data.productInfo.name,
       }));
     }
   }, [data, setState]);

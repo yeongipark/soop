@@ -61,8 +61,10 @@ export default function ChangeClockButtons({
     },
     onSettled: () => {
       // 성공 또는 실패 여부와 관계없이 데이터 재요청
-      queryClient.invalidateQueries(["reservations", "BEFORE"]);
-      queryClient.invalidateQueries(["reservationChange", reservationId]);
+      queryClient.invalidateQueries({ queryKey: ["reservations", "BEFORE"] });
+      queryClient.invalidateQueries({
+        queryKey: ["reservationChange", reservationId],
+      });
     },
   });
 

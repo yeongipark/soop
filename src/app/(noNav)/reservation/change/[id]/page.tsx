@@ -2,8 +2,6 @@
 
 // ReservationChangePage.tsx (서버 컴포넌트)
 import ClientReservationChangePage from "./clientReservationChangePage";
-import { useRecoilState } from "recoil";
-import { reservationIdState } from "@/recoil/reservationIdAtom";
 import ProtectedPage from "@/components/protectedPage";
 
 export default function Page({ params }: { params: { id: string } }) {
