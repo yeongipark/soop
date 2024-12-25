@@ -29,6 +29,10 @@ interface ReviewResponse {
   commentCnt: number;
   productInfo: {
     name: string;
+    id: number;
+    thumbnail: string;
+    summary: string;
+    price: number;
   };
 }
 
@@ -70,6 +74,8 @@ export default function Page({ params }: { params: { id: number } }) {
           <div className={style.content}>
             <p className={style.title}>리뷰 상세보기</p>
             <Review
+              price={data.reviewResponse.productInfo.price}
+              thumbnail={data.reviewResponse.productInfo.thumbnail}
               name={data.reviewResponse.nickname}
               date={data.reviewResponse.shootDate}
               content={data.reviewResponse.content}

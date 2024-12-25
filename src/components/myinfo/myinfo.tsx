@@ -39,8 +39,6 @@ export default function MyInfo() {
     refetchOnMount: false,
   });
 
-  if (isLoading) return "로딩중입니다..";
-
   return (
     <div className={style.container}>
       {onAlert && (
