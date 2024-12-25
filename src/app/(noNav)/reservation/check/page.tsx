@@ -17,7 +17,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { reservationIdState } from "@/recoil/reservationIdAtom";
 import ProtectedPage from "@/components/protectedPage";
 import NoData from "@/components/reservationCheck/noData";
-import Loading from "@/components/loading/loading";
 import CardLoading from "@/components/reservationCheck/cardLoading";
 
 interface DataType {

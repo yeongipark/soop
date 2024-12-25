@@ -12,23 +12,25 @@
   padding: 20px 20px 10px 20px;
 }
 
-.textContainer p {
+/* .textContainer p {
   margin-bottom: 20px;
-}
+} */
 
 /* 상품 제목 */
 .textContainer p:nth-child(1) {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 600;
+  margin-bottom: 0.3rem;
 }
 
 /* 상품 설명 */
 .textContainer p:nth-child(2) {
+  margin-bottom: 0.8rem;
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 /* 상품 가격 */
 .textContainer p:nth-child(3) {
-  font-size: 1.3rem;
+  font-size: 1.15rem;
 }
