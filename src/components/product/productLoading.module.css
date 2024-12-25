@@ -1,0 +1,41 @@
+.container {
+  max-width: 250px;
+  width: 50%;
+  margin-bottom: 50px;
+  cursor: pointer;
+}
+
+.img {
+  display: flex;
+  align-items: center;
+  max-width: 250px;
+  height: 23rem;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  overflow: hidden;
+  background-color: var(--gray);
+}
+
+.text {
+  text-align: center;
+}
+
+.text p:nth-child(1) {
+  width: 100%;
+  height: 1rem;
+  background-color: var(--gray);
+}
+
+.text p:nth-child(2) {
+  width: 100%;
+  height: 1rem;
+  background-color: var(--gray);
+}
+
+.wrap {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}

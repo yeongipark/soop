@@ -8,6 +8,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useIntersectionObserve } from "@/hooks/useIntersectionObserve";
 import Alert from "../alert";
 import { useRouter } from "next/navigation";
+import ProductLoading from "./productLoading";
 
 // Product 타입 정의
 interface ProductType {
@@ -73,8 +74,6 @@ export default function ProductCardList() {
     return chunked;
   };
 
-  if (isLoading) return "로딩중...";
-
   if (error)
     return (
       <Alert
@@ -87,7 +86,9 @@ export default function ProductCardList() {
 
   return (
     <div style={{ padding: "0px 10px" }}>
-      {data?.pages?.flat().length ? (
+      {isLoading ? (
+        <ProductLoading />
+      ) : data?.pages?.flat().length ? (
         chunkData(data.pages.flat() as ProductType[]).map(
           (productPair, index) => (
             <div key={index} className={style.container}>
@@ -107,7 +108,7 @@ export default function ProductCardList() {
         <p>상품이 없습니다.</p>
       )}
 
-      {isFetchingNextPage && <p>로딩중...</p>}
+      {isFetchingNextPage && <ProductLoading />}
       {!isFetchingNextPage && hasNextPage && (
         <div ref={nextFetchTargetRef}>더 불러오기</div>
       )}
