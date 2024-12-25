@@ -1,5 +1,5 @@
 .container {
-  max-width: 250px;
+  max-width: 230px;
   width: 50%;
   margin-bottom: 50px;
   cursor: pointer;
@@ -27,11 +27,13 @@
 }
 
 .text p:nth-child(1) {
+  max-width: 230px;
   font-size: 1.1rem;
   margin-bottom: 5px;
 }
 
 .text p:nth-child(2) {
+  max-width: 230px;
   font-size: 0.9rem;
   color: var(--gray5);
   word-break: break-all;
