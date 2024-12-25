@@ -10,6 +10,7 @@ import Confirm from "@/components/confirm";
 import { useRouter } from "next/navigation";
 import ReviewCard from "@/components/review.my/reviewCard";
 import ProtectedPage from "@/components/protectedPage";
+import Loading from "@/components/loading/loading";
 
 type ReviewResponse = {
   reviewId: number;
@@ -99,8 +100,6 @@ export default function Page() {
     },
   });
 
-  if (isLoading) return "로딩중...";
-
   return (
     <ProtectedPage>
       <div>
@@ -124,22 +123,26 @@ export default function Page() {
         <p className={style.title}>내가 남긴 리뷰</p>
         <p className={style.subTitle}>등록한 리뷰 {data?.length ?? 0}건</p>
         <div className={style.reviewWrap}>
-          {data?.map((review) => (
-            <ReviewCard
-              commentCnt={review.reviewResponse.commentCnt}
-              content={review.reviewResponse.content}
-              helpCnt={+review.reviewResponse.helpCnt}
-              isHelped={review.reviewResponse.isHelped}
-              nickname={review.reviewResponse.nickname}
-              reviewId={review.reviewResponse.reviewId}
-              shootDate={review.reviewResponse.shootDate}
-              key={review.reviewResponse.reviewId}
-              productName={review.productResponse.name}
-              onClick={() =>
-                handleSettingBtn(review.reviewResponse.reviewId, review)
-              }
-            />
-          ))}
+          {isLoading ? (
+            <Loading text="로딩중.." />
+          ) : (
+            data?.map((review) => (
+              <ReviewCard
+                commentCnt={review.reviewResponse.commentCnt}
+                content={review.reviewResponse.content}
+                helpCnt={+review.reviewResponse.helpCnt}
+                isHelped={review.reviewResponse.isHelped}
+                nickname={review.reviewResponse.nickname}
+                reviewId={review.reviewResponse.reviewId}
+                shootDate={review.reviewResponse.shootDate}
+                key={review.reviewResponse.reviewId}
+                productName={review.productResponse.name}
+                onClick={() =>
+                  handleSettingBtn(review.reviewResponse.reviewId, review)
+                }
+              />
+            ))
+          )}
         </div>
       </div>
     </ProtectedPage>

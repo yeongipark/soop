@@ -12,6 +12,7 @@ import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
 import Alert from "@/components/alert";
 import { useRouter } from "next/navigation";
+import Loading from "@/components/loading/loading";
 
 interface ProductType {
   id: number;
@@ -61,8 +62,6 @@ export default function ClientProductPage({ id }: { id: string }) {
     }
   }, [data, setReservationState]);
 
-  if (isLoading) return "로딩중...";
-
   if (error) {
     return (
       <Alert
@@ -74,24 +73,30 @@ export default function ClientProductPage({ id }: { id: string }) {
 
   return (
     <div>
-      <ProductTop
-        name={data!.name}
-        price={data!.price}
-        summary={data!.summary}
-        thumbnail={data!.thumbnail}
-      />
-      <div>
-        <ProductNav info={true} />
-      </div>
-      <ProductFooter liked={data?.isMemberLike ?? false} />
-      <ProductContent
-        content={data?.description ?? ""}
-        images={data?.images ?? []}
-      />
-      <div>
-        <ProductNav info={false} />
-      </div>
-      <Review id={id} />
+      {isLoading ? (
+        <Loading text="로딩중.." />
+      ) : (
+        <div>
+          <ProductTop
+            name={data!.name}
+            price={data!.price}
+            summary={data!.summary}
+            thumbnail={data!.thumbnail}
+          />
+          <div>
+            <ProductNav info={true} />
+          </div>
+          <ProductFooter liked={data?.isMemberLike ?? false} />
+          <ProductContent
+            content={data?.description ?? ""}
+            images={data?.images ?? []}
+          />
+          <div>
+            <ProductNav info={false} />
+          </div>
+          <Review id={id} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { getToken } from "@/util/cookie";
+import Alert from "./alert";
 
 export default function ProtectedPage({
   children,
@@ -10,14 +10,19 @@ export default function ProtectedPage({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+  const token = getToken();
 
-  useEffect(() => {
-    const token = getToken();
-    if (!token) {
-      alert("로그인 세션이 만료되었습니다. 다시 로그인 해주세요.");
-      router.replace("/");
-    }
-  }, [router]);
+  if (!token) {
+    return (
+      <Alert
+        title="로그인후 다시 이용해 주세요."
+        type="cancel"
+        setModalState={() => {
+          router.replace("/");
+        }}
+      />
+    );
+  }
 
   return <>{children}</>; // 인증 통과 시 렌더링
 }

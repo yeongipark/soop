@@ -13,6 +13,7 @@ import { reservationState } from "@/recoil/reservationAtom";
 import Alert from "@/components/alert";
 import { useRouter } from "next/navigation";
 import { TimeType } from "@/app/(noFooter)/reserve/page";
+import Loading from "@/components/loading/loading";
 
 interface Reservation {
   id: number;
@@ -98,18 +99,24 @@ export default function ClientReservationChangePage({
 
   return (
     <div>
-      <p className={style.title}>예약 변경은 기간 내 한 번만 가능해요.</p>
-      <ReserveTop />
-      <div className={style.container}>
-        <p>🗓️ 날짜와 시간을 선택해주세요</p>
-        <Calendar {...calendarProps} />
-        <ChangeClockButtons
-          basicDate={data!.shootDate}
-          basicClock={data!.time.slice(0, 5)}
-          selectDate={calendarProps.selectedDate.date}
-          timeData={timeSlots!}
-        />
-      </div>
+      {isLoading ? (
+        <Loading text="로딩중.." />
+      ) : (
+        <div>
+          <p className={style.title}>예약 변경은 기간 내 한 번만 가능해요.</p>
+          <ReserveTop />
+          <div className={style.container}>
+            <p>🗓️ 날짜와 시간을 선택해주세요</p>
+            <Calendar {...calendarProps} />
+            <ChangeClockButtons
+              basicDate={data!.shootDate}
+              basicClock={data!.time.slice(0, 5)}
+              selectDate={calendarProps.selectedDate.date}
+              timeData={timeSlots!}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -14,13 +14,31 @@
 }
 
 .wrap > p {
+  display: flex;
+  align-items: center;
   width: 60px;
 }
 
+.wrap input {
+  border: 1px solid var(--gray5);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.wrap select {
+  border: 1px solid var(--gray5);
+  border-radius: 10px;
+  padding: 10px;
+}
+
 .nameInput > input {
-  width: 25%;
+  width: 100%;
 }
 .nameInput {
+  flex-grow: 1;
+}
+
+.emailInput {
   flex-grow: 1;
 }
 
@@ -28,8 +46,12 @@
   flex-grow: 1;
 }
 .phoneNumberInput > input {
-  max-width: 100px;
-  width: 20%;
+  /* max-width: 100px; */
+  width: 100%;
+}
+
+.emailInput > input {
+  width: 100%;
 }
 
 .peopleNumInput {

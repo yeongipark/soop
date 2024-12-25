@@ -5,7 +5,19 @@ import Link from "next/link";
 import { useSetRecoilState } from "recoil";
 import { noticeId } from "@/recoil/noticeIdAtom";
 
-export default function Post({ title, id }: { title: string; id: number }) {
+export default function Post({
+  title,
+  id,
+  createdAt,
+}: {
+  title: string;
+  id: number;
+  createdAt: string;
+}) {
+  const shootDate = new Date(createdAt);
+  const year = shootDate.getFullYear();
+  const month = shootDate.getMonth() + 1;
+  const date = shootDate.getDate();
   const setNoticeId = useSetRecoilState(noticeId);
 
   const onClick = () => {
@@ -18,13 +30,15 @@ export default function Post({ title, id }: { title: string; id: number }) {
         <Link
           onClick={onClick}
           href={{
-            pathname: `/notice/detail`,
+            pathname: `/notice/detail/${id}`,
           }}
         >
           {title}
         </Link>
       </p>
-      <p className={style.date}>2024.10.25</p>
+      <p className={style.date}>
+        {year}.{month}.{date}
+      </p>
     </div>
   );
 }

@@ -30,8 +30,6 @@ export default function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [firstTel, setFirstTel] = useState("");
-  const [secondTel, setSecondTel] = useState("");
-  const [lastTel, setLastTel] = useState("");
   const [person, setPerson] = useState("1");
 
   // request
@@ -65,10 +63,7 @@ export default function Page() {
     if (data) {
       setName(data.name);
       setEmail(data.email);
-      const splittedPhone = data.phone.split("-");
-      setFirstTel(splittedPhone[0]);
-      setSecondTel(splittedPhone[1]);
-      setLastTel(splittedPhone[2]);
+      setFirstTel(data.phone);
     }
   }, [data]);
 
@@ -78,7 +73,7 @@ export default function Page() {
       // 예약 성공 시 완료 페이지로 이동
       router.replace("/complete");
     },
-    onError: (error) => {
+    onError: () => {
       alert("예약 처리 중 문제가 발생했습니다. 다시 시도해주세요.");
     },
   });
@@ -87,7 +82,7 @@ export default function Page() {
   const clickReserveButton = () => {
     if (isPending) return;
     const data = {
-      phone: `${firstTel}${secondTel}${lastTel}`,
+      phone: firstTel.split("-").join(""),
       name,
       email,
       notes: request,
@@ -117,14 +112,10 @@ export default function Page() {
   const isFormValid =
     name &&
     email &&
-    firstTel &&
-    secondTel &&
-    lastTel &&
+    /^\d{3}-\d{4}-\d{4}$/.test(firstTel) &&
     person &&
     personalAgree &&
     useAgree;
-
-  if (isLoading) return <Loading text="로딩중.." />;
 
   if (error)
     return (
@@ -139,39 +130,39 @@ export default function Page() {
 
   return (
     <ProtectedPage>
-      <article style={{ padding: "0px 10px" }}>
-        <Info
-          name={name}
-          setName={setName}
-          email={email}
-          setEmail={setEmail}
-          firstTel={firstTel}
-          setFirstTel={setFirstTel}
-          secondTel={secondTel}
-          setSecondTel={setSecondTel}
-          lastTel={lastTel}
-          setLastTel={setLastTel}
-          person={person}
-          setPerson={setPerson}
-        />
-        <Request request={request} setRequest={setRequest} />
-        <ProductInfo people={+person} />
-        <Agree
-          instarAgree={instarAgree}
-          personalAgree={personalAgree}
-          useAgree={useAgree}
-          allAgree={allAgree}
-          clickInstarAgree={clickInstarAgree}
-          clickPersonalAgree={clickPersonalAgree}
-          clickUseAgree={clickUseAgree}
-          clickAllAgree={clickAllAgree}
-        />
-        <NextButton
-          isEnabled={isFormValid as boolean}
-          onClick={clickReserveButton}
-          label={isPending ? "예약 중..." : "예약 하기"}
-        />
-      </article>
+      {isLoading ? (
+        <Loading text={"로딩중.."} />
+      ) : (
+        <article style={{ padding: "0px 10px" }}>
+          <Info
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            firstTel={firstTel}
+            setFirstTel={setFirstTel}
+            person={person}
+            setPerson={setPerson}
+          />
+          <Request request={request} setRequest={setRequest} />
+          <ProductInfo people={+person} />
+          <Agree
+            instarAgree={instarAgree}
+            personalAgree={personalAgree}
+            useAgree={useAgree}
+            allAgree={allAgree}
+            clickInstarAgree={clickInstarAgree}
+            clickPersonalAgree={clickPersonalAgree}
+            clickUseAgree={clickUseAgree}
+            clickAllAgree={clickAllAgree}
+          />
+          <NextButton
+            isEnabled={isFormValid as boolean}
+            onClick={clickReserveButton}
+            label={isPending ? "예약 중..." : "예약 하기"}
+          />
+        </article>
+      )}
     </ProtectedPage>
   );
 }

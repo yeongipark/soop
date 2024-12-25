@@ -6,7 +6,6 @@ import ProtectedPage from "@/components/protectedPage";
 
 export default function Page({ params }: { params: { id: string } }) {
   const reservationId = params.id;
-  if (!reservationId) return "잘못된 id 값입니다.";
   return (
     <ProtectedPage>
       <ClientReservationChangePage id={String(reservationId)} />

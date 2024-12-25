@@ -7,10 +7,6 @@ type InfoProps = {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   firstTel: string;
   setFirstTel: React.Dispatch<React.SetStateAction<string>>;
-  secondTel: string;
-  setSecondTel: React.Dispatch<React.SetStateAction<string>>;
-  lastTel: string;
-  setLastTel: React.Dispatch<React.SetStateAction<string>>;
   person: string;
   setPerson: React.Dispatch<React.SetStateAction<string>>;
 };
@@ -22,10 +18,6 @@ export default function Info({
   setEmail,
   firstTel,
   setFirstTel,
-  secondTel,
-  setSecondTel,
-  lastTel,
-  setLastTel,
   person,
   setPerson,
 }: InfoProps) {
@@ -35,9 +27,7 @@ export default function Info({
     setTel: React.Dispatch<React.SetStateAction<string>>
   ) => {
     const value = e.target.value;
-    if (/^\d*$/.test(value)) {
-      setTel(value);
-    }
+    setTel(value);
   };
 
   return (
@@ -56,7 +46,7 @@ export default function Info({
       </div>
       <div className={style.wrap}>
         <p>이메일</p>
-        <div>
+        <div className={style.emailInput}>
           <input
             type="text"
             placeholder="이메일"
@@ -66,30 +56,14 @@ export default function Info({
         </div>
       </div>
       <div className={style.wrap}>
-        <p>연락처</p>
+        <p style={{ width: "60px" }}>연락처</p>
         <div className={style.phoneNumberInput}>
           <input
             type="text"
-            placeholder="010"
             value={firstTel}
-            maxLength={3}
             onChange={(e) => handlePhoneChange(e, setFirstTel)}
-          />{" "}
-          -{" "}
-          <input
-            type="text"
-            placeholder="XXXX"
-            value={secondTel}
-            maxLength={4}
-            onChange={(e) => handlePhoneChange(e, setSecondTel)}
-          />{" "}
-          -{" "}
-          <input
-            type="text"
-            placeholder="XXXX"
-            value={lastTel}
-            maxLength={4}
-            onChange={(e) => handlePhoneChange(e, setLastTel)}
+            placeholder="010-4807-8559"
+            maxLength={13}
           />
         </div>
       </div>
