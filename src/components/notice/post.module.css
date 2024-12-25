@@ -1,8 +1,9 @@
 .container {
   padding: 1.3rem 1rem 0.5rem 1rem;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid var(--gray);
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.6rem;
 }
 
 .title {
@@ -18,4 +19,5 @@
   font-size: 0.8rem;
   display: flex;
   align-items: flex-end;
+  color: var(--gray6);
 }
