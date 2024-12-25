@@ -7,12 +7,13 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 1rem;
 }
 
 .icon {
-  font-size: 15rem;
+  font-size: 10rem;
+  color: var(--main);
 }
 
 .container > a {
