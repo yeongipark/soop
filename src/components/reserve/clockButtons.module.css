@@ -24,13 +24,6 @@
   padding: 0px;
 }
 
-.container button:hover {
-  background-color: var(--hoverMain);
-}
-.container button:active {
-  background-color: var(--activeMain);
-}
-
 /* 시간 나타내는 스타일 (10:00, 11:00 ... ) */
 .clockText {
   margin: 0px;
@@ -38,14 +31,14 @@
 
 /* 예약 가능 버튼 스타일 */
 .possibleBtn {
-  background-color: var(--main);
-  color: white;
+  background-color: #eeee;
+  color: black;
 }
 
 /* 예약마감 버튼을 클릭안되게 */
 .impossibleBtn {
   border-radius: 10px;
-  background-color: #eeeeee;
+  background-color: rgba(238, 238, 238, 0.22);
   pointer-events: none !important;
 }
 
@@ -60,7 +53,8 @@
 
 /* 선택된 시간 스타일링 */
 .selected {
-  background-color: var(--activeMain);
+  background-color: black;
+  color: white;
 }
 
 .buttons {
