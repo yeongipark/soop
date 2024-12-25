@@ -39,7 +39,9 @@ export default function ReviewItem({
 
   return (
     <div className={style.container}>
-      <Link href={{ pathname: `/review/detail/${reviewId}` }}>
+      <Link
+        href={{ pathname: `/review/detail/${reviewId}`, query: { productId } }}
+      >
         <div className={style.title}>
           <p>{nickname}</p>
           <p>{shootDate} 촬영</p>
@@ -50,6 +52,7 @@ export default function ReviewItem({
         <Link
           href={{
             pathname: `/review/detail/${reviewId}`,
+            query: { productId },
           }}
         >
           <p>{content}</p>
@@ -67,6 +70,7 @@ export default function ReviewItem({
         <Link
           href={{
             pathname: `/review/detail/${reviewId}`,
+            query: { productId },
           }}
         >
           <ReviewChatCount commentCnt={commentCnt} />

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import style from "./page.module.css";
 import { TiDeleteOutline } from "react-icons/ti";
 import apiClient from "@/util/axios";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MemberType } from "@/components/myinfo/myinfo";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ProtectedPage from "@/components/protectedPage";
 
 async function postNickname(nickname: string) {
@@ -17,6 +17,14 @@ async function postNickname(nickname: string) {
 export default function Page() {
   const [nickname, setNickname] = useState("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const data = searchParams.get("content");
+
+  useEffect(() => {
+    if (data) {
+      setNickname(data);
+    }
+  }, []);
 
   const queryClient = useQueryClient();
 
@@ -55,19 +63,23 @@ export default function Page() {
   return (
     <ProtectedPage>
       <div>
-        <p className={style.title}>변경할 닉네임을 입력해주세요.</p>
-        <div className={style.wrap}>
-          <input
-            type="text"
-            value={nickname}
-            onChange={(e) => setNickname(e.target.value)}
-          />
-          <TiDeleteOutline className={style.icon} onClick={handleDeleteBtn} />
+        <div style={{ padding: "0px 10px" }}>
+          <p className={style.title}>변경할 닉네임을 입력해주세요.</p>
+          <div className={style.wrap}>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+            />
+            <TiDeleteOutline className={style.icon} onClick={handleDeleteBtn} />
+          </div>
         </div>
         <div className={style.btn}>
           <button
-            disabled={nickname.length < 2}
-            className={`${nickname.length >= 2 && style.active}`}
+            disabled={nickname.length < 2 || nickname === data}
+            className={`${
+              nickname.length >= 2 && nickname !== data && style.active
+            }`}
             onClick={handleSaveBtn}
           >
             저장하기

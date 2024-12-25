@@ -22,6 +22,7 @@ export default function useLogout() {
       deleteToken();
       // 로컬스토리지에서 토큰 삭제
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("nickname");
 
       // 로그아웃 후 홈으로 리다이렉트
       router.replace("/");

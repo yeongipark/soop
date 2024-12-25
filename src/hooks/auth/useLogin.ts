@@ -25,6 +25,7 @@ const useLogin = (provider: string, code: string) => {
         const accessToken = res.headers["access-token"]; // 헤더 값 읽기
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken); // 로컬 스토리지에 저장
+          localStorage.setItem("nickname", res.data);
           setToken(accessToken); // 쿠키에 저장
           setIsLogin(true); // 로그인 상태 업데이트
 

@@ -69,16 +69,19 @@ export default function ReviewButton({
       );
     },
     onSettled: () => {
-      queryClient.removeQueries({
+      queryClient.invalidateQueries({
         queryKey: ["reviews", productId],
+        refetchType: "all",
         exact: true,
       });
-      queryClient.removeQueries({
+      queryClient.invalidateQueries({
         queryKey: ["myReviews"],
+        refetchType: "all",
         exact: true,
       });
-      queryClient.removeQueries({
+      queryClient.invalidateQueries({
         queryKey: ["reviewDetail", reviewId],
+        refetchType: "all",
         exact: true,
       });
     },

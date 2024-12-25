@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Alert from "../alert";
 import { useRecoilState } from "recoil";
 import { reviewHelpState, reviewIsHelpState } from "@/recoil/reviewFamily";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Confirm from "../confirm";
 import Modal from "../modal";
 import Setting from "../review.my/setting";
@@ -20,7 +20,6 @@ export default function Review({
   date,
   content,
   reviewId,
-  onClick,
   productName,
   price,
   thumbnail,
@@ -32,7 +31,6 @@ export default function Review({
   reviewId: number;
   price: number;
   thumbnail: string;
-  onClick?: (e?: React.ChangeEvent<HTMLAllCollection>) => void;
 }) {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
@@ -42,6 +40,8 @@ export default function Review({
 
   const [deleteModal, setDeleteModal] = useState(false);
   const [settingModal, setSettingModal] = useState(false);
+
+  const [nickname, setNickname] = useState<string>("");
 
   const [help, setHelp] = useRecoilState(reviewHelpState(reviewId));
   const [isHelp, setIsHelp] = useRecoilState(reviewIsHelpState(reviewId));
@@ -68,13 +68,10 @@ export default function Review({
     },
   });
 
-  if (!productId)
-    return (
-      <Alert
-        title="잘못된 요청입니다. 다시 시도해 주세요."
-        setModalState={() => router.back()}
-      />
-    );
+  useEffect(() => {
+    setNickname(localStorage.getItem("nickname") ?? "");
+    console.log(productId);
+  }, []);
 
   const handleEditBtn = () => {
     const query = new URLSearchParams({
@@ -92,6 +89,14 @@ export default function Review({
       setDeleteModal(true);
     }
   };
+
+  if (productId === "null" || !productId)
+    return (
+      <Alert
+        title="잘못된 요청입니다. 다시 시도해 주세요."
+        setModalState={() => router.back()}
+      />
+    );
 
   return (
     <div className={style.container}>
@@ -117,10 +122,12 @@ export default function Review({
           <p className={style.name}>{name}</p>
           <p className={style.date}>{date} 촬영</p>
         </div>
-        <HiOutlineDotsHorizontal
-          className={style.icon}
-          onClick={() => setSettingModal(true)}
-        />
+        {nickname === name ? (
+          <HiOutlineDotsHorizontal
+            className={style.icon}
+            onClick={() => setSettingModal(true)}
+          />
+        ) : null}
       </div>
       <p className={style.productName}>{productName}</p>
       <p className={style.content}>{content}</p>
@@ -130,6 +137,7 @@ export default function Review({
         reviewId={reviewId}
         helpCnt={help}
         isHelped={isHelp}
+        productId={+productId}
       />
     </div>
   );

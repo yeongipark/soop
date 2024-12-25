@@ -51,12 +51,12 @@ export default function Page({ params }: { params: { id: number } }) {
   const router = useRouter();
   const reviewId = params.id;
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["reviewDetail", reviewId],
     queryFn: () => getReviewDetail(String(reviewId)),
   });
 
-  if (isError || !data) {
+  if (error) {
     return (
       <Alert
         title="잘못된 접근입니다. 다시 시도해주세요."
@@ -74,15 +74,15 @@ export default function Page({ params }: { params: { id: number } }) {
           <div className={style.content}>
             <p className={style.title}>리뷰 상세보기</p>
             <Review
-              price={data.reviewResponse.productInfo.price}
-              thumbnail={data.reviewResponse.productInfo.thumbnail}
-              name={data.reviewResponse.nickname}
-              date={data.reviewResponse.shootDate}
-              content={data.reviewResponse.content}
-              reviewId={data.reviewResponse.reviewId}
-              productName={data.reviewResponse.productInfo.name}
+              price={data!.reviewResponse.productInfo.price}
+              thumbnail={data!.reviewResponse.productInfo.thumbnail}
+              name={data!.reviewResponse.nickname}
+              date={data!.reviewResponse.shootDate}
+              content={data!.reviewResponse.content}
+              reviewId={data!.reviewResponse.reviewId}
+              productName={data!.reviewResponse.productInfo.name}
             />
-            <Comment contents={data.commentResponses} />
+            <Comment contents={data!.commentResponses} />
           </div>
           <Input reviewId={String(reviewId)} />
         </div>

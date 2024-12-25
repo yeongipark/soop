@@ -1,13 +1,22 @@
+"use client";
+
 import ProtectedPage from "@/components/protectedPage";
 import style from "./page.module.css";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Page() {
+  const [nickname, setNickname] = useState<string>("");
+
+  useEffect(() => {
+    setNickname(localStorage.getItem("nickname") ?? "");
+  }, []);
+
   return (
     <ProtectedPage>
       <div>
         <p className={style.title}>
-          오주은님, 💁
+          {nickname}님, 💁
           <br />
           반갑습니다.
         </p>

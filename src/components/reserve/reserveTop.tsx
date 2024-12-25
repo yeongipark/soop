@@ -15,8 +15,9 @@ export default function ReserveTop() {
           <Image
             src={reserveData.thumbnail}
             alt="상품 이미지"
-            fill
-            style={{ objectFit: "cover" }} // 이미지를 비율에 맞게 배경을 꽉 채움
+            width={100}
+            height={50}
+            layout="responsive"
           />
         </div>
       </div>

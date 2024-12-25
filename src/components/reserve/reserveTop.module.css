@@ -2,15 +2,17 @@
   background-color: #f0f0f0;
   width: 100%;
   display: flex;
+  justify-content: center;
   padding: 10px 50px 10px 50px;
   height: 200px;
-
-  gap: 30px;
+  gap: 1rem;
 }
 
 .imageWrap {
   position: relative;
-  width: 50%;
+  width: 80%;
+  min-width: 100px;
+  max-width: 250px;
   height: 180px;
   overflow: hidden;
   display: flex;
@@ -27,11 +29,11 @@
 
 /* 상품 제목 */
 .textWrap p:first-child {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   margin-bottom: 0.5rem;
 }
 
 /* 상품 가격 */
 .textWrap P:last-child {
-  font-size: 1.1rem;
+  font-size: 1rem;
 }

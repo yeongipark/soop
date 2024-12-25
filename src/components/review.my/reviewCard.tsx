@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 export default function ReviewCard({
+  productId,
   reviewId,
   nickname,
   content,
@@ -20,6 +21,7 @@ export default function ReviewCard({
   productName,
   onClick,
 }: {
+  productId: number;
   reviewId: number;
   nickname: string;
   content: string;
@@ -45,7 +47,12 @@ export default function ReviewCard({
       <div className={style.title}>
         <div style={{ display: "flex" }}>
           <p>
-            <Link href={{ pathname: `/review/detail/${reviewId}` }}>
+            <Link
+              href={{
+                pathname: `/review/detail/${reviewId}`,
+                query: { productId },
+              }}
+            >
               {nickname}
             </Link>
           </p>
@@ -56,6 +63,7 @@ export default function ReviewCard({
       <Link
         href={{
           pathname: `/review/detail/${reviewId}`,
+          query: { productId },
         }}
       >
         <p className={style.productName}>{productName}</p>
@@ -64,6 +72,7 @@ export default function ReviewCard({
         <Link
           href={{
             pathname: `/review/detail/${reviewId}`,
+            query: { productId },
           }}
         >
           <p>{content}</p>
@@ -81,6 +90,7 @@ export default function ReviewCard({
         <Link
           href={{
             pathname: `/review/detail/${reviewId}`,
+            query: { productId },
           }}
         >
           <ReviewChatCount commentCnt={commentCnt} />

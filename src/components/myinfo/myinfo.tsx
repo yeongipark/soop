@@ -63,7 +63,12 @@ export default function MyInfo() {
             <p className={style.icon}>💁</p>
             <p className={style.nickname}>
               {data?.nickname ?? "닉네임을 설정해주세요"}
-              <Link href={"/myinfo/change/nickname"}>
+              <Link
+                href={{
+                  pathname: "/myinfo/change/nickname",
+                  query: { content: data?.nickname },
+                }}
+              >
                 <span className={style.editBtn}> ✍🏻</span>
               </Link>
             </p>
@@ -81,7 +86,12 @@ export default function MyInfo() {
                     <td>{data?.name ?? "이름을 설정해주세요"}</td>
                     <td>
                       {editMode && (
-                        <Link href={"/myinfo/change/name"}>
+                        <Link
+                          href={{
+                            pathname: "/myinfo/change/name",
+                            query: { content: data?.name },
+                          }}
+                        >
                           <span className={style.editBtn}>✍🏻</span>
                         </Link>
                       )}
@@ -92,7 +102,12 @@ export default function MyInfo() {
                     <td>{data?.phone ?? "전화번호를 설정해주세요!"}</td>
                     <td>
                       {editMode && (
-                        <Link href={"/myinfo/change/phone"}>
+                        <Link
+                          href={{
+                            pathname: "/myinfo/change/phone",
+                            query: { content: data?.phone },
+                          }}
+                        >
                           <span className={style.editBtn}>✍🏻</span>
                         </Link>
                       )}

@@ -128,6 +128,7 @@ export default function Page() {
           ) : (
             data?.map((review) => (
               <ReviewCard
+                productId={review.productResponse.id}
                 commentCnt={review.reviewResponse.commentCnt}
                 content={review.reviewResponse.content}
                 helpCnt={+review.reviewResponse.helpCnt}
