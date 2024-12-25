@@ -14,8 +14,7 @@ export default function Footer() {
             re.bin.subin@gmail.com
           </a>
         </p>
-        <p>09:00 - 20:00 (Lunch Time 12:00 - 13:00)</p>
-        <p>Hosting bt O & P</p>
+        <p>Hosting by O & P</p>
       </div>
       <div className={style.sns}>
         <p>
@@ -25,8 +24,8 @@ export default function Footer() {
             rel="noopener noreferrer"
           >
             Instargram
-          </a>
-          |
+          </a>{" "}
+          |{" "}
           <a
             href="https://open.kakao.com/o/sxFtI9Yg"
             target="_blank"
