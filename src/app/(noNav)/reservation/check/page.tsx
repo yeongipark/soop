@@ -99,7 +99,7 @@ export default function Page() {
   const changeReservationDate = (id: number) => {
     setId(id);
     // 현재 예약날짜랑 시간 같이 보내기
-    router.push(`/reservation/change`);
+    router.push(`/reservation/change/${id}`);
   };
 
   const cancelReservation = (id: number) => {
