@@ -16,6 +16,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { reservationIdState } from "@/recoil/reservationIdAtom";
 import ProtectedPage from "@/components/protectedPage";
+import NoData from "@/components/reservationCheck/noData";
+import Loading from "@/components/loading/loading";
 
 interface DataType {
   id: number;
@@ -198,8 +200,6 @@ export default function Page() {
     },
   };
 
-  if (isLoading) return "로딩중...";
-
   return (
     <ProtectedPage>
       <div style={{ paddingBottom: "10px" }}>
@@ -210,38 +210,42 @@ export default function Page() {
             handleMenuClick={handleMenuClick}
           />
           <div>
-            {data?.map((cardData) => (
-              <Card
-                key={cardData.id}
-                id={cardData.id}
-                reservationType={cardData.statusType}
-                handleMenuButtonClick={() =>
-                  handleMenuButtonClick(cardData.shootDate, cardData.id)
-                }
-                left={() =>
-                  functions[cardData.statusType].left(
-                    cardData.id,
-                    cardData.productName,
-                    cardData.productImage,
-                    cardData.productPrice
-                  )
-                }
-                right={() =>
-                  functions[cardData.statusType].right(
-                    cardData.id,
-                    cardData.productName,
-                    cardData.productImage,
-                    cardData.productPrice
-                  )
-                }
-                imgUrl={cardData.productImage}
-                imgTitle={cardData.productName}
-                date={cardData.shootDate}
-              />
-            ))}
+            {isLoading ? (
+              <Loading text="로딩중.." />
+            ) : (
+              data?.map((cardData) => (
+                <Card
+                  key={cardData.id}
+                  id={cardData.id}
+                  reservationType={cardData.statusType}
+                  handleMenuButtonClick={() =>
+                    handleMenuButtonClick(cardData.shootDate, cardData.id)
+                  }
+                  left={() =>
+                    functions[cardData.statusType].left(
+                      cardData.id,
+                      cardData.productName,
+                      cardData.productImage,
+                      cardData.productPrice
+                    )
+                  }
+                  right={() =>
+                    functions[cardData.statusType].right(
+                      cardData.id,
+                      cardData.productName,
+                      cardData.productImage,
+                      cardData.productPrice
+                    )
+                  }
+                  imgUrl={cardData.productImage}
+                  imgTitle={cardData.productName}
+                  date={cardData.shootDate}
+                />
+              ))
+            )}
             <div style={{ width: "100%", height: "10px" }}></div>
           </div>
-          {data?.length === 0 && "예약 정보가 없습니다."}
+          {data?.length === 0 && <NoData />}
         </div>
 
         {cancelModal && (
