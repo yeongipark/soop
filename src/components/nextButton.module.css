@@ -13,7 +13,7 @@
 
 /* 예약 가능 버튼 스타일 */
 .possibleBtn {
-  background-color: var(--main);
+  background-color: black;
   color: white;
 }
 
@@ -22,11 +22,4 @@
   border-radius: 10px;
   background-color: #eeeeee;
   pointer-events: none !important;
-}
-
-.nextBtn > button:hover {
-  background-color: var(--hoverMain);
-}
-.nextBtn > button:active {
-  background-color: var(--activeMain);
 }

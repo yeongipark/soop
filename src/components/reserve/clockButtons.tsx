@@ -13,8 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 // 시간을 12시간제로 변환하는 함수
 function formatTime(serverTime: string): string {
   const [hour, minute] = serverTime.split(":").map(Number);
-  const formattedHour = hour % 12 || 12; // 0시는 12로 처리
-  return `${formattedHour}:${minute.toString().padStart(2, "0")}`;
+  return `${hour}:${minute.toString().padStart(2, "0")}`;
 }
 
 function findTime(time: string, timeData: TimeType[]): number | null {
@@ -28,6 +27,10 @@ export default function ClockButtons({ date }: { date: string }) {
   const [availabilityMap, setAvailabilityMap] = useState<Map<string, boolean>>(
     new Map()
   );
+
+  useEffect(() => {
+    setSelectClock(null);
+  }, [date]);
 
   const { data: timeData, isLoading } = useQuery<TimeType[]>({
     queryKey: ["timeSlot", date],
@@ -68,8 +71,8 @@ export default function ClockButtons({ date }: { date: string }) {
   };
 
   const am = ["10:00", "10:30", "11:00", "11:30"];
-  const pm1 = ["1:00", "1:30", "2:00", "2:30"];
-  const pm2 = ["3:00", "3:30", "4:00", "4:30"];
+  const pm1 = ["13:00", "13:30", "14:00", "14:30"];
+  const pm2 = ["15:00", "15:30", "16:00", "16:30"];
 
   return (
     <div className={style.container}>

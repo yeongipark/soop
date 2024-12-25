@@ -35,6 +35,10 @@ export default function ChangeClockButtons({
 
   const queryClient = useQueryClient();
 
+  useEffect(() => {
+    setSelectClock(null);
+  }, [selectDate]);
+
   const { mutate } = useMutation({
     mutationFn: () => changeReservation(reservationId, timeSlotId),
     onMutate: async () => {
@@ -96,8 +100,8 @@ export default function ChangeClockButtons({
   });
 
   const am = ["10:00", "10:30", "11:00", "11:30"];
-  const pm1 = ["1:00", "1:30", "2:00", "2:30"];
-  const pm2 = ["3:00", "3:30", "4:00", "4:30"];
+  const pm1 = ["13:00", "13:30", "14:00", "14:30"];
+  const pm2 = ["15:00", "15:30", "16:00", "16:30"];
 
   // NextButton 활성화 조건
   const isNextButtonEnabled =
@@ -223,8 +227,7 @@ export default function ChangeClockButtons({
 // 시간을 12시간제로 변환하는 함수
 function formatTime(serverTime: string): string {
   const [hour, minute] = serverTime.split(":").map(Number);
-  const formattedHour = hour % 12 || 12; // 0시는 12로 처리
-  return `${formattedHour}:${minute.toString().padStart(2, "0")}`;
+  return `${hour}:${minute.toString().padStart(2, "0")}`;
 }
 
 function findTime(time: string, timeData: TimeType[]) {
