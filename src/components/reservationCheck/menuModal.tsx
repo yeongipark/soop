@@ -1,17 +1,27 @@
 import style from "./menuModal.module.css";
 
 export default function MenuModal({
+  activeMenu,
+  setCanceled,
   setCancelModal,
   setMenuModal,
   setInvalidCancel,
   date,
 }: {
+  activeMenu: string;
+  setCanceled: React.Dispatch<React.SetStateAction<boolean>>;
   setCancelModal: React.Dispatch<React.SetStateAction<boolean>>;
   setMenuModal: React.Dispatch<React.SetStateAction<boolean>>;
   setInvalidCancel: React.Dispatch<React.SetStateAction<boolean>>;
   date: string;
 }) {
   const handleCancel = () => {
+    if (activeMenu === "취소됨") {
+      setCanceled(true);
+      setMenuModal(false);
+      return;
+    }
+
     if (new Date(date).getTime() < new Date().getTime()) {
       setMenuModal(false);
       setInvalidCancel(true);

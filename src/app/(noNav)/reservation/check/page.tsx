@@ -264,6 +264,8 @@ export default function Page() {
         {menuModal && (
           <Modal type="custom" setModalState={setMenuModal}>
             <MenuModal
+              activeMenu={activeMenu}
+              setCanceled={setCanceled}
               setCancelModal={setCancelModal}
               setMenuModal={setMenuModal}
               setInvalidCancel={setInvalidCancel}
