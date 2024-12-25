@@ -64,15 +64,13 @@ export default function ReviewItem({
           isHelped={isHelp}
           productId={productId}
         />
-        {commentCnt > 0 ? (
-          <Link
-            href={{
-              pathname: `/review/detail/${reviewId}`,
-            }}
-          >
-            <ReviewChatCount commentCnt={commentCnt} />
-          </Link>
-        ) : null}
+        <Link
+          href={{
+            pathname: `/review/detail/${reviewId}`,
+          }}
+        >
+          <ReviewChatCount commentCnt={commentCnt} />
+        </Link>
       </div>
     </div>
   );
