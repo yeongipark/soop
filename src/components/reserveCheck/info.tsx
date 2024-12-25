@@ -74,16 +74,16 @@ export default function Info({
             value={firstTel}
             maxLength={3}
             onChange={(e) => handlePhoneChange(e, setFirstTel)}
-          />
-          -
+          />{" "}
+          -{" "}
           <input
             type="text"
             placeholder="XXXX"
             value={secondTel}
             maxLength={4}
             onChange={(e) => handlePhoneChange(e, setSecondTel)}
-          />
-          -
+          />{" "}
+          -{" "}
           <input
             type="text"
             placeholder="XXXX"

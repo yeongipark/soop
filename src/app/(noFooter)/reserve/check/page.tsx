@@ -7,17 +7,19 @@ import Agree from "@/components/reserveCheck/agree";
 import NextButton from "@/components/nextButton";
 import { useRecoilState } from "recoil";
 import { reservationState } from "@/recoil/reservationAtom";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/util/axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Alert from "@/components/alert";
 import ProtectedPage from "@/components/protectedPage";
+import Loading from "@/components/loading/loading";
 
-// 예약 데이터를 서버로 전송하는 함수
-async function postReservation(data: any) {
-  await apiClient.post("/api/reservations", data);
+interface MemberData {
+  name: string;
+  phone: string;
+  email: string;
+  nickname: string;
 }
 
 export default function Page() {
@@ -54,7 +56,22 @@ export default function Page() {
     setUseAgree(bool);
   };
 
-  // react-query의 useMutation 훅을 사용하여 서버와 통신
+  const { data, isLoading, error } = useQuery<MemberData>({
+    queryKey: ["memberData"],
+    queryFn: getMemberData,
+  });
+
+  useEffect(() => {
+    if (data) {
+      setName(data.name);
+      setEmail(data.email);
+      const splittedPhone = data.phone.split("-");
+      setFirstTel(splittedPhone[0]);
+      setSecondTel(splittedPhone[1]);
+      setLastTel(splittedPhone[2]);
+    }
+  }, [data]);
+
   const { mutate, isPending } = useMutation({
     mutationFn: (data) => postReservation(data),
     onSuccess: () => {
@@ -62,7 +79,6 @@ export default function Page() {
       router.replace("/complete");
     },
     onError: (error) => {
-      console.error("예약 실패:", error);
       alert("예약 처리 중 문제가 발생했습니다. 다시 시도해주세요.");
     },
   });
@@ -89,6 +105,7 @@ export default function Page() {
   if (reservationData.timeSlotId === 0)
     return (
       <Alert
+        type="cancel"
         title="잘못된 접근입니다."
         setModalState={() => {
           router.replace("/product");
@@ -106,6 +123,19 @@ export default function Page() {
     person &&
     personalAgree &&
     useAgree;
+
+  if (isLoading) return <Loading text="로딩중.." />;
+
+  if (error)
+    return (
+      <Alert
+        type="cancel"
+        title="다시 시도해 주세요."
+        setModalState={() => {
+          router.replace("/product");
+        }}
+      />
+    );
 
   return (
     <ProtectedPage>
@@ -144,4 +174,14 @@ export default function Page() {
       </article>
     </ProtectedPage>
   );
+}
+
+// 예약 데이터를 서버로 전송하는 함수
+async function postReservation(data: any) {
+  await apiClient.post("/api/reservations", data);
+}
+
+async function getMemberData(): Promise<MemberData> {
+  const res = await apiClient.get("/api/member");
+  return res.data;
 }
