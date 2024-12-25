@@ -12,7 +12,6 @@ import { useSetRecoilState } from "recoil";
 import { reservationState } from "@/recoil/reservationAtom";
 import Alert from "@/components/alert";
 import { useRouter } from "next/navigation";
-import { TimeType } from "@/app/(noFooter)/reserve/page";
 import Loading from "@/components/loading/loading";
 
 interface Reservation {
@@ -47,11 +46,6 @@ async function getReservationData(id: string): Promise<Reservation> {
   return response.data;
 }
 
-async function getTimeSlot(date: string): Promise<TimeType[]> {
-  const res = await apiClient.get(`/api/timeslots?date=${date}`);
-  return res.data;
-}
-
 export default function ClientReservationChangePage({
   id,
 }: ClientReservationChangePageProps) {
@@ -69,11 +63,6 @@ export default function ClientReservationChangePage({
     basicDate: data?.shootDate,
   });
 
-  const { data: timeSlots } = useQuery({
-    queryKey: ["timeSlot", calendarProps.selectedDate.date],
-    queryFn: () => getTimeSlot(calendarProps.selectedDate.date),
-  });
-
   useEffect(() => {
     if (data) {
       setState((prev) => ({
@@ -85,12 +74,10 @@ export default function ClientReservationChangePage({
     }
   }, [data, setState]);
 
-  if (isLoading) return <div>로딩중...</div>;
-
   if (data && data.canChange === false) {
     return (
       <Alert
-        title="예약 변경 가능 기간이 아닙니다."
+        title="예약 변경은 한번만 가능합니다."
         type="cancel"
         setModalState={() => router.back()}
       />
@@ -109,10 +96,10 @@ export default function ClientReservationChangePage({
             <p>🗓️ 날짜와 시간을 선택해주세요</p>
             <Calendar {...calendarProps} />
             <ChangeClockButtons
+              reservationId={data!.id}
               basicDate={data!.shootDate}
               basicClock={data!.time.slice(0, 5)}
               selectDate={calendarProps.selectedDate.date}
-              timeData={timeSlots!}
             />
           </div>
         </div>

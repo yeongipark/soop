@@ -143,26 +143,15 @@ export default function Page() {
     queryFn: () => fetchReservations(statusMap[activeMenu]),
   });
 
+  // 예약 취소
   const { mutate } = useMutation({
     mutationFn: (id: number) => deleteReservation(id),
-    onMutate: async (id: number) => {
-      // 이전 캐시 데이터를 snapshot으로 저장
-      await queryClient.cancelQueries({ queryKey: ["reservations", "BEFORE"] });
-      const previousData = queryClient.getQueryData<{ id: number }[]>([
-        "reservations",
-        "BEFORE",
-      ]);
 
-      if (previousData) {
-        // 낙관적 업데이트로 id가 같은 항목 제거
-        const updatedData = previousData.filter(
-          (reservation) => reservation.id !== id
-        );
-        queryClient.setQueryData(["reservations", "BEFORE"], updatedData);
-      }
-
-      // onError에서 롤백을 위해 snapshot 반환
-      return { previousData };
+    onError: () => {
+      alert("5일전까지 취소 가능합니다.");
+    },
+    onSuccess: () => {
+      setReservationCancel(true);
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ["reservations", "BEFORE"] });
@@ -263,7 +252,6 @@ export default function Page() {
             ok="네"
             func={() => {
               mutate(reservationId);
-              setReservationCancel(true);
             }}
             setModalState={setCancelModal}
           />

@@ -10,10 +10,11 @@ import { reservationState } from "@/recoil/reservationAtom";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import apiClient from "@/util/axios";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Alert from "@/components/alert";
 import ProtectedPage from "@/components/protectedPage";
 import Loading from "@/components/loading/loading";
+import { all } from "axios";
 
 interface MemberData {
   name: string;
@@ -25,6 +26,7 @@ interface MemberData {
 export default function Page() {
   const [reservationData] = useRecoilState(reservationState);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   // info
   const [name, setName] = useState("");
@@ -70,6 +72,14 @@ export default function Page() {
   const { mutate, isPending } = useMutation({
     mutationFn: (data) => postReservation(data),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reservations", "BEFORE"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["timeSlot"],
+        refetchType: "all",
+      });
       // 예약 성공 시 완료 페이지로 이동
       router.replace("/complete");
     },

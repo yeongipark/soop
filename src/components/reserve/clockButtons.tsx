@@ -9,6 +9,7 @@ import { useSetRecoilState } from "recoil";
 import { reservationState } from "@/recoil/reservationAtom";
 import apiClient from "@/util/axios";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "../loading/loading";
 
 // 시간을 12시간제로 변환하는 함수
 function formatTime(serverTime: string): string {
@@ -51,8 +52,6 @@ export default function ClockButtons({ date }: { date: string }) {
     }
   }, [timeData]);
 
-  if (isLoading) return "로딩중...";
-
   // 시간 클릭 핸들러 함수
   const handleOnClockBtn = (clock: string) => {
     const id = +findTime(clock, timeData);
@@ -70,89 +69,47 @@ export default function ClockButtons({ date }: { date: string }) {
     router.push("/reserve/check");
   };
 
-  const am = ["10:00", "10:30", "11:00", "11:30"];
-  const pm1 = ["13:00", "13:30", "14:00", "14:30"];
-  const pm2 = ["15:00", "15:30", "16:00", "16:30"];
-
   return (
     <div className={style.container}>
-      <p>오전</p>
-      <div className={style.buttonWrap}>
-        {am.map((clock) => {
-          const isAvailable = availabilityMap.get(clock) || false; // 예약 가능 여부
-          const isSelected = selectClock === clock; // 선택 여부
+      {isLoading ? (
+        <Loading text="로딩중.." />
+      ) : (
+        <div>
+          <div className={style.buttonWrap}>
+            {timeData?.map((data) => {
+              const clock = data.startTime.slice(0, 5);
+              const isAvailable = availabilityMap.get(clock) || false; // 예약 가능 여부
+              const isSelected = selectClock === clock; // 선택 여부
+              return (
+                <div key={data.id} style={{ marginBottom: "10px" }}>
+                  <button
+                    onClick={() => handleOnClockBtn(clock)}
+                    className={`${
+                      isAvailable ? style.possibleBtn : style.impossibleBtn
+                    } ${isSelected && style.selected}`}
+                    disabled={!isAvailable} // 예약마감 버튼 비활성화
+                  >
+                    <p className={style.clockText}>{clock}</p>
+                    <p
+                      className={
+                        isAvailable ? style.possible : style.impossible
+                      }
+                    >
+                      {isAvailable ? "예약가능" : "예약마감"}
+                    </p>
+                  </button>
+                </div>
+              );
+            })}
+          </div>
 
-          return (
-            <div key={clock}>
-              <button
-                onClick={() => handleOnClockBtn(clock)}
-                className={`${
-                  isAvailable ? style.possibleBtn : style.impossibleBtn
-                } ${isSelected && style.selected}`}
-                disabled={!isAvailable} // 예약마감 버튼 비활성화
-              >
-                <p className={style.clockText}>{clock}</p>
-                <p className={isAvailable ? style.possible : style.impossible}>
-                  {isAvailable ? "예약가능" : "예약마감"}
-                </p>
-              </button>
-            </div>
-          );
-        })}
-      </div>
-      <p>오후</p>
-      <div className={style.buttonWrap}>
-        {pm1.map((clock) => {
-          const isAvailable = availabilityMap.get(clock) || false;
-          const isSelected = selectClock === clock;
-
-          return (
-            <div key={clock}>
-              <button
-                onClick={() => handleOnClockBtn(clock)}
-                className={`${
-                  isAvailable ? style.possibleBtn : style.impossibleBtn
-                } ${isSelected && style.selected}`}
-                disabled={!isAvailable}
-              >
-                <p className={style.clockText}>{clock}</p>
-                <p className={isAvailable ? style.possible : style.impossible}>
-                  {isAvailable ? "예약가능" : "예약마감"}
-                </p>
-              </button>
-            </div>
-          );
-        })}
-      </div>
-      <div className={style.buttonWrap}>
-        {pm2.map((clock) => {
-          const isAvailable = availabilityMap.get(clock) || false;
-          const isSelected = selectClock === clock;
-
-          return (
-            <div key={clock}>
-              <button
-                onClick={() => handleOnClockBtn(clock)}
-                className={`${
-                  isAvailable ? style.possibleBtn : style.impossibleBtn
-                } ${isSelected && style.selected}`}
-                disabled={!isAvailable}
-              >
-                <p className={style.clockText}>{clock}</p>
-                <p className={isAvailable ? style.possible : style.impossible}>
-                  {isAvailable ? "예약가능" : "예약마감"}
-                </p>
-              </button>
-            </div>
-          );
-        })}
-      </div>
-
-      <NextButton
-        isEnabled={!!selectClock}
-        onClick={handleOnNextBtn}
-        label="다음 단계"
-      />
+          <NextButton
+            isEnabled={!!selectClock}
+            onClick={handleOnNextBtn}
+            label="다음 단계"
+          />
+        </div>
+      )}
     </div>
   );
 }

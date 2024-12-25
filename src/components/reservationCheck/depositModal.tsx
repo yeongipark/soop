@@ -31,8 +31,8 @@ export default function DepositModal({
 
   // 정규표현식으로 검증
   const isNameValid = name.length >= 2; // 이름이 2글자 이상인지 확인
-  // const isDateValid = /^\d{4}-\d{2}-\d{2}$/.test(date); // 날짜가 "YYYY-MM-DD" 형식인지 확인
-  const isFormValid = isNameValid;
+  const isDateValid = /^\d{4}-\d{2}-\d{2}$/.test(date); // 날짜가 "YYYY-MM-DD" 형식인지 확인
+  const isFormValid = isNameValid && isDateValid;
 
   // useMutation 설정
   const mutation = useMutation({
@@ -53,6 +53,8 @@ export default function DepositModal({
     },
     onError: (context: any) => {
       // 오류 발생 시 이전 데이터로 복원
+      alert("잘못된 날짜입니다.");
+      queryClient.invalidateQueries({ queryKey: ["reservations", "BEFORE"] });
       queryClient.setQueryData(
         ["reservations", "BEFORE"],
         context.previousData

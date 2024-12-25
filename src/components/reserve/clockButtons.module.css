@@ -1,18 +1,20 @@
-.container > p {
+.container {
   margin-top: 2.5rem;
   margin-bottom: 1.5rem;
-  font-size: 1.2rem;
 }
 
 .buttonWrap {
-  width: 100%;
   display: flex;
-  gap: 1.3rem;
+  gap: 5%;
   margin-bottom: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
 }
 
 .buttonWrap > div {
-  width: 25%;
+  width: 21%;
 }
 
 .container button {

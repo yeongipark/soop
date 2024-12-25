@@ -43,7 +43,7 @@ export default function Card({
         </div>
         <div className={style.info}>
           <p>{imgTitle}</p>
-          <p>{date}촬영 예정</p>
+          <p>{date} 촬영 예정</p>
         </div>
       </div>
       <div className={style.buttonWrap}>
