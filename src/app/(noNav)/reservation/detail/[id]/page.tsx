@@ -98,7 +98,7 @@ export default function Page({ params }: { params: { id: string } }) {
               </tbody>
             </table>
           </div>
-          <hr />
+          <div className={style.line}></div>
           <p className={style.infoTitle}>결제 정보</p>
           <div className={style.priceTable}>
             <table>
@@ -113,7 +113,7 @@ export default function Page({ params }: { params: { id: string } }) {
                 </tr>
               </tbody>
             </table>
-            <hr />
+            <div className={style.line} style={{ margin: "0.6rem 0rem" }}></div>
             <table>
               <tbody>
                 <tr>

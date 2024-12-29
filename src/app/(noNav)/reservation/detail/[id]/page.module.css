@@ -80,3 +80,9 @@
 .text {
   color: var(--main);
 }
+
+.line {
+  width: 100%;
+  background-color: var(--gray7);
+  height: 1px;
+}
