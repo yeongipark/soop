@@ -9,6 +9,7 @@ type InfoProps = {
   setFirstTel: React.Dispatch<React.SetStateAction<string>>;
   person: string;
   setPerson: React.Dispatch<React.SetStateAction<string>>;
+  handleAutoComplete: () => void;
 };
 
 export default function Info({
@@ -20,6 +21,7 @@ export default function Info({
   setFirstTel,
   person,
   setPerson,
+  handleAutoComplete,
 }: InfoProps) {
   // 숫자만 입력을 허용하는 함수
   const handlePhoneChange = (
@@ -62,10 +64,15 @@ export default function Info({
             type="text"
             value={firstTel}
             onChange={(e) => handlePhoneChange(e, setFirstTel)}
-            placeholder="010-4807-8559"
+            placeholder="010-****-****"
             maxLength={13}
           />
         </div>
+      </div>
+      <div className={style.wrap} style={{ marginTop: "0.5rem" }}>
+        <p></p>
+        <input type="checkbox" id="checkbox" onClick={handleAutoComplete} />
+        <label htmlFor="checkbox"> &nbsp; 예약자 정보 자동 입력</label>
       </div>
       <div className={style.wrap}>
         <p>인원</p>

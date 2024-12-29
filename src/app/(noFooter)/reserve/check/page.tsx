@@ -14,7 +14,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Alert from "@/components/alert";
 import ProtectedPage from "@/components/protectedPage";
 import Loading from "@/components/loading/loading";
-import { all } from "axios";
 
 interface MemberData {
   name: string;
@@ -27,6 +26,9 @@ export default function Page() {
   const [reservationData] = useRecoilState(reservationState);
   const router = useRouter();
   const queryClient = useQueryClient();
+
+  // 자동 완성
+  const [autoComplete, setAutoComplete] = useState<boolean>(false);
 
   // info
   const [name, setName] = useState("");
@@ -56,18 +58,34 @@ export default function Page() {
     setUseAgree(bool);
   };
 
+  // `instarAgree`, `personalAgree`, `useAgree`가 모두 true일 경우 `allAgree`를 자동으로 true로 설정
+  useEffect(() => {
+    if (instarAgree && personalAgree && useAgree && !allAgree) {
+      setAllAgree(true);
+    }
+    if ((!instarAgree || !personalAgree || !useAgree) && allAgree) {
+      setAllAgree(false);
+    }
+  }, [instarAgree, personalAgree, useAgree, allAgree]);
+
   const { data, isLoading, error } = useQuery<MemberData>({
     queryKey: ["memberData"],
     queryFn: getMemberData,
   });
 
-  useEffect(() => {
-    if (data) {
-      setName(data.name);
-      setEmail(data.email);
-      setFirstTel(data.phone);
+  const handleAutoComplete = () => {
+    if (autoComplete) {
+      setAutoComplete(false);
+      setName("");
+      setEmail("");
+      setFirstTel("");
+    } else {
+      setAutoComplete(true);
+      setName(data!.name ?? "");
+      setEmail(data!.email ?? "");
+      setFirstTel(data!.phone ?? "");
     }
-  }, [data]);
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data) => postReservation(data),
@@ -138,6 +156,8 @@ export default function Page() {
       />
     );
 
+  if (isPending) return <Loading text={"로딩중.."} />;
+
   return (
     <ProtectedPage>
       {isLoading ? (
@@ -153,6 +173,7 @@ export default function Page() {
             setFirstTel={setFirstTel}
             person={person}
             setPerson={setPerson}
+            handleAutoComplete={handleAutoComplete}
           />
           <Request request={request} setRequest={setRequest} />
           <ProductInfo people={+person} />
@@ -167,9 +188,9 @@ export default function Page() {
             clickAllAgree={clickAllAgree}
           />
           <NextButton
-            isEnabled={isFormValid as boolean}
+            isEnabled={(isFormValid as boolean) || isPending}
             onClick={clickReserveButton}
-            label={isPending ? "예약 중..." : "예약 하기"}
+            label={"예약 하기"}
           />
         </article>
       )}
