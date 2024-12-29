@@ -36,6 +36,7 @@
 }
 
 .btn > button {
+  border-radius: 0px;
   padding: 1rem;
   width: 100%;
 }
