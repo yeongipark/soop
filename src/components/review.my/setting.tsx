@@ -12,10 +12,10 @@ export default function Setting({
   return (
     <div className={style.container}>
       <div>
-        <button onClick={handleEditBtn}>리뷰 수정</button>
+        <button onClick={handleEditBtn}>수정하기</button>
       </div>
       <div>
-        <button onClick={handleDeleteBtn}>리뷰 삭제</button>
+        <button onClick={handleDeleteBtn}>삭제하기</button>
       </div>
       <p onClick={() => setModalState(false)}>닫기</p>
     </div>

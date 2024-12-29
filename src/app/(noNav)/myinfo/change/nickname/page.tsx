@@ -14,11 +14,15 @@ async function postNickname(nickname: string) {
   return res.data;
 }
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { content?: string };
+}) {
   const [nickname, setNickname] = useState("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const data = searchParams.get("content");
+
+  const data = searchParams.content;
 
   useEffect(() => {
     if (data) {

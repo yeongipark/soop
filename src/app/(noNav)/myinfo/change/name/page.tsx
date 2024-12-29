@@ -8,24 +8,26 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { MemberType } from "@/components/myinfo/myinfo";
 import { useRouter } from "next/navigation";
 import ProtectedPage from "@/components/protectedPage";
-import { useSearchParams } from "next/navigation";
 
 async function postName(name: string) {
   const res = await apiClient.patch("/api/member/name", { name });
   return res.data;
 }
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { content?: string };
+}) {
   const [name, setName] = useState("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const data = searchParams.get("content");
+  const data = searchParams.content; // 쿼리 문자열에서 content 값 가져오기
 
   useEffect(() => {
     if (data) {
       setName(data);
     }
-  }, []);
+  }, [data]);
 
   const queryClient = useQueryClient();
 

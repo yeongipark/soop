@@ -5,7 +5,7 @@ import { IoArrowUpCircleOutline } from "react-icons/io5";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/util/axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { getToken } from "@/util/cookie";
 import Alert from "../alert";
 
@@ -21,6 +21,9 @@ export default function Input({ reviewId }: { reviewId: string }) {
   // 로그인 안 했을 때 댓글 작성하는 경우
   const [showAlert, setShowAlert] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const productId = String(searchParams.get("productId"));
 
   const [input, setInput] = useState("");
   const queryClient = useQueryClient();
@@ -64,9 +67,19 @@ export default function Input({ reviewId }: { reviewId: string }) {
         );
       }
     },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["reviewDetail", reviewId] });
-      queryClient.invalidateQueries({ queryKey: ["myReviews"] });
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reviews", productId],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reviewDetail", reviewId],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["myReviews"],
+        refetchType: "all",
+      });
     },
   });
 

@@ -16,11 +16,15 @@ async function postPhone(phone: string) {
 
 const phoneRegExp = /^\d{3}-\d{4}-\d{4}$/;
 
-export default function Page() {
+export default function Page({
+  searchParams,
+}: {
+  searchParams: { content?: string };
+}) {
   const [phone, setPhone] = useState("");
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const data = searchParams.get("content");
+
+  const data = searchParams.content;
 
   useEffect(() => {
     if (data) {

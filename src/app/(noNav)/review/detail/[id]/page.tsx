@@ -82,7 +82,10 @@ export default function Page({ params }: { params: { id: number } }) {
               reviewId={data!.reviewResponse.reviewId}
               productName={data!.reviewResponse.productInfo.name}
             />
-            <Comment contents={data!.commentResponses} />
+            <Comment
+              contents={data!.commentResponses}
+              reviewId={data!.reviewResponse.reviewId}
+            />
           </div>
           <Input reviewId={String(reviewId)} />
         </div>

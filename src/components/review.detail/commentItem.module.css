@@ -28,3 +28,22 @@
   font-size: 0.9rem;
   white-space: pre-wrap;
 }
+
+.input {
+  width: 100%;
+  padding: 0.4rem;
+  padding-right: 1.8rem;
+  border-radius: 5px;
+  border: 1px solid var(--gray6);
+}
+
+.editButtons {
+  padding-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.input:focus {
+  outline: none;
+}
