@@ -11,6 +11,10 @@ export default function Pagination({
   page: number;
   setPage: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const handlePageClick = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
+
   const handlePrevious = () => {
     if (page > 1) {
       setPage((prev) => prev - 1);
@@ -25,11 +29,31 @@ export default function Pagination({
 
   return (
     <div className={style.container}>
-      <button className={style.button} onClick={handlePrevious}>
+      <button
+        className={`${style.button} ${page === 1 && style.disabled}`}
+        onClick={handlePrevious}
+        disabled={page === 1}
+      >
         {"<"}
       </button>
-      <span className={style.pageNumber}>{page}</span>
-      <button className={style.button} onClick={handleNext}>
+      {Array.from({ length: totalPage }, (_, index) => index + 1).map(
+        (pageNumber) => (
+          <button
+            key={pageNumber}
+            className={`${style.pageButton} ${
+              page === pageNumber && style.active
+            }`}
+            onClick={() => handlePageClick(pageNumber)}
+          >
+            {pageNumber}
+          </button>
+        )
+      )}
+      <button
+        className={`${style.button} ${page === totalPage && style.disabled}`}
+        onClick={handleNext}
+        disabled={page === totalPage}
+      >
         {">"}
       </button>
     </div>

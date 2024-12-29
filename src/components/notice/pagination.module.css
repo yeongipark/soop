@@ -22,3 +22,20 @@
 .pageNumber {
   font-size: 1.2rem;
 }
+
+.pageButton {
+  padding: 8px 12px;
+  background-color: white;
+  color: var(--gray6);
+  cursor: pointer;
+}
+
+.pageButton.active {
+  color: black;
+  font-weight: bold;
+}
+
+.button.disabled {
+  color: var(--gray6);
+  cursor: not-allowed;
+}
