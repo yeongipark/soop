@@ -19,10 +19,18 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no,maximum-scale=1.0"
-      />
+      <head>
+        <title>re-bin</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0"
+        />
+        <meta
+          name="description"
+          content="소중한 추억을 사진으로 남겨드립니다:)"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body
         style={{
           backgroundColor,
