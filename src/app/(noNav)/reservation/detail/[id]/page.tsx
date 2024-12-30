@@ -45,7 +45,7 @@ export default function Page({ params }: { params: { id: string } }) {
               <p className={style.shootDate}>
                 촬영일
                 <br />
-                {data?.shootDate} {data?.time.slice(0, 5)}
+                {data?.shootDate} {data?.time?.slice(0, 5) ?? "시간없음"}
               </p>
             </p>
           </Link>
