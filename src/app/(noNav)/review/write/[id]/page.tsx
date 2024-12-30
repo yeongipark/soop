@@ -6,10 +6,11 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Alert from "@/components/alert";
 import apiClient from "@/util/axios";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import ProtectedPage from "@/components/protectedPage";
 
 export default function Page({ params }: { params: { id: number } }) {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const [content, setContent] = useState("");
 
@@ -24,6 +25,16 @@ export default function Page({ params }: { params: { id: number } }) {
       postReview(data.id, data.content),
     onSuccess: () => {
       router.replace("/complete/review");
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reservations", "AFTER"],
+        refetchType: "all",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["myReviews"],
+        refetchType: "all",
+      });
     },
   });
 

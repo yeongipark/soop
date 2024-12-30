@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import style from "./confirm.module.css";
 
 interface ConfirmType {
@@ -23,18 +23,22 @@ export default function Confirm({
   func = undefined,
 }: ConfirmType) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = () => {
-    if (setModalState) {
-      setModalState(false);
-    }
+    setIsClosing(true); // 닫힘 애니메이션 시작
+    setTimeout(() => {
+      if (setModalState) {
+        setModalState(false);
+      }
+    }, 300); // 애니메이션 지속 시간 (300ms) 후 모달 상태 변경
   };
 
   const handleYes = () => {
     if (func) {
       func();
     }
-    if (setModalState) setModalState(false);
+    handleClose();
   };
 
   useEffect(() => {
@@ -44,7 +48,11 @@ export default function Confirm({
   }, []);
 
   return (
-    <dialog className={style.confirm} ref={dialogRef} style={{ width }}>
+    <dialog
+      className={`${style.confirm} ${isClosing ? style.hidden : ""}`}
+      ref={dialogRef}
+      style={{ width }}
+    >
       <p className={style.title}>{title}</p>
       <p className={style.subTitle}>{subTitle}</p>
       <div className={style.btnWrap}>

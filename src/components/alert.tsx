@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import style from "./alert.module.css";
 import { FiAlertCircle, FiAlertOctagon } from "react-icons/fi";
 
@@ -20,11 +20,15 @@ export default function Alert({
   subTitle,
 }: AlertType) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const [isClosing, setIsClosing] = useState(false);
 
   const handleClose = () => {
-    if (setModalState) {
-      setModalState(false);
-    }
+    setIsClosing(true); // 닫히는 애니메이션 시작
+    setTimeout(() => {
+      if (setModalState) {
+        setModalState(false);
+      }
+    }, 300); // 애니메이션 지속 시간과 동일하게 설정
   };
 
   useEffect(() => {
@@ -34,7 +38,11 @@ export default function Alert({
   }, []);
 
   return (
-    <dialog className={style.alert} ref={dialogRef} style={{ width }}>
+    <dialog
+      className={`${style.alert} ${isClosing ? style.hidden : ""}`}
+      ref={dialogRef}
+      style={{ width }}
+    >
       <div className={style.icon}>
         {type === "info" && <FiAlertCircle />}
         {type === "cancel" && <FiAlertOctagon color="red" />}
