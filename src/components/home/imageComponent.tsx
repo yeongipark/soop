@@ -1,10 +1,16 @@
-import firstImg from "../../../public/사진1.png";
-import secondImg from "../../../public/사진2.png";
+"use client";
+
 import { usePathAnimation } from "@/hooks/usePathAnimation";
 import style from "./imageComponent.module.css";
 import ImageText from "./imageText";
 import { useResponsiveWidth } from "@/hooks/useReposiveWidth";
-export const FirstImageComponent = () => {
+export const FirstImageComponent = ({
+  image,
+  sentence,
+}: {
+  image: string;
+  sentence: string;
+}) => {
   const { lineRef, isCircleVisible, divRef } = usePathAnimation();
   const { isBelow600 } = useResponsiveWidth();
 
@@ -12,14 +18,9 @@ export const FirstImageComponent = () => {
     <div className={style.container}>
       <div data-aos="fade-up" ref={divRef}>
         <ImageText
-          src={firstImg}
+          src={`https://image.re-bin.kr/rebin/${image}`}
           alt="첫 번째 사진"
-          text={
-            <>
-              1인 여성 작가가 함께하는 <br />
-              자연스러운 야외 스냅
-            </>
-          }
+          text={<>{sentence}</>}
           reverse={false}
         />
       </div>
@@ -44,7 +45,13 @@ export const FirstImageComponent = () => {
   );
 };
 
-export const SecondImageComponent = () => {
+export const SecondImageComponent = ({
+  image,
+  sentence,
+}: {
+  image: string;
+  sentence: string;
+}) => {
   const { lineRef, isCircleVisible, divRef } = usePathAnimation();
   const { isBelow600 } = useResponsiveWidth();
 
@@ -52,14 +59,9 @@ export const SecondImageComponent = () => {
     <div className={style.container}>
       <div data-aos="fade-up" ref={divRef}>
         <ImageText
-          src={secondImg}
+          src={`https://image.re-bin.kr/rebin/${image}`}
           alt="두 번째 사진"
-          text={
-            <>
-              각각의 고유한 <br />
-              분위기를 담아요✧･ﾟ:*🦋
-            </>
-          }
+          text={<>{sentence}</>}
           reverse={true}
         />
       </div>
@@ -84,23 +86,22 @@ export const SecondImageComponent = () => {
   );
 };
 
-export const ThirdImageComponent = () => {
+export const ThirdImageComponent = ({
+  image,
+  sentence,
+}: {
+  image: string;
+  sentence: string;
+}) => {
   const { lineRef, isCircleVisible, divRef } = usePathAnimation();
   const { isBelow600 } = useResponsiveWidth();
   return (
     <div className={style.container}>
       <div data-aos="fade-up" ref={divRef}>
         <ImageText
-          src={firstImg}
+          src={`https://image.re-bin.kr/rebin/${image}`}
           alt="세 번째 사진"
-          text={
-            <>
-              단순한 사진을 넘어,
-              <br />
-              개성과 감정을 <br />
-              세밀하게 포착하는
-            </>
-          }
+          text={<>{sentence}</>}
           reverse={false}
         />
       </div>
@@ -121,21 +122,20 @@ export const ThirdImageComponent = () => {
   );
 };
 
-export const FourthImageComponent = () => {
+export const FourthImageComponent = ({
+  image,
+  sentence,
+}: {
+  image: string;
+  sentence: string;
+}) => {
   return (
     <div className={style.container}>
       <div data-aos="fade-up">
         <ImageText
-          src={secondImg}
+          src={`https://image.re-bin.kr/rebin/${image}`}
           alt="네 번째 사진"
-          text={
-            <>
-              리빈과 함께 <br />
-              당신만의 <br />
-              특별한 순간을 <br />
-              새롭게 풀어내 보세요.
-            </>
-          }
+          text={<>{sentence}</>}
           reverse={true}
         />
       </div>

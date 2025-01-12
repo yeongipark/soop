@@ -12,6 +12,9 @@ import AOS from "aos";
 import style from "./home.module.css";
 import { ReserveButton } from "@/components/home/logo";
 import { useIntersectionObserver } from "@/hooks/useIntersectionObserver";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../loading/loading";
+import apiClient from "@/util/axios";
 
 export default function Intro() {
   // 텍스트 애니메이션 처리 함수
@@ -49,12 +52,38 @@ export default function Intro() {
     });
   }, []);
 
+  const { data, isLoading } = useQuery({
+    queryKey: ["infos"],
+    queryFn: getData,
+    refetchOnMount: false,
+  });
+
+  if (isLoading) return <Loading text="로딩중.." />;
+
+  console.log(data);
+
   return (
     <div className={style.container}>
-      <FirstImageComponent />
-      <SecondImageComponent />
-      <ThirdImageComponent />
-      <FourthImageComponent />
+      {data && (
+        <>
+          <FirstImageComponent
+            image={data[0].image}
+            sentence={data[0].sentence}
+          />
+          <SecondImageComponent
+            image={data[1].image}
+            sentence={data[1].sentence}
+          />
+          <ThirdImageComponent
+            image={data[2].image}
+            sentence={data[2].sentence}
+          />
+          <FourthImageComponent
+            image={data[3].image}
+            sentence={data[3].sentence}
+          />
+        </>
+      )}
       <div ref={textRef} className={`${style.lastText}`} data-aos="fade-up">
         <p></p>
         <div className={style.reserveButton}>
@@ -63,4 +92,14 @@ export default function Intro() {
       </div>
     </div>
   );
+}
+
+interface Info {
+  image: string;
+  sentence: string;
+}
+
+async function getData(): Promise<Info[]> {
+  const { data } = await apiClient.get("/api/infos");
+  return data;
 }

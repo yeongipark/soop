@@ -1,5 +1,5 @@
 import style from "./imageText.module.css";
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import { ReactNode } from "react";
 
 export default function ImageText({
@@ -8,7 +8,7 @@ export default function ImageText({
   reverse = false,
   text,
 }: {
-  src: StaticImageData;
+  src: string;
   alt: string;
   reverse: boolean;
   text: ReactNode;
