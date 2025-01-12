@@ -24,7 +24,7 @@ export const FirstImageComponent = ({
           reverse={false}
         />
       </div>
-      <div className={style.diagonalLine}>
+      {/* <div className={style.diagonalLine}>
         {isBelow600 || (
           <svg xmlns="http://www.w3.org/2000/svg" width="340" height="601">
             <path
@@ -40,7 +40,7 @@ export const FirstImageComponent = ({
             />
           </svg>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -65,7 +65,7 @@ export const SecondImageComponent = ({
           reverse={true}
         />
       </div>
-      <div className={style.diagonalLine}>
+      {/* <div className={style.diagonalLine}>
         {isBelow600 || (
           <svg xmlns="http://www.w3.org/2000/svg" width="340" height="601">
             <path
@@ -81,7 +81,7 @@ export const SecondImageComponent = ({
             />
           </svg>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
@@ -105,7 +105,7 @@ export const ThirdImageComponent = ({
           reverse={false}
         />
       </div>
-      <div className={style.diagonalLine}>
+      {/* <div className={style.diagonalLine}>
         {isBelow600 || (
           <svg xmlns="http://www.w3.org/2000/svg" width="340" height="501">
             <path ref={lineRef} stroke="white" d="m310.5 10 -300 443" />
@@ -117,7 +117,7 @@ export const ThirdImageComponent = ({
             />
           </svg>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
