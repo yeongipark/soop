@@ -89,7 +89,7 @@ export default function Page() {
   // 문의하기
   const inquiry = (id: number) => {
     setId(id);
-    window.open("https://open.kakao.com/o/sxFtI9Yg", "_blank");
+    window.open("http://pf.kakao.com/_dClxdn", "_blank");
   };
 
   const checkAccount = (id: number) => {

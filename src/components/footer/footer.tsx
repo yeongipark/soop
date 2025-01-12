@@ -27,7 +27,7 @@ export default function Footer() {
           </a>{" "}
           |{" "}
           <a
-            href="https://open.kakao.com/o/sxFtI9Yg"
+            href="http://pf.kakao.com/_dClxdn"
             target="_blank"
             rel="noopener noreferrer"
           >
