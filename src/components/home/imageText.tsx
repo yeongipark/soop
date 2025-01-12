@@ -24,7 +24,7 @@ export default function ImageText({
           alt={alt}
           layout="responsive"
           width={100}
-          height={50}
+          height={100}
         />
       </div>
       <div className={style.text}>
