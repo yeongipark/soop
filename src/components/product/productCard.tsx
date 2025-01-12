@@ -24,7 +24,7 @@ export default function ProductCard({
       >
         <div className={style.img}>
           <Image
-            src={thumbnail}
+            src={`https://image.re-bin.kr/rebin/${thumbnail}`}
             alt="상품 사진"
             layout="responsive"
             width={100}

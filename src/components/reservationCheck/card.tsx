@@ -34,7 +34,7 @@ export default function Card({
         <div className={style.imageContainer}>
           <Image
             alt="상품 사진"
-            src={imgUrl}
+            src={`https://image.re-bin.kr/rebin/${imgUrl}`}
             layout="responsive"
             width={100}
             height={100}

@@ -17,7 +17,7 @@ export default function ProductContent({
         {images.map((img) => (
           <div className={style.img} key={img.id}>
             <Image
-              src={img.url}
+              src={`https://image.re-bin.kr/rebin/${img.url}`}
               alt="상품 정보 사진"
               layout="responsive"
               width={16} // 이미지의 가로 비율

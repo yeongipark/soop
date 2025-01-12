@@ -24,7 +24,7 @@ export default function ProductTop({
             width={16}
             height={9}
             layout="responsive"
-            src={thumbnail}
+            src={`https://image.re-bin.kr/rebin/${thumbnail}`}
             style={{ objectFit: "cover" }}
           />
         </div>

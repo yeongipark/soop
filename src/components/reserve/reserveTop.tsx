@@ -13,7 +13,7 @@ export default function ReserveTop() {
       <div className={style.imageWrap}>
         <div className={style.imageWrap}>
           <Image
-            src={reserveData.thumbnail}
+            src={`https://image.re-bin.kr/rebin/${reserveData.thumbnail}`}
             alt="상품 이미지"
             width={100}
             height={50}
