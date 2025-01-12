@@ -1,6 +1,7 @@
 import Image from "next/image";
 import style from "./card.module.css";
 import Link from "next/link";
+import { differenceInDays, isToday } from "date-fns";
 
 export default function Card({
   id,
@@ -10,7 +11,7 @@ export default function Card({
   right,
   imgUrl,
   imgTitle,
-  date,
+  date, // 촬영 예정 날짜
 }: {
   id: number;
   reservationType: keyof typeof ReservationStatus;
@@ -19,8 +20,25 @@ export default function Card({
   right: () => void;
   imgUrl: string;
   imgTitle: string;
-  date: string;
+  date: string; // "YYYY-MM-DD" 형식
 }) {
+  const shootDate = new Date(date); // 촬영 날짜를 Date 객체로 변환
+  const today = new Date();
+
+  let dynamicTitle = "";
+
+  console.log(shootDate, today);
+  if (reservationType === "PAYMENT_CONFIRMED") {
+    if (isToday(shootDate)) {
+      dynamicTitle = "촬영 당일입니다!";
+    } else {
+      const daysLeft = differenceInDays(shootDate, today) + 1;
+      console.log(daysLeft);
+      dynamicTitle =
+        daysLeft > 0 ? `촬영이 ${daysLeft}일 남았어요!` : "촬영이 지났습니다.";
+    }
+  }
+
   const texts = ReservationStatus[reservationType];
 
   return (
@@ -28,7 +46,9 @@ export default function Card({
       <Link href={`/reservation/detail/${id}`} className={style.detail}>
         예약 상세 {">"}
       </Link>
-      <p className={style.title}>{texts.title}</p>
+      <p className={style.title}>
+        {reservationType === "PAYMENT_CONFIRMED" ? dynamicTitle : texts.title}
+      </p>
       <p className={style.subTitle}>{texts.subTitle}</p>
       <div className={style.productWrap}>
         <div className={style.imageContainer}>
@@ -69,7 +89,7 @@ export const ReservationStatus = {
     button2: "예약 변경",
   },
   PAYMENT_CONFIRMED: {
-    title: "촬영이 5일 남았어요!",
+    title: "", // 동적으로 설정됨
     subTitle: "예쁘게 찍어드릴게요.",
     button1: "문의하기",
     button2: "예약 변경",

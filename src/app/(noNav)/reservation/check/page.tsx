@@ -26,6 +26,7 @@ interface DataType {
   shootDate: string;
   statusType: ReservationStatusTypeKey;
   productPrice: number;
+  code: string;
 }
 
 type ActionFunction = (
@@ -58,6 +59,7 @@ export default function Page() {
   const [invalidCancel, setInvalidCancel] = useState(false);
   const [invalidChange, setInvalidChange] = useState(false);
   const [canceled, setCanceled] = useState(false);
+  const [copyCode, setCopyCode] = useState(false);
 
   // 모달에 넘길 데이터 관련 state
   const [date, setDate] = useState("");
@@ -96,6 +98,15 @@ export default function Page() {
     setId(id);
     // 입금 계좌번호 확인하기
     setDepositModal(true);
+  };
+
+  // 예약 번호 복사하기
+  const copyReservationId = async (id: number, data: DataType[]) => {
+    const findData = data.find((item) => item.id === id);
+    if (!findData) return alert("예약번호를 찾을 수 없습니다.");
+    await navigator.clipboard.writeText(findData.code.toString());
+    setCopyCode(true);
+    setMenuModal(false);
   };
 
   const changeReservationDate = (id: number) => {
@@ -264,6 +275,7 @@ export default function Page() {
         {menuModal && (
           <Modal type="custom" setModalState={setMenuModal}>
             <MenuModal
+              handleCopy={() => copyReservationId(reservationId, data ?? [])}
               activeMenu={activeMenu}
               setCanceled={setCanceled}
               setCancelModal={setCancelModal}
@@ -346,6 +358,13 @@ export default function Page() {
             type="cancel"
             title="이미 취소된 예약입니다."
             setModalState={setCanceled}
+          />
+        )}
+        {copyCode && (
+          <Alert
+            type="info"
+            title="예약번호 복사 완료"
+            setModalState={setCopyCode}
           />
         )}
       </div>
