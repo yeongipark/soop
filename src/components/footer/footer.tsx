@@ -1,4 +1,5 @@
 import style from "./footer.module.css";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -6,17 +7,22 @@ export default function Footer() {
       <div>
         <p>re-bin</p>
         <p>
+          <Link href={"/privacy"}>Privacy</Link>
+        </p>
+      </div>
+      <div style={{ marginTop: "0.5rem" }}>
+        <p>Company. 리빈 스튜디오</p> <p>Ceo. 박수빈</p>
+        <p>
           <a
             href="mailto:re.bin.subin@gmail.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            re.bin.subin@gmail.com
+            E-mail. re.bin.subin@gmail.com
           </a>
         </p>
-        <p>Hosting by O & P</p>
       </div>
-      <div className={style.sns}>
+      {/* <div className={style.sns}>
         <p>
           <a
             href="https://www.instagram.com/re.bin___?igsh=cm85ZmR4ZmI2eGJt"
@@ -34,7 +40,7 @@ export default function Footer() {
             kakao
           </a>
         </p>
-      </div>
+      </div> */}
     </footer>
   );
 }
