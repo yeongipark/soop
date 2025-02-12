@@ -9,9 +9,6 @@ export default function Footer() {
         <p>
           <Link href={"/privacy"}>Privacy</Link>
         </p>
-      </div>
-      <div style={{ marginTop: "0.5rem" }}>
-        <p>Company. 리빈 스튜디오</p> <p>Ceo. 박수빈</p>
         <p>
           <a
             href="mailto:re.bin.subin@gmail.com"
@@ -21,9 +18,13 @@ export default function Footer() {
             E-mail. re.bin.subin@gmail.com
           </a>
         </p>
+        <p>Business License. 6031566033</p>
+        <p>Address. (04563) 대구광역시 중구 달구벌대로447길 46, 3층</p>
+        <p>Hosting by O & P</p>
       </div>
-      {/* <div className={style.sns}>
+      <div className={style.sns}>
         <p>
+          <p>Company. 리빈 스튜디오</p> <p>Ceo. 박수빈</p>
           <a
             href="https://www.instagram.com/re.bin___?igsh=cm85ZmR4ZmI2eGJt"
             target="_blank"
@@ -40,7 +41,7 @@ export default function Footer() {
             kakao
           </a>
         </p>
-      </div> */}
+      </div>
     </footer>
   );
 }
